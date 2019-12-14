@@ -9,10 +9,13 @@ internal class KotliumTest {
     fun dslTest() {
         val stage = Stage {
             click {
-                target = "Button1"
+                text { "Button1" }
             }
             click {
-                target = "Button2"
+                `class` { "Button2" }
+            }
+            click {
+                id { "Button3" }
             }
             input {
                 target = "form1"
@@ -24,8 +27,9 @@ internal class KotliumTest {
         }
 
         assertThat(stage.actions()).containsExactlyInAnyOrder(
-            ClickAction().apply { target = "Button1" },
-            ClickAction().apply { target = "Button2" },
+            ClickAction().apply { target = Text("Button1") },
+            ClickAction().apply { target = Class("Button2") },
+            ClickAction().apply { target = Id("Button3") },
             InputAction().apply {
                 target = "form1"
                 value = "hello"
