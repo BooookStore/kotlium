@@ -2,7 +2,7 @@ package com.kotlium
 
 interface Action
 
-data class ClickAction(var target: Selector? = null) : Action {
+abstract class SingleTargetAction(open var target: Selector?) : Action {
 
     fun text(selectorConfigure: () -> String) {
         target = Text(selectorConfigure())
@@ -18,7 +18,15 @@ data class ClickAction(var target: Selector? = null) : Action {
 
 }
 
-data class InputAction(var target: String? = null, var value: String? = null) : Action
+data class ClickAction(override var target: Selector? = null) : SingleTargetAction(target)
+
+data class InputAction(override var target: Selector? = null, var value: String? = null) : SingleTargetAction(target) {
+
+    fun value(valueConfigure: () -> String) {
+        value = valueConfigure()
+    }
+
+}
 
 data class InputCard(var cvv: String? = null) : Action
 

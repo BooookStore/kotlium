@@ -18,8 +18,8 @@ internal class KotliumTest {
                 id { "Button3" }
             }
             input {
-                target = "form1"
-                value = "hello"
+                id { "message" }
+                value { "Hello!" }
             }
             InputCard::class {
                 cvv = "xxx-xxx-xxx"
@@ -31,8 +31,8 @@ internal class KotliumTest {
             ClickAction().apply { target = Class("Button2") },
             ClickAction().apply { target = Id("Button3") },
             InputAction().apply {
-                target = "form1"
-                value = "hello"
+                id { "message" }
+                value { "Hello!" }
             },
             InputCard().apply {
                 cvv = "xxx-xxx-xxx"
