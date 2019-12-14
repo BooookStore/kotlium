@@ -9,17 +9,17 @@ internal class KotliumTest {
     fun dslTest() {
         val stage = Stage {
             click {
-                text { "Button1" }
+                text("Button1")
             }
             click {
-                `class` { "Button2" }
+                `class`("Button2")
             }
             click {
-                id { "Button3" }
+                id("Button3")
             }
             input {
-                id { "message" }
-                value { "Hello!" }
+                id("message")
+                value("Hello")
             }
             InputCard::class {
                 cvv = "xxx-xxx-xxx"
@@ -35,8 +35,8 @@ internal class KotliumTest {
             ClickAction().apply { target = Class("Button2") },
             ClickAction().apply { target = Id("Button3") },
             InputAction().apply {
-                id { "message" }
-                value { "Hello!" }
+                id("message")
+                value("Hello")
             },
             InputCard().apply {
                 cvv = "xxx-xxx-xxx"
