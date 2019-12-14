@@ -22,6 +22,10 @@ class Stage {
         actions += InputAction().apply(init)
     }
 
+    fun assertPage(init: PageAssertAction.() -> Unit) {
+        actions += PageAssertAction().apply(init)
+    }
+
     operator fun <T : Action> T.invoke(init: T.() -> Unit) {
         val kClass = this::class
         val action = kClass.java.newInstance()

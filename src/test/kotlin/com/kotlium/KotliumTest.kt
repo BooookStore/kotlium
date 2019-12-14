@@ -24,6 +24,10 @@ internal class KotliumTest {
             InputCard::class {
                 cvv = "xxx-xxx-xxx"
             }
+            assertPage {
+                text { "Complete" } display true
+                text { "Error" } display false
+            }
         }
 
         assertThat(stage.actions()).containsExactlyInAnyOrder(
@@ -36,7 +40,13 @@ internal class KotliumTest {
             },
             InputCard().apply {
                 cvv = "xxx-xxx-xxx"
-            }
+            },
+            PageAssertAction(
+                mutableListOf(
+                    PageAssertAction.TextAssertion("Complete", true),
+                    PageAssertAction.TextAssertion("Error", false)
+                )
+            )
         )
     }
 
