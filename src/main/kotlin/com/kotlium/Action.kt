@@ -30,3 +30,14 @@ data class InputAction(override var target: Selector? = null, var value: String?
 
 data class InputCard(var cvv: String? = null) : Action
 
+class ClickRegisterCard : Action {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ClickRegisterCard) return false
+        return true
+    }
+
+    override fun hashCode(): Int = javaClass.hashCode()
+
+}

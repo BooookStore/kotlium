@@ -37,4 +37,8 @@ class Stage {
         actions += action.apply(init)
     }
 
+    operator fun <T : Action> KClass<T>.invoke() {
+        actions += this.java.newInstance()
+    }
+
 }

@@ -24,6 +24,7 @@ internal class KotliumTest {
             InputCard::class {
                 cvv = "xxx-xxx-xxx"
             }
+            ClickRegisterCard::class()
             assertPage {
                 text { "Complete" } display true
                 text { "Error" } display false
@@ -41,6 +42,7 @@ internal class KotliumTest {
             InputCard().apply {
                 cvv = "xxx-xxx-xxx"
             },
+            ClickRegisterCard(),
             PageAssertAction(
                 mutableListOf(
                     PageAssertAction.TextAssertion("Complete", true),
