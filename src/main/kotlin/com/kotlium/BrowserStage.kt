@@ -2,15 +2,19 @@ package com.kotlium
 
 import kotlin.reflect.KClass
 
-class BrowserStage(config: BrowserStageConfiguration) {
+class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper: IWebDriverWrapper) {
 
     private val actions = mutableListOf<Action>()
 
     fun actions(): List<Action> = actions
 
     companion object {
-        operator fun invoke(config: BrowserStageConfiguration, browserStageConfigure: BrowserStage.() -> Unit): BrowserStage {
-            return BrowserStage(config).apply(browserStageConfigure)
+        operator fun invoke(
+            config: BrowserStageConfiguration,
+            iWebDriverWrapper: IWebDriverWrapper,
+            browserStageConfigure: BrowserStage.() -> Unit
+        ): BrowserStage {
+            return BrowserStage(config, iWebDriverWrapper).apply(browserStageConfigure)
         }
     }
 

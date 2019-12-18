@@ -1,6 +1,9 @@
 package com.kotlium
 
+import io.mockk.every
+import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class StageTest {
@@ -10,9 +13,18 @@ internal class StageTest {
         url = "http://kotlium.example/customer"
     )
 
+    private lateinit var allOkIWebDriverWrapper: IWebDriverWrapper
+
+    @BeforeEach
+    fun beforeEach() {
+        allOkIWebDriverWrapper = mockk<IWebDriverWrapper>()
+        every { allOkIWebDriverWrapper.click(any()) } returns true
+        every { allOkIWebDriverWrapper.input(any(), any()) } returns true
+    }
+
     @Test
     fun stageDslTest() {
-        val stage = BrowserStage(config) {
+        val stage = BrowserStage(config, allOkIWebDriverWrapper) {
             click {
                 text("Button1")
             }
@@ -60,7 +72,7 @@ internal class StageTest {
     @Test
     fun stageExecuteTest() {
         // setup
-        val executeResult = BrowserStage(config) {
+        val executeResult = BrowserStage(config, allOkIWebDriverWrapper) {
             click { id("id-for-element") }
             click { id("id-for-element") }
         }.execute()
