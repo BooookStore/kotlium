@@ -2,15 +2,15 @@ package com.kotlium
 
 import kotlin.reflect.KClass
 
-class Stage {
+class BrowserStage(config: BrowserStageConfiguration) {
 
     private val actions = mutableListOf<Action>()
 
     fun actions(): List<Action> = actions
 
     companion object {
-        operator fun invoke(stageConfigure: Stage.() -> Unit): Stage {
-            return Stage().apply(stageConfigure)
+        operator fun invoke(config: BrowserStageConfiguration, browserStageConfigure: BrowserStage.() -> Unit): BrowserStage {
+            return BrowserStage(config).apply(browserStageConfigure)
         }
     }
 

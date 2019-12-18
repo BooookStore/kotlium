@@ -5,9 +5,14 @@ import org.junit.jupiter.api.Test
 
 internal class KotliumTest {
 
+    private val config: BrowserStageConfiguration = BrowserStageConfiguration(
+        name = "customer page",
+        url = "http://kotlium.example/customer"
+    )
+
     @Test
     fun stageDslTest() {
-        val stage = Stage {
+        val stage = BrowserStage(config) {
             click {
                 text("Button1")
             }
@@ -55,7 +60,7 @@ internal class KotliumTest {
     @Test
     fun stageExecuteTest() {
         // setup
-        val executeResult = Stage {
+        val executeResult = BrowserStage(config) {
             click { id("id-for-element") }
             click { id("id-for-element") }
         }.execute()
