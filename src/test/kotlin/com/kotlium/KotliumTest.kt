@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 internal class KotliumTest {
 
     @Test
-    fun dslTest() {
+    fun stageDslTest() {
         val stage = Stage {
             click {
                 text("Button1")
