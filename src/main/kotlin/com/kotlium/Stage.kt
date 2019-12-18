@@ -15,10 +15,10 @@ class Stage {
     }
 
     fun execute(): StageExecuteResult {
+        val actionExecuteResults = actions.map { it.execute() }
         return StageExecuteResult(
-            isOk = true, executedActions = listOf(
-                ActionExecuteResult(ClickAction::class, true, null)
-            )
+            true,
+            actionExecuteResults
         )
     }
 

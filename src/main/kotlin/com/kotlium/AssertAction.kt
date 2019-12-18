@@ -6,6 +6,10 @@ interface Assertion
 
 data class PageAssertAction(private val assertions: MutableList<Assertion> = mutableListOf()) : AssertAction {
 
+    override fun execute(): ActionExecuteResult {
+        return ActionExecuteResult(PageAssertAction::class, true, null)
+    }
+
     fun text(textConfigure: () -> String): TextAssertion {
         return TextAssertion(textConfigure())
     }

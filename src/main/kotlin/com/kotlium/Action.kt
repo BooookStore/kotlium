@@ -1,6 +1,10 @@
 package com.kotlium
 
-interface Action
+interface Action {
+
+    fun execute(): ActionExecuteResult
+
+}
 
 abstract class SingleTargetAction(open var target: Selector?) : Action {
 
@@ -18,7 +22,13 @@ abstract class SingleTargetAction(open var target: Selector?) : Action {
 
 }
 
-data class ClickAction(override var target: Selector? = null) : SingleTargetAction(target)
+data class ClickAction(override var target: Selector? = null) : SingleTargetAction(target) {
+
+    override fun execute(): ActionExecuteResult {
+        return ActionExecuteResult(ClickAction::class, true, null)
+    }
+
+}
 
 data class InputAction(override var target: Selector? = null, var value: String? = null) : SingleTargetAction(target) {
 
@@ -26,9 +36,19 @@ data class InputAction(override var target: Selector? = null, var value: String?
         this.value = value
     }
 
+    override fun execute(): ActionExecuteResult {
+        return ActionExecuteResult(InputAction::class, true, null)
+    }
+
 }
 
-data class InputCard(var cvv: String? = null) : Action
+data class InputCard(var cvv: String? = null) : Action {
+
+    override fun execute(): ActionExecuteResult {
+        return ActionExecuteResult(InputCard::class, true, null)
+    }
+
+}
 
 class ClickRegisterCard : Action {
 
@@ -40,4 +60,7 @@ class ClickRegisterCard : Action {
 
     override fun hashCode(): Int = javaClass.hashCode()
 
+    override fun execute(): ActionExecuteResult {
+        return ActionExecuteResult(ClickRegisterCard::class, true, null)
+    }
 }
