@@ -3,7 +3,7 @@ package com.kotlium
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class KotliumTest {
+internal class StageTest {
 
     private val config: BrowserStageConfiguration = BrowserStageConfiguration(
         name = "customer page",
