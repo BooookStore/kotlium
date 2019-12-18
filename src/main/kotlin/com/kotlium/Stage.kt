@@ -16,10 +16,7 @@ class Stage {
 
     fun execute(): StageExecuteResult {
         val actionExecuteResults = actions.map { it.execute() }
-        return StageExecuteResult(
-            true,
-            actionExecuteResults
-        )
+        return StageExecuteResult(actionExecuteResults)
     }
 
     fun click(init: ClickAction.() -> Unit) {
