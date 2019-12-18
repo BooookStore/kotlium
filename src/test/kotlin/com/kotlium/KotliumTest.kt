@@ -52,4 +52,18 @@ internal class KotliumTest {
         )
     }
 
+    @Test
+    fun stageExecuteTest() {
+        // setup
+        val executeResult = Stage {
+            click { id("id-for-element") }
+        }.execute()
+
+        // verify
+        assertThat(executeResult.isOk).isTrue()
+        assertThat(executeResult.executedActions).hasSize(1).containsExactly(
+            ActionExecuteResult(actionClass = ClickAction::class, isOk = true, message = null)
+        )
+    }
+
 }

@@ -14,6 +14,14 @@ class Stage {
         }
     }
 
+    fun execute(): StageExecuteResult {
+        return StageExecuteResult(
+            isOk = true, executedActions = listOf(
+                ActionExecuteResult(ClickAction::class, true, null)
+            )
+        )
+    }
+
     fun click(init: ClickAction.() -> Unit) {
         actions += ClickAction().apply(init)
     }
