@@ -25,7 +25,7 @@ abstract class SingleTargetAction(open var target: Selector?) : Action {
 data class ClickAction(override var target: Selector? = null) : SingleTargetAction(target) {
 
     override fun execute(): ActionExecuteResult {
-        return ActionExecuteResult(ClickAction::class, true, null)
+        return ActionExecuteResult(ClickAction::class, true, "click by id. value is ${target?.value}")
     }
 
 }

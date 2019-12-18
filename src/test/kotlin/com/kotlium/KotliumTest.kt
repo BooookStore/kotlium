@@ -63,8 +63,16 @@ internal class KotliumTest {
         // verify
         assertThat(executeResult.isOk).isTrue()
         assertThat(executeResult.executedActions).hasSize(2).containsExactly(
-            ActionExecuteResult(actionClass = ClickAction::class, isOk = true, message = null),
-            ActionExecuteResult(actionClass = ClickAction::class, isOk = true, message = null)
+            ActionExecuteResult(
+                actionClass = ClickAction::class,
+                isOk = true,
+                message = "click by id. value is id-for-element"
+            ),
+            ActionExecuteResult(
+                actionClass = ClickAction::class,
+                isOk = true,
+                message = "click by id. value is id-for-element"
+            )
         )
     }
 
