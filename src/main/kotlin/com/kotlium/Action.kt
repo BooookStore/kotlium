@@ -42,15 +42,33 @@ data class InputAction(override var target: Selector? = null, var value: String?
 
 }
 
-data class InputCard(var cvv: String? = null) : Action {
+class InputCard : Action {
+
+    lateinit var cvv: String
 
     override fun execute(): ActionExecuteResult {
         return ActionExecuteResult(InputCard::class, true, null)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is InputCard) return false
+        if (cvv != other.cvv) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return cvv.hashCode()
+    }
+
+
 }
 
 class ClickRegisterCard : Action {
+
+    override fun execute(): ActionExecuteResult {
+        return ActionExecuteResult(ClickRegisterCard::class, true, null)
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -60,7 +78,4 @@ class ClickRegisterCard : Action {
 
     override fun hashCode(): Int = javaClass.hashCode()
 
-    override fun execute(): ActionExecuteResult {
-        return ActionExecuteResult(ClickRegisterCard::class, true, null)
-    }
 }
