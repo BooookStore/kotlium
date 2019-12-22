@@ -6,7 +6,7 @@ interface Assertion
 
 data class PageAssertAction(private val assertions: MutableList<Assertion> = mutableListOf()) : AssertAction {
 
-    override fun execute(): ActionExecuteResult {
+    override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         return ActionExecuteResult(PageAssertAction::class, true, null)
     }
 

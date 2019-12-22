@@ -2,7 +2,7 @@ package com.kotlium
 
 interface Action {
 
-    fun execute(): ActionExecuteResult
+    fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult
 
 }
 
@@ -24,7 +24,7 @@ abstract class SingleTargetAction(open var target: Selector?) : Action {
 
 data class ClickAction(override var target: Selector? = null) : SingleTargetAction(target) {
 
-    override fun execute(): ActionExecuteResult {
+    override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         return ActionExecuteResult(ClickAction::class, true, "click by id. value is ${target?.value}")
     }
 
@@ -36,7 +36,7 @@ data class InputAction(override var target: Selector? = null, var value: String?
         this.value = value
     }
 
-    override fun execute(): ActionExecuteResult {
+    override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         return ActionExecuteResult(InputAction::class, true, null)
     }
 
@@ -46,7 +46,7 @@ class InputCard : Action {
 
     lateinit var cvv: String
 
-    override fun execute(): ActionExecuteResult {
+    override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         return ActionExecuteResult(InputCard::class, true, null)
     }
 
@@ -66,7 +66,7 @@ class InputCard : Action {
 
 class ClickRegisterCard : Action {
 
-    override fun execute(): ActionExecuteResult {
+    override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         return ActionExecuteResult(ClickRegisterCard::class, true, null)
     }
 

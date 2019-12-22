@@ -19,7 +19,7 @@ class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper:
     }
 
     fun execute(): StageExecuteResult {
-        val actionExecuteResults = actions.map { it.execute() }
+        val actionExecuteResults = actions.map { it.execute(iWebDriverWrapper) }
         return StageExecuteResult(actionExecuteResults)
     }
 
