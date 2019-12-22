@@ -36,7 +36,7 @@ internal class StageTest {
             }
             input {
                 id("message")
-                value("Hello")
+                value("This is input value")
             }
             InputCard::class {
                 cvv = "xxx-xxx-xxx"
@@ -44,6 +44,7 @@ internal class StageTest {
             ClickRegisterCard::class()
             assertPage {
                 text { "Complete" } display true
+                text { "Go back to home" } display true
                 text { "Error" } display false
             }
         }
@@ -54,7 +55,7 @@ internal class StageTest {
             ClickAction().apply { target = Id("Button3") },
             InputAction().apply {
                 id("message")
-                value("Hello")
+                value("This is input value")
             },
             InputCard().apply {
                 cvv = "xxx-xxx-xxx"
@@ -63,6 +64,7 @@ internal class StageTest {
             PageAssertAction(
                 mutableListOf(
                     PageAssertAction.TextAssertion("Complete", true),
+                    PageAssertAction.TextAssertion("Go back to home", true),
                     PageAssertAction.TextAssertion("Error", false)
                 )
             )
