@@ -51,7 +51,7 @@ internal class StageTest {
 
         assertThat(stage.actions()).containsExactlyInAnyOrder(
             ClickAction().apply { target = Text("Button1") },
-            ClickAction().apply { target = Class("Button2") },
+            ClickAction().apply { target = CssClass("Button2") },
             ClickAction().apply { target = Id("Button3") },
             InputAction().apply {
                 id("message")

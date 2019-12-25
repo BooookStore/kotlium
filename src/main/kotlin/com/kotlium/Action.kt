@@ -13,7 +13,7 @@ abstract class SingleTargetAction(open var target: Selector?) : Action {
     }
 
     fun `class`(value: String) {
-        target = Class(value)
+        target = CssClass(value)
     }
 
     fun id(value: String) {
