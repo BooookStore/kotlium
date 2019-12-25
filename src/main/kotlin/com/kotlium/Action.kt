@@ -8,11 +8,7 @@ interface Action {
 
 abstract class SingleTargetAction(open var target: Selector?) : Action {
 
-    fun text(value: String) {
-        target = Text(value)
-    }
-
-    fun `class`(value: String) {
+    fun cssClass(value: String) {
         target = CssClass(value)
     }
 

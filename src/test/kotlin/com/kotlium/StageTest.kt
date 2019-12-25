@@ -26,10 +26,7 @@ internal class StageTest {
     fun stageDslTest() {
         val stage = BrowserStage(config, allOkIWebDriverWrapper) {
             click {
-                text("Button1")
-            }
-            click {
-                `class`("Button2")
+                cssClass("Button2")
             }
             click {
                 id("Button3")
@@ -50,7 +47,6 @@ internal class StageTest {
         }
 
         assertThat(stage.actions()).containsExactlyInAnyOrder(
-            ClickAction().apply { target = Text("Button1") },
             ClickAction().apply { target = CssClass("Button2") },
             ClickAction().apply { target = Id("Button3") },
             InputAction().apply {
