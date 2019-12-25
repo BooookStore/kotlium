@@ -10,8 +10,13 @@ repositories {
     jcenter()
 }
 
+ext {
+    selenium_version = "3.141.59"
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.seleniumhq.selenium:selenium-java:${selenium_version}"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.5.2"
     testImplementation "org.assertj:assertj-core:3.14.0"
     testImplementation "io.mockk:mockk:1.9.3"
