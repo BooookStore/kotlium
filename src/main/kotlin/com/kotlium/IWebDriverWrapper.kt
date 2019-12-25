@@ -2,8 +2,8 @@ package com.kotlium
 
 interface IWebDriverWrapper {
 
-    fun click(selector: String): Boolean
+    fun click(selector: Selector): Boolean
 
-    fun input(selector: String, value: String): Boolean
+    fun input(selector: Selector, value: String): Boolean
 
 }

@@ -25,7 +25,7 @@ abstract class SingleTargetAction(open var target: Selector?) : Action {
 data class ClickAction(override var target: Selector? = null) : SingleTargetAction(target) {
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
-        iWebDriverWrapper.click(target?.value ?: throw IllegalStateException("click target is null"))
+        iWebDriverWrapper.click(target ?: throw IllegalStateException("click target is null"))
         return ActionExecuteResult(ClickAction::class, true, "click by id. value is ${target?.value}")
     }
 
@@ -39,7 +39,7 @@ data class InputAction(override var target: Selector? = null, var value: String?
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         iWebDriverWrapper.input(
-            selector = target?.value ?: throw IllegalStateException("input target is null"),
+            selector = target ?: throw IllegalStateException("input target is null"),
             value = value ?: throw IllegalStateException("input value is null")
         )
         return ActionExecuteResult(InputAction::class, true, null)
@@ -52,7 +52,7 @@ class InputCard : Action {
     lateinit var cvv: String
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
-        iWebDriverWrapper.input("cvv", cvv)
+        iWebDriverWrapper.input(Id("cvv"), cvv)
         return ActionExecuteResult(InputCard::class, true, null)
     }
 
@@ -72,7 +72,7 @@ class InputCard : Action {
 class ClickRegisterCard : Action {
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
-        iWebDriverWrapper.click("register")
+        iWebDriverWrapper.click(Id("register"))
         return ActionExecuteResult(ClickRegisterCard::class, true, null)
     }
 
