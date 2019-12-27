@@ -20,13 +20,13 @@ internal class PageAssertActionTest {
         val executeResult = PageAssertAction(
             TextAssertion("hello", true),
             TextAssertion("world", true),
-            TextAssertion("!", false)
+            TextAssertion("!", true)
         ).execute(mockIWebDriverWrapper)
 
         // verify
         assertThat(executeResult.isOk).isFalse()
         assertThat(executeResult.actionClass).isEqualTo(PageAssertAction::class)
-        assertThat(executeResult.message).isEqualTo("'!' is not display")
+        assertThat(executeResult.message).containsExactlyInAnyOrder("'!' is not display")
     }
 
 }

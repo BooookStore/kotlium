@@ -1,6 +1,9 @@
 package com.kotlium.action
 
-import com.kotlium.*
+import com.kotlium.CssClass
+import com.kotlium.IWebDriverWrapper
+import com.kotlium.Id
+import com.kotlium.Selector
 import com.kotlium.action.ActionType.OPERATOR
 
 abstract class SingleTargetAction(open var target: Selector?) : Action {
@@ -19,7 +22,7 @@ data class ClickAction(override var target: Selector? = null) : SingleTargetActi
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         val isOk = iWebDriverWrapper.click(target ?: throw IllegalStateException("click target is null"))
-        return ActionExecuteResult(ClickAction::class, isOk, OPERATOR, "click by id. value is ${target?.value}")
+        return ActionExecuteResult(ClickAction::class, isOk, OPERATOR, listOf("click by id. value is ${target?.value}"))
     }
 
 }
@@ -35,7 +38,7 @@ data class InputAction(override var target: Selector? = null, var value: String?
             selector = target ?: throw IllegalStateException("input target is null"),
             value = value ?: throw IllegalStateException("input value is null")
         )
-        return ActionExecuteResult(InputAction::class, isOk, OPERATOR, null)
+        return ActionExecuteResult(InputAction::class, isOk, OPERATOR, listOf())
     }
 
 }
@@ -46,7 +49,7 @@ class InputCard : Action {
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         val isOk = iWebDriverWrapper.input(Id("cvv"), cvv)
-        return ActionExecuteResult(InputCard::class, isOk, OPERATOR, null)
+        return ActionExecuteResult(InputCard::class, isOk, OPERATOR, listOf())
     }
 
     override fun equals(other: Any?): Boolean {
@@ -66,7 +69,7 @@ class ClickRegisterCard : Action {
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         val isOk = iWebDriverWrapper.click(Id("register"))
-        return ActionExecuteResult(ClickRegisterCard::class, isOk, OPERATOR, null)
+        return ActionExecuteResult(ClickRegisterCard::class, isOk, OPERATOR, listOf())
     }
 
     override fun equals(other: Any?): Boolean {

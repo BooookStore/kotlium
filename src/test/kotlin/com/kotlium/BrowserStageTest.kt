@@ -78,9 +78,10 @@ internal class BrowserStageTest {
         // verify
         assertThat(executeResult.isOk).isTrue()
         assertThat(executeResult.executedActions).hasSize(2).containsExactly(
-            ActionExecuteResult(ClickAction::class, true, OPERATOR, "click by id. value is id-for-element"),
-            ActionExecuteResult(ClickAction::class, true, OPERATOR, "click by id. value is id-for-element")
+            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click by id. value is id-for-element")),
+            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click by id. value is id-for-element"))
         )
+
     }
 
     @Test
@@ -99,8 +100,8 @@ internal class BrowserStageTest {
 
         assertThat(executeResult.isOk).isFalse()
         assertThat(executeResult.executedActions).hasSize(2).containsExactly(
-            ActionExecuteResult(ClickAction::class, true, OPERATOR, "click by id. value is success-id"),
-            ActionExecuteResult(ClickAction::class, false, OPERATOR, "click by id. value is failed-id")
+            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click by id. value is success-id")),
+            ActionExecuteResult(ClickAction::class, false, OPERATOR, listOf("click by id. value is failed-id"))
         )
     }
 

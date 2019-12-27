@@ -11,12 +11,12 @@ class PageAssertAction(vararg initAssertions: Assertion) :
     private val assertions: MutableList<Assertion> = mutableListOf(*initAssertions)
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
-        val isOk = assertions.all { it.assert(iWebDriverWrapper) }
+        val assertResults = assertions.map { it.assert(iWebDriverWrapper) }
         return ActionExecuteResult(
-            PageAssertAction::class,
-            isOk,
-            ASSERT,
-            "'!' is not display"
+            actionClass = PageAssertAction::class,
+            isOk = assertResults.all { it.isOk },
+            type = ASSERT,
+            message = assertResults.mapNotNull { it.message }
         )
     }
 
@@ -42,13 +42,25 @@ class PageAssertAction(vararg initAssertions: Assertion) :
 
 interface Assertion {
 
-    fun assert(iWebDriverWrapper: IWebDriverWrapper): Boolean
+    fun assert(iWebDriverWrapper: IWebDriverWrapper): AssertionResult
 
 }
 
-data class TextAssertion(var text: String, var expect: Boolean? = null) :
-    Assertion {
+data class AssertionResult(val isOk: Boolean, val message: String?)
 
-    override fun assert(iWebDriverWrapper: IWebDriverWrapper): Boolean = iWebDriverWrapper.isTextDisplay(text)
+data class TextAssertion(var text: String, var expect: Boolean? = null) : Assertion {
+
+    override fun assert(iWebDriverWrapper: IWebDriverWrapper): AssertionResult {
+        val notNullExpect = checkNotNull(expect) { "expect is null. please set expect." }
+        val isDisplay =  iWebDriverWrapper.isTextDisplay(text)
+
+        val isOk = isDisplay == notNullExpect
+
+        return if (isOk) {
+            AssertionResult(true, null)
+        } else {
+            AssertionResult(false, "'$text' is not display")
+        }
+    }
 
 }
