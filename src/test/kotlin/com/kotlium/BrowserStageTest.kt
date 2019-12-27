@@ -58,9 +58,9 @@ internal class BrowserStageTest {
             },
             ClickRegisterCard(),
             PageAssertAction(
-                PageAssertAction.TextAssertion("Complete", true),
-                PageAssertAction.TextAssertion("Go back to home", true),
-                PageAssertAction.TextAssertion("Error", false)
+                TextAssertion("Complete", true),
+                TextAssertion("Go back to home", true),
+                TextAssertion("Error", false)
             )
         )
     }

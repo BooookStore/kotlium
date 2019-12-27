@@ -1,6 +1,5 @@
 package com.kotlium
 
-import com.kotlium.PageAssertAction.TextAssertion
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
