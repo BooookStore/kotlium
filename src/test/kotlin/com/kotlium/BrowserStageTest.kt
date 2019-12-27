@@ -1,6 +1,7 @@
 package com.kotlium
 
-import com.kotlium.ActionType.OPERATOR
+import com.kotlium.action.*
+import com.kotlium.action.ActionType.OPERATOR
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat

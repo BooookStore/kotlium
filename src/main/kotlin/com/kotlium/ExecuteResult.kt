@@ -1,5 +1,7 @@
 package com.kotlium
 
+import com.kotlium.action.Action
+import com.kotlium.action.ActionType
 import kotlin.reflect.KClass
 
 data class StageExecuteResult(val executedActions: List<ActionExecuteResult>) {

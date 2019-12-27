@@ -1,6 +1,7 @@
-package com.kotlium
+package com.kotlium.action
 
-import com.kotlium.ActionType.OPERATOR
+import com.kotlium.*
+import com.kotlium.action.ActionType.OPERATOR
 
 abstract class SingleTargetAction(open var target: Selector?) : Action {
 
