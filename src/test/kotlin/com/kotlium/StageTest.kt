@@ -68,7 +68,7 @@ internal class StageTest {
     }
 
     @Test
-    fun stageExecuteTest() {
+    fun stageExecuteResultTest() {
         // setup
         val executeResult = BrowserStage(config, allOkIWebDriverWrapper) {
             click { id("id-for-element") }
