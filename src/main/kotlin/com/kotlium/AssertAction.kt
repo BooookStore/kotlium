@@ -2,12 +2,6 @@ package com.kotlium
 
 interface AssertAction : Action
 
-interface Assertion {
-
-    fun assert(iWebDriverWrapper: IWebDriverWrapper): Boolean
-
-}
-
 class PageAssertAction(vararg initAssertions: Assertion) : AssertAction {
 
     private val assertions: MutableList<Assertion> = mutableListOf(*initAssertions)
@@ -34,6 +28,12 @@ class PageAssertAction(vararg initAssertions: Assertion) : AssertAction {
     }
 
     override fun hashCode(): Int = assertions.hashCode()
+
+}
+
+interface Assertion {
+
+    fun assert(iWebDriverWrapper: IWebDriverWrapper): Boolean
 
 }
 
