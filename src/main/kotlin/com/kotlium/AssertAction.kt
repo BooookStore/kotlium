@@ -26,12 +26,6 @@ class PageAssertAction(vararg initAssertions: Assertion) : AssertAction {
         assertions += this
     }
 
-    data class TextAssertion(var text: String, var expect: Boolean? = null) : Assertion {
-
-        override fun assert(iWebDriverWrapper: IWebDriverWrapper): Boolean = iWebDriverWrapper.isTextDisplay(text)
-
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is PageAssertAction) return false
@@ -40,5 +34,11 @@ class PageAssertAction(vararg initAssertions: Assertion) : AssertAction {
     }
 
     override fun hashCode(): Int = assertions.hashCode()
+
+}
+
+data class TextAssertion(var text: String, var expect: Boolean? = null) : Assertion {
+
+    override fun assert(iWebDriverWrapper: IWebDriverWrapper): Boolean = iWebDriverWrapper.isTextDisplay(text)
 
 }
