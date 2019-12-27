@@ -94,6 +94,7 @@ internal class StageTest {
         val executeResult = BrowserStage(config, mockIWebDriverWrapper) {
             click { id("success-id") }
             click { id("failed-id") }
+            click { id("success-id") }
         }.execute()
 
         assertThat(executeResult.isOk).isFalse()
