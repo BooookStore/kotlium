@@ -83,4 +83,24 @@ internal class StageTest {
         )
     }
 
+    @Test
+    fun stageExecuteFailedTest() {
+        // setup
+        val mockIWebDriverWrapper = mockk<IWebDriverWrapper>()
+        every { mockIWebDriverWrapper.click(any()) } returns true
+        every { mockIWebDriverWrapper.click(Id("failed-id")) } returns false
+
+        // execute
+        val executeResult = BrowserStage(config, mockIWebDriverWrapper) {
+            click { id("success-id") }
+            click { id("failed-id") }
+        }.execute()
+
+        assertThat(executeResult.isOk).isFalse()
+        assertThat(executeResult.executedActions).hasSize(2).containsExactly(
+            ActionExecuteResult(ClickAction::class, true, "click by id. value is success-id"),
+            ActionExecuteResult(ClickAction::class, false, "click by id. value is failed-id")
+        )
+    }
+
 }
