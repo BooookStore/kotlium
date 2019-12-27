@@ -31,7 +31,7 @@ class SeleniumWebDriverWrapperTest {
     @Test
     fun clickTest() {
         // execute
-        seleniumWebDriverWrapper.click(CssClass("download-button webdriver"))
+        seleniumWebDriverWrapper.click(CssClass("webdriver"))
 
         // verify
         assertThat(driver.currentUrl).isEqualTo("https://selenium.dev/downloads/")
