@@ -38,6 +38,16 @@ class SeleniumWebDriverWrapper(private val driver: WebDriver) : IWebDriverWrappe
         }
     }
 
+    override fun get(url: String): Boolean {
+        return try {
+            driver.get(url)
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
     private fun WebDriver.findElementUntilVisible(selector: Selector): WebElement {
         val element = when (selector) {
             is CssClass -> this.findElement(By.className(selector.value))

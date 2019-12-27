@@ -20,6 +20,8 @@ class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper:
     }
 
     fun execute(): StageExecuteResult {
+        check(iWebDriverWrapper.get(config.url)) { "can't access url" }
+
         val actionExecuteResults = mutableListOf<ActionExecuteResult>()
         var currentActionIsOk = true
 

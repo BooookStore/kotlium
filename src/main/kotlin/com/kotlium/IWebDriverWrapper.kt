@@ -8,4 +8,6 @@ interface IWebDriverWrapper {
 
     fun isTextDisplay(value: String): Boolean
 
+    fun get(url: String): Boolean
+
 }
