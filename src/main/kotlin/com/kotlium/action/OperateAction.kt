@@ -10,7 +10,7 @@ abstract class SingleTargetAction(open var target: Selector?) : Action
 data class ClickAction(override var target: Selector? = null) : SingleTargetAction(target) {
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
-        val isOk = iWebDriverWrapper.click(target ?: throw IllegalStateException("click target is null"))
+        val isOk = iWebDriverWrapper.click(checkNotNull(target) { "click target is null" })
         return ActionExecuteResult(ClickAction::class, isOk, OPERATOR, listOf("click by id. value is ${target?.value}"))
     }
 
@@ -20,8 +20,8 @@ data class InputAction(override var target: Selector? = null, var value: String?
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         val isOk = iWebDriverWrapper.input(
-            selector = target ?: throw IllegalStateException("input target is null"),
-            value = value ?: throw IllegalStateException("input value is null")
+            selector = checkNotNull(target) { "input target is null" },
+            value = checkNotNull(value) { "input value is null" }
         )
         return ActionExecuteResult(InputAction::class, isOk, OPERATOR, listOf())
     }

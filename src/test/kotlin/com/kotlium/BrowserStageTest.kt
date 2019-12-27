@@ -27,12 +27,8 @@ internal class BrowserStageTest {
     @Test
     fun stageDslTest() {
         val stage = BrowserStage(config, allOkIWebDriverWrapper) {
-            click {
-                target = CssClass("Button2")
-            }
-            click {
-                target = Id("Button3")
-            }
+            click { target = CssClass("Button2") }
+            click { target = Id("Button3") }
             input {
                 target = Id("message")
                 value = "This is input value"
