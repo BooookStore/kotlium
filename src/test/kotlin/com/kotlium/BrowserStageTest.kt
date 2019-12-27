@@ -17,7 +17,7 @@ internal class BrowserStageTest {
 
     @BeforeEach
     fun beforeEach() {
-        allOkIWebDriverWrapper = mockk<IWebDriverWrapper>()
+        allOkIWebDriverWrapper = mockk()
         every { allOkIWebDriverWrapper.click(any()) } returns true
         every { allOkIWebDriverWrapper.input(any(), any()) } returns true
     }
