@@ -10,5 +10,6 @@ data class StageExecuteResult(val executedActions: List<ActionExecuteResult>) {
 data class ActionExecuteResult(
     val actionClass: KClass<out Action>,
     val isOk: Boolean,
+    val type: ActionType,
     val message: String?
 )

@@ -1,5 +1,6 @@
 package com.kotlium
 
+import com.kotlium.ActionType.OPERATOR
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
@@ -76,8 +77,8 @@ internal class BrowserStageTest {
         // verify
         assertThat(executeResult.isOk).isTrue()
         assertThat(executeResult.executedActions).hasSize(2).containsExactly(
-            ActionExecuteResult(ClickAction::class, true, "click by id. value is id-for-element"),
-            ActionExecuteResult(ClickAction::class, true, "click by id. value is id-for-element")
+            ActionExecuteResult(ClickAction::class, true, OPERATOR, "click by id. value is id-for-element"),
+            ActionExecuteResult(ClickAction::class, true, OPERATOR, "click by id. value is id-for-element")
         )
     }
 
@@ -97,8 +98,8 @@ internal class BrowserStageTest {
 
         assertThat(executeResult.isOk).isFalse()
         assertThat(executeResult.executedActions).hasSize(2).containsExactly(
-            ActionExecuteResult(ClickAction::class, true, "click by id. value is success-id"),
-            ActionExecuteResult(ClickAction::class, false, "click by id. value is failed-id")
+            ActionExecuteResult(ClickAction::class, true, OPERATOR, "click by id. value is success-id"),
+            ActionExecuteResult(ClickAction::class, false, OPERATOR, "click by id. value is failed-id")
         )
     }
 

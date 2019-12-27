@@ -1,5 +1,7 @@
 package com.kotlium
 
+import com.kotlium.ActionType.ASSERT
+
 interface AssertAction : Action
 
 class PageAssertAction(vararg initAssertions: Assertion) : AssertAction {
@@ -8,7 +10,7 @@ class PageAssertAction(vararg initAssertions: Assertion) : AssertAction {
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         val isOk = assertions.all { it.assert(iWebDriverWrapper) }
-        return ActionExecuteResult(PageAssertAction::class, isOk, "'!' is not display")
+        return ActionExecuteResult(PageAssertAction::class, isOk, ASSERT, "'!' is not display")
     }
 
     fun text(textConfigure: () -> String): TextAssertion {
