@@ -6,4 +6,6 @@ interface IWebDriverWrapper {
 
     fun input(selector: Selector, value: String): Boolean
 
+    fun isTextDisplay(value: String): Boolean
+
 }

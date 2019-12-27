@@ -32,6 +32,10 @@ class SeleniumWebDriverWrapper(private val driver: WebDriver) : IWebDriverWrappe
         }
     }
 
+    override fun isTextDisplay(value: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private fun WebDriver.findElementUntilVisible(selector: Selector): WebElement {
         val element = when (selector) {
             is CssClass -> this.findElement(By.className(selector.value))

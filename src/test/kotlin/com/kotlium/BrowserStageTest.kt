@@ -58,11 +58,9 @@ internal class BrowserStageTest {
             },
             ClickRegisterCard(),
             PageAssertAction(
-                mutableListOf(
-                    PageAssertAction.TextAssertion("Complete", true),
-                    PageAssertAction.TextAssertion("Go back to home", true),
-                    PageAssertAction.TextAssertion("Error", false)
-                )
+                PageAssertAction.TextAssertion("Complete", true),
+                PageAssertAction.TextAssertion("Go back to home", true),
+                PageAssertAction.TextAssertion("Error", false)
             )
         )
     }
