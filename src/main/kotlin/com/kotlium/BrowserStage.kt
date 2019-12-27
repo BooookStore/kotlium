@@ -1,9 +1,6 @@
 package com.kotlium
 
-import com.kotlium.action.Action
-import com.kotlium.action.ClickAction
-import com.kotlium.action.InputAction
-import com.kotlium.action.PageAssertAction
+import com.kotlium.action.*
 import kotlin.reflect.KClass
 
 class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper: IWebDriverWrapper) {

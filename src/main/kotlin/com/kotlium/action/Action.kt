@@ -1,6 +1,5 @@
 package com.kotlium.action
 
-import com.kotlium.ActionExecuteResult
 import com.kotlium.IWebDriverWrapper
 
 interface Action {
