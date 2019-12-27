@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-internal class StageTest {
+internal class BrowserStageTest {
 
     private val config: BrowserStageConfiguration = BrowserStageConfiguration(
         name = "customer page",
