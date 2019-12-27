@@ -4,6 +4,7 @@ import com.kotlium.IWebDriverWrapper
 import com.kotlium.action.ActionType.ASSERT
 
 class PageAssertAction(vararg initAssertions: Assertion) : Action {
+
     private val assertions: MutableList<Assertion> = mutableListOf(*initAssertions)
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {

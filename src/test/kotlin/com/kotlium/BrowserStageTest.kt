@@ -28,14 +28,14 @@ internal class BrowserStageTest {
     fun stageDslTest() {
         val stage = BrowserStage(config, allOkIWebDriverWrapper) {
             click {
-                cssClass("Button2")
+                target = CssClass("Button2")
             }
             click {
-                id("Button3")
+                target = Id("Button3")
             }
             input {
-                id("message")
-                value("This is input value")
+                target = Id("message")
+                value = "This is input value"
             }
             InputCard::class {
                 cvv = "xxx-xxx-xxx"
@@ -52,8 +52,8 @@ internal class BrowserStageTest {
             ClickAction().apply { target = CssClass("Button2") },
             ClickAction().apply { target = Id("Button3") },
             InputAction().apply {
-                id("message")
-                value("This is input value")
+                target = Id("message")
+                value = "This is input value"
             },
             InputCard().apply {
                 cvv = "xxx-xxx-xxx"
@@ -71,8 +71,8 @@ internal class BrowserStageTest {
     fun stageExecuteResultTest() {
         // setup
         val executeResult = BrowserStage(config, allOkIWebDriverWrapper) {
-            click { id("id-for-element") }
-            click { id("id-for-element") }
+            click { target = Id("id-for-element") }
+            click { target = Id("id-for-element") }
         }.execute()
 
         // verify
@@ -93,9 +93,9 @@ internal class BrowserStageTest {
 
         // execute
         val executeResult = BrowserStage(config, mockIWebDriverWrapper) {
-            click { id("success-id") }
-            click { id("failed-id") }
-            click { id("success-id") }
+            click { target = Id("success-id") }
+            click { target = Id("failed-id") }
+            click { target = Id("success-id") }
         }.execute()
 
         assertThat(executeResult.isOk).isFalse()

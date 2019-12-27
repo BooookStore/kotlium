@@ -1,22 +1,11 @@
 package com.kotlium.action
 
-import com.kotlium.CssClass
 import com.kotlium.IWebDriverWrapper
 import com.kotlium.Id
 import com.kotlium.Selector
 import com.kotlium.action.ActionType.OPERATOR
 
-abstract class SingleTargetAction(open var target: Selector?) : Action {
-
-    fun cssClass(value: String) {
-        target = CssClass(value)
-    }
-
-    fun id(value: String) {
-        target = Id(value)
-    }
-
-}
+abstract class SingleTargetAction(open var target: Selector?) : Action
 
 data class ClickAction(override var target: Selector? = null) : SingleTargetAction(target) {
 
@@ -28,10 +17,6 @@ data class ClickAction(override var target: Selector? = null) : SingleTargetActi
 }
 
 data class InputAction(override var target: Selector? = null, var value: String? = null) : SingleTargetAction(target) {
-
-    fun value(value: String) {
-        this.value = value
-    }
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         val isOk = iWebDriverWrapper.input(
