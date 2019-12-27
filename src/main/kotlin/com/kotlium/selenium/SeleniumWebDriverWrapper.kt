@@ -2,6 +2,7 @@ package com.kotlium.selenium
 
 import com.kotlium.*
 import org.openqa.selenium.By
+import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.ExpectedConditions
@@ -19,9 +20,9 @@ class SeleniumWebDriverWrapper(private val driver: WebDriver) : IWebDriverWrappe
         }
     }
 
-    override fun input(selector: Selector, value: String): Boolean {
+    override fun input(selector: Selector, value: String, lastEnter: Boolean): Boolean {
         return try {
-            driver.findElementUntilVisible(selector).sendKeys(value)
+            driver.findElementUntilVisible(selector).sendKeys(value + if (lastEnter) Keys.ENTER else "")
             true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -31,7 +32,7 @@ class SeleniumWebDriverWrapper(private val driver: WebDriver) : IWebDriverWrappe
 
     override fun isTextDisplay(value: String): Boolean {
         return try {
-            driver.findElementUntilVisible(XPath("""//*[contains(./text(), "$value"]"""))
+            driver.findElementUntilVisible(XPath("""//*[normalize-space() = '$value']"""))
             true
         } catch (e: Exception) {
             false
@@ -46,6 +47,14 @@ class SeleniumWebDriverWrapper(private val driver: WebDriver) : IWebDriverWrappe
             e.printStackTrace()
             false
         }
+    }
+
+    override fun currentUrl(): String {
+        return driver.currentUrl
+    }
+
+    override fun deleteSession() {
+        driver.close()
     }
 
     private fun WebDriver.findElementUntilVisible(selector: Selector): WebElement {

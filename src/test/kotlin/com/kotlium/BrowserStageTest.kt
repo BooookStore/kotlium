@@ -21,7 +21,7 @@ internal class BrowserStageTest {
     fun beforeEach() {
         allOkIWebDriverWrapper = mockk()
         every { allOkIWebDriverWrapper.click(any()) } returns true
-        every { allOkIWebDriverWrapper.input(any(), any()) } returns true
+        every { allOkIWebDriverWrapper.input(any(), any(), any()) } returns true
     }
 
     @Test

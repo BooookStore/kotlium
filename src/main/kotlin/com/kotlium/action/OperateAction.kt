@@ -16,12 +16,21 @@ data class ClickAction(override var target: Selector? = null) : SingleTargetActi
 
 }
 
-data class InputAction(override var target: Selector? = null, var value: String? = null) : SingleTargetAction(target) {
+data class InputAction(
+    override var target: Selector? = null,
+    var value: String? = null,
+    var inputEnter: Boolean = false
+) : SingleTargetAction(target) {
+
+    fun inputEnter() {
+        inputEnter = true
+    }
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         val isOk = iWebDriverWrapper.input(
             selector = checkNotNull(target) { "input target is null" },
-            value = checkNotNull(value) { "input value is null" }
+            value = checkNotNull(value) { "input value is null" },
+            lastEnter = inputEnter
         )
         return ActionExecuteResult(InputAction::class, isOk, OPERATOR, listOf())
     }
@@ -33,7 +42,7 @@ class InputCard : Action {
     lateinit var cvv: String
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
-        val isOk = iWebDriverWrapper.input(Id("cvv"), cvv)
+        val isOk = iWebDriverWrapper.input(Id("cvv"), cvv, false)
         return ActionExecuteResult(InputCard::class, isOk, OPERATOR, listOf())
     }
 

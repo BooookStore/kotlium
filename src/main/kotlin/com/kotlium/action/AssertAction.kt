@@ -26,6 +26,14 @@ class PageAssertAction(vararg initAssertions: Assertion) : Action {
         assertions += this
     }
 
+    val url: UrlAssertion
+        get() = UrlAssertion()
+
+    infix fun UrlAssertion.equals(expectedUrl: String) {
+        this.url = expectedUrl
+        assertions += this
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is PageAssertAction) return false
@@ -57,6 +65,21 @@ data class TextAssertion(var text: String, var expect: Boolean? = null) : Assert
             AssertionResult(true, null)
         } else {
             AssertionResult(false, "'$text' is not display")
+        }
+    }
+
+}
+
+class UrlAssertion(var url: String? = null) : Assertion {
+
+    override fun assert(iWebDriverWrapper: IWebDriverWrapper): AssertionResult {
+        val notNullExpect = checkNotNull(url) { "expect is null. please set expect." }
+        val isOk = iWebDriverWrapper.currentUrl() == notNullExpect
+
+        return if (isOk) {
+            AssertionResult(true, null)
+        } else {
+            AssertionResult(false, "current url is not '$url'")
         }
     }
 

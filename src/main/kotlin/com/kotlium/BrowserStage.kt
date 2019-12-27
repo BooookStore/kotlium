@@ -35,6 +35,8 @@ class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper:
             actionExecuteResults.add(executeResult)
         }
 
+        iWebDriverWrapper.deleteSession()
+
         return StageExecuteResult(actionExecuteResults)
     }
 
