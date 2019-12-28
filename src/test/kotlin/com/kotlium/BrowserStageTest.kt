@@ -20,8 +20,10 @@ internal class BrowserStageTest {
     @BeforeEach
     fun beforeEach() {
         allOkIWebDriverWrapper = mockk()
+        every { allOkIWebDriverWrapper.get(any()) } returns true
         every { allOkIWebDriverWrapper.click(any()) } returns true
         every { allOkIWebDriverWrapper.input(any(), any(), any()) } returns true
+        every { allOkIWebDriverWrapper.deleteSession() } returns Unit
     }
 
     @Test
@@ -84,8 +86,10 @@ internal class BrowserStageTest {
     fun stageExecuteFailedTest() {
         // setup
         val mockIWebDriverWrapper = mockk<IWebDriverWrapper>()
+        every { mockIWebDriverWrapper.get(any()) } returns true
         every { mockIWebDriverWrapper.click(any()) } returns true
         every { mockIWebDriverWrapper.click(Id("failed-id")) } returns false
+        every { mockIWebDriverWrapper.deleteSession() } returns Unit
 
         // execute
         val executeResult = BrowserStage(config, mockIWebDriverWrapper) {
