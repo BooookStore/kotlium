@@ -51,7 +51,6 @@ class SeleniumBrowserStageTest {
             }
         }.execute()
 
-        stageExecuteResult.executedActions.forEach { println(it.message.firstOrNull() ?: "") }
         assertThat(stageExecuteResult.isOk).isTrue()
     }
 
