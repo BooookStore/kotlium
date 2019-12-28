@@ -7,6 +7,7 @@ import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.By.id
 
 internal class BrowserStageTest {
 
@@ -26,15 +27,15 @@ internal class BrowserStageTest {
 
         // execute
         val executeResult = BrowserStage(config, allOkIWebDriverWrapper) {
-            click { target = Id("id-for-element") }
-            click { target = Id("id-for-element") }
+            click { target = id("id-for-element") }
+            click { target = id("id-for-element") }
         }.execute()
 
         // verify
         assertThat(executeResult.isOk).isTrue()
         assertThat(executeResult.executedActions).hasSize(2).containsExactly(
-            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click by id. value is id-for-element")),
-            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click by id. value is id-for-element"))
+            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element")),
+            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element"))
         )
 
     }
@@ -45,20 +46,20 @@ internal class BrowserStageTest {
         val mockIWebDriverWrapper = mockk<IWebDriverWrapper>()
         every { mockIWebDriverWrapper.get(any()) } returns true
         every { mockIWebDriverWrapper.click(any()) } returns true
-        every { mockIWebDriverWrapper.click(Id("failed-id")) } returns false
+        every { mockIWebDriverWrapper.click(id("failed-id")) } returns false
         every { mockIWebDriverWrapper.deleteSession() } returns Unit
 
         // execute
         val executeResult = BrowserStage(config, mockIWebDriverWrapper) {
-            click { target = Id("success-id") }
-            click { target = Id("failed-id") }
-            click { target = Id("success-id") }
+            click { target = id("success-id") }
+            click { target = id("failed-id") }
+            click { target = id("success-id") }
         }.execute()
 
         assertThat(executeResult.isOk).isFalse()
         assertThat(executeResult.executedActions).hasSize(2).containsExactly(
-            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click by id. value is success-id")),
-            ActionExecuteResult(ClickAction::class, false, OPERATOR, listOf("click by id. value is failed-id"))
+            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: success-id")),
+            ActionExecuteResult(ClickAction::class, false, OPERATOR, listOf("click By.id: failed-id"))
         )
     }
 

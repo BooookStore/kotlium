@@ -1,6 +1,6 @@
 package com.kotlium.selenium
 
-import com.kotlium.*
+import com.kotlium.IWebDriverWrapper
 import org.openqa.selenium.By
 import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
@@ -10,9 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait
 
 class SeleniumWebDriverWrapper(private val driver: WebDriver) : IWebDriverWrapper {
 
-    override fun click(selector: Selector): Boolean {
+    override fun click(by: By): Boolean {
         return try {
-            driver.findElementUntilVisible(selector).click()
+            driver.findElementUntilVisible(by).click()
             true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -20,9 +20,9 @@ class SeleniumWebDriverWrapper(private val driver: WebDriver) : IWebDriverWrappe
         }
     }
 
-    override fun input(selector: Selector, value: String, lastEnter: Boolean): Boolean {
+    override fun input(by: By, value: String, lastEnter: Boolean): Boolean {
         return try {
-            driver.findElementUntilVisible(selector).sendKeys(value + if (lastEnter) Keys.ENTER else "")
+            driver.findElementUntilVisible(by).sendKeys(value + if (lastEnter) Keys.ENTER else "")
             true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -32,7 +32,7 @@ class SeleniumWebDriverWrapper(private val driver: WebDriver) : IWebDriverWrappe
 
     override fun isTextDisplay(value: String): Boolean {
         return try {
-            driver.findElementUntilVisible(XPath("""//*[normalize-space() = '$value']"""))
+            driver.findElementUntilVisible(By.xpath("""//*[normalize-space() = '$value']"""))
             true
         } catch (e: Exception) {
             false
@@ -57,12 +57,8 @@ class SeleniumWebDriverWrapper(private val driver: WebDriver) : IWebDriverWrappe
         driver.close()
     }
 
-    private fun WebDriver.findElementUntilVisible(selector: Selector): WebElement {
-        val element = when (selector) {
-            is CssClass -> this.findElement(By.className(selector.value))
-            is Id -> this.findElement(By.id(selector.value))
-            is XPath -> this.findElement(By.xpath(selector.value))
-        }
+    private fun WebDriver.findElementUntilVisible(by: By): WebElement {
+        val element = driver.findElement(by)
         WebDriverWait(this, 5).until(ExpectedConditions.visibilityOf(element))
         return element
     }

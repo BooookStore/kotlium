@@ -1,10 +1,12 @@
 package com.kotlium
 
+import org.openqa.selenium.By
+
 interface IWebDriverWrapper {
 
-    fun click(selector: Selector): Boolean
+    fun click(by: By): Boolean
 
-    fun input(selector: Selector, value: String, lastEnter: Boolean): Boolean
+    fun input(by: By, value: String, lastEnter: Boolean): Boolean
 
     fun isTextDisplay(value: String): Boolean
 
