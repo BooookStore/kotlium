@@ -39,6 +39,7 @@ class SeleniumBrowserStageTest {
     fun githubTest() {
         val config = BrowserStageConfiguration("github", "https://github.co.jp/")
 
+        // execute
         val stageExecuteResult = BrowserStage(config, webDriverWrapper) {
             click { target = xpath("//a[normalize-space() = '機能']") }
             waitForUrl("https://github.co.jp/features")
@@ -54,6 +55,7 @@ class SeleniumBrowserStageTest {
             }
         }.execute()
 
+        // verify
         assertThat(stageExecuteResult.isOk).isTrue()
     }
 
