@@ -1,11 +1,11 @@
 package com.kotlium
 
-import com.kotlium.action.*
+import com.kotlium.action.ActionExecuteResult
 import com.kotlium.action.ActionType.OPERATOR
+import com.kotlium.action.ClickAction
 import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class BrowserStageTest {
@@ -15,59 +15,16 @@ internal class BrowserStageTest {
         url = "http://kotlium.example/customer"
     )
 
-    private lateinit var allOkIWebDriverWrapper: IWebDriverWrapper
-
-    @BeforeEach
-    fun beforeEach() {
-        allOkIWebDriverWrapper = mockk()
+    @Test
+    fun stageExecuteResultTest() {
+        // setup
+        val allOkIWebDriverWrapper: IWebDriverWrapper = mockk()
         every { allOkIWebDriverWrapper.get(any()) } returns true
         every { allOkIWebDriverWrapper.click(any()) } returns true
         every { allOkIWebDriverWrapper.input(any(), any(), any()) } returns true
         every { allOkIWebDriverWrapper.deleteSession() } returns Unit
-    }
 
-    @Test
-    fun stageDslTest() {
-        val stage = BrowserStage(config, allOkIWebDriverWrapper) {
-            click { target = CssClass("Button2") }
-            click { target = Id("Button3") }
-            input {
-                target = Id("message")
-                value = "This is input value"
-            }
-            InputCard::class {
-                cvv = "xxx-xxx-xxx"
-            }
-            ClickRegisterCard::class()
-            assertPage {
-                text { "Complete" } display true
-                text { "Go back to home" } display true
-                text { "Error" } display false
-            }
-        }
-
-        assertThat(stage.actions()).containsExactlyInAnyOrder(
-            ClickAction().apply { target = CssClass("Button2") },
-            ClickAction().apply { target = Id("Button3") },
-            InputAction().apply {
-                target = Id("message")
-                value = "This is input value"
-            },
-            InputCard().apply {
-                cvv = "xxx-xxx-xxx"
-            },
-            ClickRegisterCard(),
-            PageAssertAction(
-                TextAssertion("Complete", true),
-                TextAssertion("Go back to home", true),
-                TextAssertion("Error", false)
-            )
-        )
-    }
-
-    @Test
-    fun stageExecuteResultTest() {
-        // setup
+        // execute
         val executeResult = BrowserStage(config, allOkIWebDriverWrapper) {
             click { target = Id("id-for-element") }
             click { target = Id("id-for-element") }
