@@ -49,7 +49,7 @@ class SeleniumBrowserStageTest {
                 WebDriverWait(this, 5).until(urlToBe("https://github.com/marketplace"))
             }
             input {
-                target = xpath("""//input[@name='query']""")
+                target = xpath("//input[@name='query']")
                 value = "circle ci"
                 inputEnter()
             }
