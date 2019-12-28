@@ -53,6 +53,10 @@ class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper:
         actions += PageAssertAction(assert)
     }
 
+    fun waitForUrl(url: String) {
+        actions += WaitForUrlAssertAction(url)
+    }
+
     operator fun <T : Action> T.invoke(init: T.() -> Unit) {
         val kClass = this::class
         val action = kClass.java.newInstance()

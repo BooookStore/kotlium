@@ -9,8 +9,6 @@ import org.openqa.selenium.By.xpath
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.RemoteWebDriver
-import org.openqa.selenium.support.ui.ExpectedConditions.urlToBe
-import org.openqa.selenium.support.ui.WebDriverWait
 import java.net.URL
 
 class SeleniumBrowserStageTest {
@@ -40,14 +38,12 @@ class SeleniumBrowserStageTest {
 
         val stageExecuteResult = BrowserStage(config, webDriverWrapper) {
             click { target = xpath("//a[normalize-space() = '機能']") }
+            waitForUrl("https://github.co.jp/features")
             assertPage {
-                WebDriverWait(this, 5).until(urlToBe("https://github.co.jp/features"))
                 assertThat(findElement(xpath("//*[normalize-space() = '効率的な開発ワークフロー']")).isDisplayed).isTrue()
             }
             click { target = xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']") }
-            assertPage {
-                WebDriverWait(this, 5).until(urlToBe("https://github.com/marketplace"))
-            }
+            waitForUrl("https://github.com/marketplace")
             input {
                 target = xpath("//input[@name='query']")
                 value = "circle ci"
