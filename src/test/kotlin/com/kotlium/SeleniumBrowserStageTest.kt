@@ -2,12 +2,15 @@ package com.kotlium
 
 import com.kotlium.selenium.SeleniumWebDriverWrapper
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.openqa.selenium.By
+import org.openqa.selenium.By.xpath
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.RemoteWebDriver
+import org.openqa.selenium.support.ui.ExpectedConditions.urlToBe
+import org.openqa.selenium.support.ui.WebDriverWait
 import java.net.URL
 
 class SeleniumBrowserStageTest {
@@ -22,22 +25,31 @@ class SeleniumBrowserStageTest {
         webDriverWrapper = SeleniumWebDriverWrapper(driver)
     }
 
+    @AfterEach
+    fun afterEach() {
+        try {
+            driver.close()
+        } catch (e: Exception) {
+            // テスト内でセッションを破棄できなかった際のリトライのため、例外を無視
+        }
+    }
+
     @Test
     fun githubTest() {
         val config = BrowserStageConfiguration("github", "https://github.co.jp/")
 
         val stageExecuteResult = BrowserStage(config, webDriverWrapper) {
-            click { target = By.xpath("//a[normalize-space() = '機能']") }
+            click { target = xpath("//a[normalize-space() = '機能']") }
             assertPage {
-                url equals "https://github.co.jp/features"
-                text { "効率的な開発ワークフロー" } display true
+                WebDriverWait(this, 5).until(urlToBe("https://github.co.jp/features"))
+                assertThat(findElement(xpath("//*[normalize-space() = '効率的な開発ワークフロー']")).isDisplayed).isTrue()
             }
-            click { target = By.xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']") }
+            click { target = xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']") }
             assertPage {
-                url equals "https://github.com/marketplace"
+                WebDriverWait(this, 5).until(urlToBe("https://github.com/marketplace"))
             }
             input {
-                target = By.xpath("""//input[@name='query']""")
+                target = xpath("""//input[@name='query']""")
                 value = "circle ci"
                 inputEnter()
             }

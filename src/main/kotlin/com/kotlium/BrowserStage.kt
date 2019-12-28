@@ -1,6 +1,7 @@
 package com.kotlium
 
 import com.kotlium.action.*
+import org.openqa.selenium.WebDriver
 import kotlin.reflect.KClass
 
 class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper: IWebDriverWrapper) {
@@ -48,8 +49,8 @@ class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper:
         actions += InputAction().apply(init)
     }
 
-    fun assertPage(init: PageAssertAction.() -> Unit) {
-        actions += PageAssertAction().apply(init)
+    fun assertPage(assert: WebDriver.() -> Unit) {
+        actions += PageAssertAction(assert)
     }
 
     operator fun <T : Action> T.invoke(init: T.() -> Unit) {

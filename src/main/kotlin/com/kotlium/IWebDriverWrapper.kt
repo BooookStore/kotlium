@@ -1,8 +1,11 @@
 package com.kotlium
 
 import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
 
 interface IWebDriverWrapper {
+
+    val driver: WebDriver
 
     fun click(by: By): Boolean
 

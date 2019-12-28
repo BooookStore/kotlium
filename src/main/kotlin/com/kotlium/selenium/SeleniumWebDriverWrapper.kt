@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
 
-class SeleniumWebDriverWrapper(private val driver: WebDriver) : IWebDriverWrapper {
+class SeleniumWebDriverWrapper(override val driver: WebDriver) : IWebDriverWrapper {
 
     override fun click(by: By): Boolean {
         return try {
