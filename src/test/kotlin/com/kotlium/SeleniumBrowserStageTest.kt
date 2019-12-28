@@ -11,9 +11,9 @@ import java.net.URL
 
 class SeleniumBrowserStageTest {
 
-    lateinit var webDriverWrapper: IWebDriverWrapper
+    private lateinit var webDriverWrapper: IWebDriverWrapper
 
-    lateinit var driver: WebDriver
+    private lateinit var driver: WebDriver
 
     @BeforeEach
     fun beforeEach() {
