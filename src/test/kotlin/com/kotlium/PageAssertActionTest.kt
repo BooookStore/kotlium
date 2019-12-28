@@ -13,8 +13,6 @@ internal class PageAssertActionTest {
         // setup
         val mockIWebDriverWrapper = mockk<IWebDriverWrapper>()
         every { mockIWebDriverWrapper.driver } returns mockk()
-        every { mockIWebDriverWrapper.isTextDisplay(any()) } returns true
-        every { mockIWebDriverWrapper.isTextDisplay("!") } returns false
 
         // execute
         val executeResult = PageAssertAction {

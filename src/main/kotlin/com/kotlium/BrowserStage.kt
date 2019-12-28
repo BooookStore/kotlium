@@ -2,6 +2,7 @@ package com.kotlium
 
 import com.kotlium.action.*
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.support.ui.ExpectedCondition
 import kotlin.reflect.KClass
 
 class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper: IWebDriverWrapper) {
@@ -53,8 +54,8 @@ class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper:
         actions += PageAssertAction(assert)
     }
 
-    fun waitForUrl(url: String) {
-        actions += WaitForUrlAssertAction(url)
+    fun <T> waitFor(condition: ExpectedCondition<T>) {
+        actions += WaitForAssertAction(condition)
     }
 
     operator fun <T : Action> T.invoke(init: T.() -> Unit) {

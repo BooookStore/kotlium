@@ -11,8 +11,6 @@ interface IWebDriverWrapper {
 
     fun input(by: By, value: String, lastEnter: Boolean): Boolean
 
-    fun isTextDisplay(value: String): Boolean
-
     fun get(url: String): Boolean
 
     fun currentUrl(): String

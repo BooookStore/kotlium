@@ -30,15 +30,6 @@ class SeleniumWebDriverWrapper(override val driver: WebDriver) : IWebDriverWrapp
         }
     }
 
-    override fun isTextDisplay(value: String): Boolean {
-        return try {
-            driver.findElementUntilVisible(By.xpath("""//*[normalize-space() = '$value']"""))
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
-
     override fun get(url: String): Boolean {
         return try {
             driver.get(url)

@@ -11,6 +11,7 @@ import org.openqa.selenium.NoSuchSessionException
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.RemoteWebDriver
+import org.openqa.selenium.support.ui.ExpectedConditions.urlToBe
 import java.net.URL
 
 class SeleniumBrowserStageTest {
@@ -42,12 +43,12 @@ class SeleniumBrowserStageTest {
         // execute
         val stageExecuteResult = BrowserStage(config, webDriverWrapper) {
             click { target = xpath("//a[normalize-space() = '機能']") }
-            waitForUrl("https://github.co.jp/features")
+            waitFor(urlToBe("https://github.co.jp/features"))
             assertPage {
                 assertThat(findElement(xpath("//*[normalize-space() = '効率的な開発ワークフロー']")).isDisplayed).isTrue()
             }
             click { target = xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']") }
-            waitForUrl("https://github.com/marketplace")
+            waitFor(urlToBe("https://github.com/marketplace"))
             input {
                 target = xpath("//input[@name='query']")
                 value = "circle ci"
@@ -66,7 +67,7 @@ class SeleniumBrowserStageTest {
         // execute
         val stageExecutedResult = BrowserStage(config, webDriverWrapper) {
             click { target = xpath("//a[normalize-space() = '機能']") }
-            waitForUrl("https://github.co.jp/features")
+            waitFor(urlToBe("https://github.co.jp/features"))
             assertPage {
                 assertThat(findElement(xpath("//*[normalize-space() = 'not exist element']")).isDisplayed).isTrue()
             }
