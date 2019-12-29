@@ -20,6 +20,23 @@ class SeleniumBrowserStageTest {
 
     private lateinit var driver: WebDriver
 
+    private val testTargetBrowserStage = { config: BrowserStageConfiguration ->
+        BrowserStage(config, webDriverWrapper) {
+            click(xpath("//a[normalize-space() = '機能']"))
+            waitFor(urlToBe("https://github.co.jp/features"))
+            assertPage {
+                assertThat(findElement(xpath("//*[normalize-space() = '効率的な開発ワークフロー']")).isDisplayed).isTrue()
+            }
+            click(xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']"))
+            waitFor(urlToBe("https://github.com/marketplace"))
+            input {
+                target = xpath("//input[@name='query']")
+                value = "circle ci"
+                lastEnter = true
+            }
+        }
+    }
+
     @BeforeEach
     fun beforeEach() {
         driver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), ChromeOptions())
@@ -41,20 +58,7 @@ class SeleniumBrowserStageTest {
         val config = BrowserStageConfiguration("github", "https://github.co.jp/")
 
         // execute
-        val stageExecuteResult = BrowserStage(config, webDriverWrapper) {
-            click(xpath("//a[normalize-space() = '機能']"))
-            waitFor(urlToBe("https://github.co.jp/features"))
-            assertPage {
-                assertThat(findElement(xpath("//*[normalize-space() = '効率的な開発ワークフロー']")).isDisplayed).isTrue()
-            }
-            click(xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']"))
-            waitFor(urlToBe("https://github.com/marketplace"))
-            input {
-                target = xpath("//input[@name='query']")
-                value = "circle ci"
-                lastEnter = true
-            }
-        }.execute()
+        val stageExecuteResult = testTargetBrowserStage(config).execute()
 
         // verify
         assertThat(stageExecuteResult.isOk).isTrue()
