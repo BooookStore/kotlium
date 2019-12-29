@@ -20,8 +20,8 @@ class SeleniumBrowserStageTest {
 
     private lateinit var driver: WebDriver
 
-    private val testTargetBrowserStage = { config: BrowserStageConfiguration ->
-        BrowserStage(config, webDriverWrapper) {
+    private val testTargetBrowserStage = {
+        BrowserStage(BrowserStageConfiguration("github", "https://github.co.jp/"), webDriverWrapper) {
             click(xpath("//a[normalize-space() = '機能']"))
             waitFor(urlToBe("https://github.co.jp/features"))
             assertPage {
@@ -55,10 +55,8 @@ class SeleniumBrowserStageTest {
 
     @Test
     fun githubTest() {
-        val config = BrowserStageConfiguration("github", "https://github.co.jp/")
-
         // execute
-        val stageExecuteResult = testTargetBrowserStage(config).execute()
+        val stageExecuteResult = testTargetBrowserStage().execute()
 
         // verify
         assertThat(stageExecuteResult.isOk).isTrue()
