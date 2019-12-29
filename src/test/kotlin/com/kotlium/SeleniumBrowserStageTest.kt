@@ -52,7 +52,7 @@ class SeleniumBrowserStageTest {
             input {
                 target = xpath("//input[@name='query']")
                 value = "circle ci"
-                inputEnter()
+                lastEnter = true
             }
         }.execute()
 

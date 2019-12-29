@@ -18,18 +18,14 @@ data class ClickAction(override var target: By? = null) : SingleTargetAction(tar
 data class InputAction(
     override var target: By? = null,
     var value: String? = null,
-    var inputEnter: Boolean = false
+    var lastEnter: Boolean = false
 ) : SingleTargetAction(target) {
-
-    fun inputEnter() {
-        inputEnter = true
-    }
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         val isOk = iWebDriverWrapper.input(
             by = checkNotNull(target) { "input target is null" },
             value = checkNotNull(value) { "input value is null" },
-            lastEnter = inputEnter
+            lastEnter = lastEnter
         )
         return ActionExecuteResult(InputAction::class, isOk, OPERATOR, listOf())
     }
