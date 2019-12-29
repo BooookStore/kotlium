@@ -55,10 +55,7 @@ class SeleniumBrowserStageTest {
 
     @Test
     fun githubTest() {
-        // execute
         val stageExecuteResult = testTargetBrowserStage().execute()
-
-        // verify
         assertThat(stageExecuteResult.isOk).isTrue()
     }
 
