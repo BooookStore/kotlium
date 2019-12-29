@@ -1,6 +1,7 @@
 package com.kotlium
 
 import com.kotlium.action.*
+import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
 import kotlin.reflect.KClass
@@ -42,8 +43,8 @@ class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper:
         return StageExecuteResult(actionExecuteResults)
     }
 
-    fun click(init: ClickAction.() -> Unit) {
-        actions += ClickAction().apply(init)
+    fun click(by: By) {
+        actions += ClickAction(by)
     }
 
     fun input(init: InputAction.() -> Unit) {

@@ -42,12 +42,12 @@ class SeleniumBrowserStageTest {
 
         // execute
         val stageExecuteResult = BrowserStage(config, webDriverWrapper) {
-            click { target = xpath("//a[normalize-space() = '機能']") }
+            click(xpath("//a[normalize-space() = '機能']"))
             waitFor(urlToBe("https://github.co.jp/features"))
             assertPage {
                 assertThat(findElement(xpath("//*[normalize-space() = '効率的な開発ワークフロー']")).isDisplayed).isTrue()
             }
-            click { target = xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']") }
+            click(xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']"))
             waitFor(urlToBe("https://github.com/marketplace"))
             input {
                 target = xpath("//input[@name='query']")
@@ -66,12 +66,12 @@ class SeleniumBrowserStageTest {
 
         // execute
         val stageExecutedResult = BrowserStage(config, webDriverWrapper) {
-            click { target = xpath("//a[normalize-space() = '機能']") }
+            click(xpath("//a[normalize-space() = '機能']"))
             waitFor(urlToBe("https://github.co.jp/features"))
             assertPage {
                 assertThat(findElement(xpath("//*[normalize-space() = 'not exist element']")).isDisplayed).isTrue()
             }
-            click { target = xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']") }
+            click(xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']"))
         }.execute()
 
         // verify

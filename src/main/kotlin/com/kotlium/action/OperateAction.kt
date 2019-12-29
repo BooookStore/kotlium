@@ -6,7 +6,7 @@ import org.openqa.selenium.By
 
 abstract class SingleTargetAction(open var target: By?) : Action
 
-data class ClickAction(override var target: By? = null) : SingleTargetAction(target) {
+data class ClickAction(override var target: By?) : SingleTargetAction(target) {
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         val isOk = iWebDriverWrapper.click(checkNotNull(target) { "click target is null" })
