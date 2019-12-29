@@ -37,7 +37,6 @@ internal class BrowserStageTest {
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element")),
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element"))
         )
-
     }
 
     @Test
