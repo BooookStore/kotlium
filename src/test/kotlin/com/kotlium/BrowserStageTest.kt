@@ -5,6 +5,7 @@ import com.kotlium.action.ActionType.OPERATOR
 import com.kotlium.action.ClickAction
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By.id
@@ -22,7 +23,6 @@ internal class BrowserStageTest {
         val allOkIWebDriverWrapper: IWebDriverWrapper = mockk()
         every { allOkIWebDriverWrapper.get(any()) } returns true
         every { allOkIWebDriverWrapper.click(any()) } returns true
-        every { allOkIWebDriverWrapper.input(any(), any(), any()) } returns true
         every { allOkIWebDriverWrapper.deleteSession() } returns Unit
 
         // execute
@@ -37,6 +37,9 @@ internal class BrowserStageTest {
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element")),
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element"))
         )
+        verify(exactly = 1) { allOkIWebDriverWrapper.get(config.url) }
+        verify(exactly = 2) { allOkIWebDriverWrapper.click(id("id-for-element")) }
+        verify(exactly = 1) { allOkIWebDriverWrapper.deleteSession() }
     }
 
     @Test
