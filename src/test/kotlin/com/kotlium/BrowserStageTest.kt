@@ -55,6 +55,7 @@ internal class BrowserStageTest {
             click { target = id("success-id") }
         }.execute()
 
+        // verify
         assertThat(executeResult.isOk).isFalse()
         assertThat(executeResult.executedActions).hasSize(2).containsExactly(
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: success-id")),
