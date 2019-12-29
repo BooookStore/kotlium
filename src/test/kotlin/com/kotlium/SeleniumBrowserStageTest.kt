@@ -32,7 +32,7 @@ class SeleniumBrowserStageTest {
             driver.close()
             throw Exception("セッションが破棄されていません")
         } catch (e: NoSuchSessionException) {
-            // テスト内でセッションを破棄できなかった際のリトライのため、例外を無視
+            // テスト内でセッションを破棄できているため例外を無視
         }
     }
 
