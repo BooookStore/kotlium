@@ -18,7 +18,7 @@ internal class BrowserStageTest {
     )
 
     @Test
-    fun stageExecuteResultTest() {
+    fun stageExecuteTest() {
         // setup
         val allOkIWebDriverWrapper: IWebDriverWrapper = mockk()
         every { allOkIWebDriverWrapper.get(any()) } returns true
@@ -45,7 +45,7 @@ internal class BrowserStageTest {
     @Test
     fun stageExecuteFailedTest() {
         // setup
-        val mockIWebDriverWrapper = mockk<IWebDriverWrapper>()
+        val mockIWebDriverWrapper: IWebDriverWrapper = mockk()
         every { mockIWebDriverWrapper.get(any()) } returns true
         every { mockIWebDriverWrapper.click(any()) } returns true
         every { mockIWebDriverWrapper.click(id("failed-id")) } returns false
@@ -64,6 +64,7 @@ internal class BrowserStageTest {
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: success-id")),
             ActionExecuteResult(ClickAction::class, false, OPERATOR, listOf("click By.id: failed-id"))
         )
+        verify(exactly = 1) { mockIWebDriverWrapper.click(id("success-id")) }
     }
 
 }
