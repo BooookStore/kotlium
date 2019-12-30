@@ -80,7 +80,7 @@ class SeleniumBrowserStageTest {
         // verify
         assertThatThrownBy { driver.close() }.isExactlyInstanceOf(NoSuchSessionException::class.java)
         assertThat(stageExecutedResult.isOk).isFalse()
-        assertThat(stageExecutedResult.executedActions).hasSize(7)
+        assertThat(stageExecutedResult.executedActions).hasSize(8)
     }
 
 }

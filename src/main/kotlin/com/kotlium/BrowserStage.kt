@@ -20,10 +20,7 @@ class BrowserStage private constructor(initActions: List<Action>) {
     fun execute(config: BrowserStageConfiguration, driver: WebDriver): StageExecuteResult {
         val iWebDriverWrapper = SeleniumWebDriverWrapper(driver)
 
-        val transitionResult = TransitionAction(config.url).execute(iWebDriverWrapper)
-        if (!transitionResult.isOk) {
-            throw IllegalStateException("failed transition to configuration url")
-        }
+        actions.add(0, TransitionAction(config.url))
 
         val actionExecuteResults = mutableListOf<ActionExecuteResult>()
         var currentActionIsOk = true
