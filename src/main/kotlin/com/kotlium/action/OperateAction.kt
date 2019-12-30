@@ -23,8 +23,13 @@ abstract class SingleTargetAction(open var target: By?) : Action
 data class ClickAction(override var target: By?) : SingleTargetAction(target) {
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
-        val isOk = iWebDriverWrapper.click(checkNotNull(target) { "click target is null" })
-        return ActionExecuteResult(ClickAction::class, OPERATOR, isOk, listOf("click $target"))
+        return try {
+            val driver = iWebDriverWrapper.driver
+            driver.findElement(checkNotNull(target) { "click target is null" }).click()
+            ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click $target"))
+        } catch (e: Exception) {
+            ActionExecuteResult(ClickAction::class, OPERATOR, false, listOf("click failed $target"))
+        }
     }
 
 }

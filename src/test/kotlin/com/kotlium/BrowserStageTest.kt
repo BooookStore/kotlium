@@ -68,7 +68,7 @@ internal class BrowserStageTest {
                 listOf("transition http://kotlium.example/customer")
             ),
             ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: success-id")),
-            ActionExecuteResult(ClickAction::class, OPERATOR, false, listOf("click By.id: failed-id"))
+            ActionExecuteResult(ClickAction::class, OPERATOR, false, listOf("click failed By.id: failed-id"))
         )
         verify(exactly = 1) { mockDriver.close() }
     }
