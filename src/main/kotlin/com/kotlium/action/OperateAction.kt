@@ -4,6 +4,15 @@ import com.kotlium.IWebDriverWrapper
 import com.kotlium.action.ActionType.OPERATOR
 import org.openqa.selenium.By
 
+data class TransitionAction(var url: String? = null) : Action {
+
+    override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
+        val isOk = iWebDriverWrapper.get(checkNotNull(url) { "url is null" })
+        return ActionExecuteResult(TransitionAction::class, isOk, OPERATOR, listOf("transition $url"))
+    }
+
+}
+
 abstract class SingleTargetAction(open var target: By?) : Action
 
 data class ClickAction(override var target: By?) : SingleTargetAction(target) {
