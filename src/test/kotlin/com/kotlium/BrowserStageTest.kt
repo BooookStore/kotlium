@@ -34,16 +34,12 @@ internal class BrowserStageTest {
         // verify
         assertThat(executeResult.isOk).isTrue()
         assertThat(executeResult.executedActions).hasSize(4).containsExactly(
-            ActionExecuteResult(
-                TransitionAction::class,
-                OPERATOR,
-                true,
-                listOf("transition http://kotlium.example/customer")
-            ),
+            ActionExecuteResult(TransitionAction::class, OPERATOR, true, listOf("transition ${config.url}")),
             ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
             ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
             ActionExecuteResult(SessionCloseAction::class, OPERATOR, true, listOf("close session"))
         )
+        verify(exactly = 1) { mockDriver.get(config.url) }
         verify(exactly = 1) { mockDriver.close() }
     }
 
@@ -63,16 +59,12 @@ internal class BrowserStageTest {
         // verify
         assertThat(executeResult.isOk).isFalse()
         assertThat(executeResult.executedActions).hasSize(4).containsExactly(
-            ActionExecuteResult(
-                TransitionAction::class,
-                OPERATOR,
-                true,
-                listOf("transition http://kotlium.example/customer")
-            ),
+            ActionExecuteResult(TransitionAction::class, OPERATOR, true, listOf("transition ${config.url}")),
             ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: success-id")),
             ActionExecuteResult(ClickAction::class, OPERATOR, false, listOf("click failed By.id: failed-id")),
             ActionExecuteResult(SessionCloseAction::class, OPERATOR, true, listOf("close session"))
         )
+        verify(exactly = 1) { mockDriver.get(config.url) }
         verify(exactly = 1) { mockDriver.close() }
     }
 
