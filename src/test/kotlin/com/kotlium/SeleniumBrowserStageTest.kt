@@ -1,11 +1,9 @@
 package com.kotlium
 
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.openqa.selenium.By.id
 import org.openqa.selenium.By.xpath
 import org.openqa.selenium.NoSuchSessionException
 import org.openqa.selenium.WebDriver
@@ -18,28 +16,9 @@ class SeleniumBrowserStageTest {
 
     private lateinit var driver: WebDriver
 
-    private val config = BrowserStageConfiguration("github", "https://github.co.jp/")
-
     @BeforeEach
     fun beforeEach() {
         driver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), ChromeOptions())
-    }
-
-    private val testTargetBrowserStage by lazy {
-        BrowserStage {
-            click(xpath("//a[normalize-space() = '機能']"))
-            waitFor(urlToBe("https://github.co.jp/features"))
-            assertPage {
-                assertThat(findElement(xpath("//*[normalize-space() = '効率的な開発ワークフロー']")).isDisplayed).isTrue()
-            }
-            click(xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']"))
-            waitFor(urlToBe("https://github.com/marketplace"))
-            input {
-                target = xpath("//input[@name='query']")
-                value = "circle ci"
-                lastEnter = true
-            }
-        }
     }
 
     @AfterEach
@@ -54,29 +33,24 @@ class SeleniumBrowserStageTest {
 
     @Test
     fun githubTest() {
-        val stageExecuteResult = testTargetBrowserStage.execute(config, driver)
+        // setup and execute
+        val stageExecuteResult = BrowserStage {
+            click(xpath("//a[normalize-space() = '機能']"))
+            waitFor(urlToBe("https://github.co.jp/features"))
+            assertPage {
+                assertThat(findElement(xpath("//*[normalize-space() = '効率的な開発ワークフロー']")).isDisplayed).isTrue()
+            }
+            click(xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']"))
+            waitFor(urlToBe("https://github.com/marketplace"))
+            input {
+                target = xpath("//input[@name='query']")
+                value = "circle ci"
+                lastEnter = true
+            }
+        }.execute(BrowserStageConfiguration("github", "https://github.co.jp/"), driver)
+
+        // verify
         assertThat(stageExecuteResult.isOk).isTrue()
-    }
-
-    @Test
-    fun githubFailedTest() {
-        // setup
-        // ブラウザステージに失敗するアクションを追加
-        val failedBrowserStage = testTargetBrowserStage.addLast {
-            click(id("not-exist-id"))
-            click(id("not-exist-id"))
-        }
-
-        // verify
-        assertThat(testTargetBrowserStage).isNotEqualTo(failedBrowserStage)
-
-        // execute
-        val stageExecutedResult = failedBrowserStage.execute(config, driver)
-
-        // verify
-        assertThatThrownBy { driver.close() }.isExactlyInstanceOf(NoSuchSessionException::class.java)
-        assertThat(stageExecutedResult.isOk).isFalse()
-        assertThat(stageExecutedResult.executedActions).hasSize(8)
     }
 
 }

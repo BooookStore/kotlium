@@ -6,6 +6,7 @@ import com.kotlium.action.ClickAction
 import com.kotlium.action.TransitionAction
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By.id
@@ -36,6 +37,7 @@ internal class BrowserStageTest {
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element")),
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element"))
         )
+        verify(exactly = 1) { mockDriver.close() }
     }
 
     @Test
@@ -58,6 +60,7 @@ internal class BrowserStageTest {
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: success-id")),
             ActionExecuteResult(ClickAction::class, false, OPERATOR, listOf("click By.id: failed-id"))
         )
+        verify(exactly = 1) { mockDriver.close() }
     }
 
 }
