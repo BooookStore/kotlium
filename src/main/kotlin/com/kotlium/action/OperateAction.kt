@@ -7,8 +7,23 @@ import org.openqa.selenium.By
 data class TransitionAction(var url: String? = null) : Action {
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
-        val isOk = iWebDriverWrapper.get(checkNotNull(url) { "url is null" })
-        return ActionExecuteResult(TransitionAction::class, isOk, OPERATOR, listOf("transition $url"))
+        try {
+            val driver = iWebDriverWrapper.driver
+            driver.get(checkNotNull(url) { "url is null" })
+            return ActionExecuteResult(
+                actionClass = this::class,
+                isOk = true,
+                type = OPERATOR,
+                message = listOf("transition $url")
+            )
+        } catch (e: Exception) {
+            return ActionExecuteResult(
+                actionClass = this::class,
+                isOk = false,
+                type = OPERATOR,
+                message = listOf("transition failed $url")
+            )
+        }
     }
 
 }
