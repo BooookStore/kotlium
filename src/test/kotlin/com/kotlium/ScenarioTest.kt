@@ -16,9 +16,10 @@ internal class ScenarioTest {
     fun scenarioExecuteTest() {
         // setup and execute
         val scenarioExecuteResult = Scenario {
-            browserStage("http://example.com") {
+            browserStage("http://example1.com") {
                 click { By.id("id-for-element") }
-                click { By.id("id-for-element") }
+            }
+            browserStage("http://example2.com") {
                 click { By.id("id-for-element") }
             }
         }.execute(mockk(relaxed = true))
@@ -27,13 +28,23 @@ internal class ScenarioTest {
         assertThat(scenarioExecuteResult.isOk).isTrue()
         assertThat(scenarioExecuteResult.executedStages).containsExactly(
             BrowserStageExecuteResult(
-                "http://example.com",
+                "http://example1.com",
                 listOf(
-                    ActionExecuteResult(TransitionAction::class, OPERATOR, true, listOf("transition http://example.com")),
-                    ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
-                    ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
+                    //@formatter:off
+                    ActionExecuteResult(TransitionAction::class, OPERATOR, true, listOf("transition http://example1.com")),
                     ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
                     ActionExecuteResult(SessionCloseAction::class, OPERATOR, true, listOf("close session"))
+                    //@formatter:on
+                )
+            ),
+            BrowserStageExecuteResult(
+                "http://example2.com",
+                listOf(
+                    //@formatter:off
+                    ActionExecuteResult(TransitionAction::class, OPERATOR, true, listOf("transition http://example2.com")),
+                    ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
+                    ActionExecuteResult(SessionCloseAction::class, OPERATOR, true, listOf("close session"))
+                    //@formatter:on
                 )
             )
         )
