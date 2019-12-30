@@ -1,5 +1,8 @@
 package com.kotlium
 
+import com.kotlium.action.ActionExecuteResult
+import com.kotlium.action.ActionType
+import com.kotlium.action.ClickAction
 import org.openqa.selenium.WebDriver
 
 class Scenario {
@@ -17,7 +20,33 @@ class Scenario {
     }
 
     fun execute(webDriver: WebDriver): ScenarioExecuteResult {
-        return ScenarioExecuteResult(listOf())
+        return ScenarioExecuteResult(
+            listOf(
+                BrowserStageExecuteResult(
+                    "http://example.com",
+                    listOf(
+                        ActionExecuteResult(
+                            ClickAction::class,
+                            ActionType.OPERATOR,
+                            true,
+                            listOf("click By.id: id-for-element")
+                        ),
+                        ActionExecuteResult(
+                            ClickAction::class,
+                            ActionType.OPERATOR,
+                            true,
+                            listOf("click By.id: id-for-element")
+                        ),
+                        ActionExecuteResult(
+                            ClickAction::class,
+                            ActionType.OPERATOR,
+                            true,
+                            listOf("click By.id: id-for-element")
+                        )
+                    )
+                )
+            )
+        )
     }
 
 }

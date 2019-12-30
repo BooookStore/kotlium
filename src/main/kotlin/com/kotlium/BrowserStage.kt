@@ -34,7 +34,7 @@ class BrowserStage private constructor(initActions: List<Action>) {
 
         actionExecuteResults += SessionCloseAction().execute(driver)
 
-        return BrowserStageExecuteResult(actionExecuteResults)
+        return BrowserStageExecuteResult(config.url, actionExecuteResults)
     }
 
     fun click(by: () -> By) {
