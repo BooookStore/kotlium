@@ -16,7 +16,7 @@ class BrowserStage private constructor(initActions: List<Action>) {
         }
     }
 
-    fun execute(config: BrowserStageConfiguration, driver: WebDriver): StageExecuteResult {
+    fun execute(config: BrowserStageConfiguration, driver: WebDriver): BrowserStageExecuteResult {
         actions.add(0, TransitionAction(config.url))
 
         val actionExecuteResults = mutableListOf<ActionExecuteResult>()
@@ -34,7 +34,7 @@ class BrowserStage private constructor(initActions: List<Action>) {
 
         actionExecuteResults += SessionCloseAction().execute(driver)
 
-        return StageExecuteResult(actionExecuteResults)
+        return BrowserStageExecuteResult(actionExecuteResults)
     }
 
     fun click(by: () -> By) {
