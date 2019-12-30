@@ -19,6 +19,20 @@ data class TransitionAction(var url: String? = null) : Action {
 
 }
 
+class SessionCloseAction : Action {
+
+    override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
+        return try {
+            val driver = iWebDriverWrapper.driver
+            driver.close()
+            ActionExecuteResult(this::class, OPERATOR, true, listOf("close session"))
+        } catch (e: Exception) {
+            ActionExecuteResult(this::class, OPERATOR, false, listOf("failed close session"))
+        }
+    }
+
+}
+
 abstract class SingleTargetAction(open var target: By?) : Action
 
 data class ClickAction(override var target: By?) : SingleTargetAction(target) {

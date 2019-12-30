@@ -35,7 +35,7 @@ class BrowserStage private constructor(initActions: List<Action>) {
             actionExecuteResults.add(executeResult)
         }
 
-        iWebDriverWrapper.deleteSession()
+        actionExecuteResults += SessionCloseAction().execute(iWebDriverWrapper)
 
         return StageExecuteResult(actionExecuteResults)
     }
