@@ -27,8 +27,8 @@ internal class BrowserStageTest {
 
         // execute
         val executeResult = BrowserStage {
-            click(id("id-for-element"))
-            click(id("id-for-element"))
+            click { id("id-for-element") }
+            click { id("id-for-element") }
         }.execute(config, mockDriver)
 
         // verify
@@ -55,9 +55,9 @@ internal class BrowserStageTest {
 
         // execute
         val executeResult = BrowserStage {
-            click(id("success-id"))
-            click(id("failed-id"))
-            click(id("success-id"))
+            click { id("success-id") }
+            click { id("failed-id") }
+            click { id("success-id") }
         }.execute(config, mockDriver)
 
         // verify

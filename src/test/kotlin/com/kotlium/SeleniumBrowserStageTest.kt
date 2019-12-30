@@ -35,13 +35,21 @@ class SeleniumBrowserStageTest {
     fun githubTest() {
         // setup and execute
         val stageExecuteResult = BrowserStage {
-            click(xpath("//a[normalize-space() = '機能']"))
-            waitFor(urlToBe("https://github.co.jp/features"))
+            click {
+                xpath("//a[normalize-space() = '機能']")
+            }
+            waitFor {
+                urlToBe("https://github.co.jp/features")
+            }
             assertPage {
                 assertThat(findElement(xpath("//*[normalize-space() = '効率的な開発ワークフロー']")).isDisplayed).isTrue()
             }
-            click(xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']"))
-            waitFor(urlToBe("https://github.com/marketplace"))
+            click {
+                xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']")
+            }
+            waitFor {
+                urlToBe("https://github.com/marketplace")
+            }
             input {
                 target = xpath("//input[@name='query']")
                 value = "circle ci"

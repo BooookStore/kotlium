@@ -37,8 +37,8 @@ class BrowserStage private constructor(initActions: List<Action>) {
         return StageExecuteResult(actionExecuteResults)
     }
 
-    fun click(by: By) {
-        actions += ClickAction(by)
+    fun click(by: () -> By) {
+        actions += ClickAction(by())
     }
 
     fun input(init: InputAction.() -> Unit) {
@@ -49,8 +49,8 @@ class BrowserStage private constructor(initActions: List<Action>) {
         actions += PageAssertAction(assert)
     }
 
-    fun <T> waitFor(condition: ExpectedCondition<T>) {
-        actions += WaitForAssertAction(condition)
+    fun <T> waitFor(condition: () -> ExpectedCondition<T>) {
+        actions += WaitForAssertAction(condition())
     }
 
     operator fun <T : Action> T.invoke(init: T.() -> Unit) {
