@@ -8,3 +8,5 @@ data class ActionExecuteResult(
     val type: ActionType,
     val message: List<String> = listOf()
 )
+
+enum class ActionType { OPERATOR, ASSERT }
