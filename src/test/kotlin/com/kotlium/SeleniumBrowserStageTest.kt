@@ -72,7 +72,8 @@ class SeleniumBrowserStageTest {
         // verify
         assertThat(testTargetBrowserStage).isNotEqualTo(failedBrowserStage)
 
-        val stageExecutedResult = testTargetBrowserStage.execute()
+        // execute
+        val stageExecutedResult = failedBrowserStage.execute()
 
         // verify
         assertThatThrownBy { driver.close() }.isExactlyInstanceOf(NoSuchSessionException::class.java)
