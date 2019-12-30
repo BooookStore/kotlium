@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
 import kotlin.reflect.KClass
 
-class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper: IWebDriverWrapper) {
+data class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper: IWebDriverWrapper) {
 
     private val actions = mutableListOf<Action>()
 

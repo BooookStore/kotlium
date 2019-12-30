@@ -62,10 +62,15 @@ class SeleniumBrowserStageTest {
 
     @Test
     fun githubFailedTest() {
-        testTargetBrowserStage.addLast {
+        // setup
+        // ブラウザステージに失敗するアクションを追加
+        val failedBrowserStage = testTargetBrowserStage.addLast {
             click(id("not-exist-id"))
             click(id("not-exist-id"))
         }
+
+        // verify
+        assertThat(testTargetBrowserStage).isNotEqualTo(failedBrowserStage)
 
         val stageExecutedResult = testTargetBrowserStage.execute()
 
