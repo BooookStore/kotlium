@@ -5,8 +5,6 @@ import org.openqa.selenium.By
 import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.support.ui.ExpectedConditions
-import org.openqa.selenium.support.ui.WebDriverWait
 
 class SeleniumWebDriverWrapper(override val driver: WebDriver) : IWebDriverWrapper {
 
@@ -49,9 +47,7 @@ class SeleniumWebDriverWrapper(override val driver: WebDriver) : IWebDriverWrapp
     }
 
     private fun WebDriver.findElementUntilVisible(by: By): WebElement {
-        val element = driver.findElement(by)
-        WebDriverWait(this, 5).until(ExpectedConditions.visibilityOf(element))
-        return element
+        return driver.findElement(by)
     }
 
 }

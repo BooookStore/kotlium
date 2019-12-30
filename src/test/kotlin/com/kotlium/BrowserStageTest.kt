@@ -5,10 +5,10 @@ import com.kotlium.action.ActionType.OPERATOR
 import com.kotlium.action.ClickAction
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By.id
+import org.openqa.selenium.WebDriver
 
 internal class BrowserStageTest {
 
@@ -20,17 +20,13 @@ internal class BrowserStageTest {
     @Test
     fun stageExecuteTest() {
         // setup
-        val allOkIWebDriverWrapper: IWebDriverWrapper = mockk()
-        every { allOkIWebDriverWrapper.get(any()) } returns true
-        every { allOkIWebDriverWrapper.click(any()) } returns true
-        every { allOkIWebDriverWrapper.deleteSession() } returns Unit
-        every { allOkIWebDriverWrapper.driver } returns mockk()
+        val mockDriver: WebDriver = mockk(relaxed = true)
 
         // execute
-        val executeResult = BrowserStage(config, allOkIWebDriverWrapper) {
+        val executeResult = BrowserStage {
             click(id("id-for-element"))
             click(id("id-for-element"))
-        }.execute(config, allOkIWebDriverWrapper.driver)
+        }.execute(config, mockDriver)
 
         // verify
         assertThat(executeResult.isOk).isTrue()
@@ -38,27 +34,20 @@ internal class BrowserStageTest {
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element")),
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element"))
         )
-        verify(exactly = 1) { allOkIWebDriverWrapper.get(config.url) }
-        verify(exactly = 2) { allOkIWebDriverWrapper.click(id("id-for-element")) }
-        verify(exactly = 1) { allOkIWebDriverWrapper.deleteSession() }
     }
 
     @Test
     fun stageExecuteFailedTest() {
         // setup
-        val mockIWebDriverWrapper: IWebDriverWrapper = mockk()
-        every { mockIWebDriverWrapper.get(any()) } returns true
-        every { mockIWebDriverWrapper.click(any()) } returns true
-        every { mockIWebDriverWrapper.click(id("failed-id")) } returns false
-        every { mockIWebDriverWrapper.deleteSession() } returns Unit
-        every { mockIWebDriverWrapper.driver } returns mockk()
+        val mockDriver: WebDriver = mockk(relaxed = true)
+        every { mockDriver.findElement(id("failed-id")) } throws NoSuchElementException()
 
         // execute
-        val executeResult = BrowserStage(config, mockIWebDriverWrapper) {
+        val executeResult = BrowserStage {
             click(id("success-id"))
             click(id("failed-id"))
             click(id("success-id"))
-        }.execute(config, mockIWebDriverWrapper.driver)
+        }.execute(config, mockDriver)
 
         // verify
         assertThat(executeResult.isOk).isFalse()
@@ -66,7 +55,6 @@ internal class BrowserStageTest {
             ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: success-id")),
             ActionExecuteResult(ClickAction::class, false, OPERATOR, listOf("click By.id: failed-id"))
         )
-        verify(exactly = 1) { mockIWebDriverWrapper.click(id("success-id")) }
     }
 
 }

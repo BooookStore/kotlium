@@ -30,7 +30,7 @@ class SeleniumBrowserStageTest {
     }
 
     private val testTargetBrowserStage by lazy {
-        BrowserStage(BrowserStageConfiguration("github", "https://github.co.jp/"), webDriverWrapper) {
+        BrowserStage {
             click(xpath("//a[normalize-space() = '機能']"))
             waitFor(urlToBe("https://github.co.jp/features"))
             assertPage {
