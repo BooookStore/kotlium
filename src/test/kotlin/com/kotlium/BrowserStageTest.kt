@@ -26,10 +26,10 @@ internal class BrowserStageTest {
         val mockDriver: WebDriver = mockk(relaxed = true)
 
         // execute
-        val executeResult = BrowserStage {
+        val executeResult = BrowserStage(config.url) {
             click { id("id-for-element") }
             click { id("id-for-element") }
-        }.execute(config, mockDriver)
+        }.execute(mockDriver)
 
         // verify
         assertThat(executeResult.isOk).isTrue()
@@ -51,11 +51,11 @@ internal class BrowserStageTest {
         every { mockDriver.findElement(id("failed-id")) } throws NoSuchElementException()
 
         // execute
-        val executeResult = BrowserStage {
+        val executeResult = BrowserStage(config.url) {
             click { id("success-id") }
             click { id("failed-id") }
             click { id("success-id") }
-        }.execute(config, mockDriver)
+        }.execute(mockDriver)
 
         // verify
         assertThat(executeResult.isOk).isFalse()

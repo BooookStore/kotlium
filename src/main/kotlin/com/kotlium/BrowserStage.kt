@@ -6,18 +6,18 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
 import kotlin.reflect.KClass
 
-class BrowserStage private constructor(initActions: List<Action>) {
+class BrowserStage private constructor(val url: String, initActions: List<Action>) {
 
     private val actions = mutableListOf(*initActions.toTypedArray())
 
     companion object {
-        operator fun invoke(browserStageConfigure: BrowserStage.() -> Unit): BrowserStage {
-            return BrowserStage(listOf()).apply(browserStageConfigure)
+        operator fun invoke(url: String, browserStageConfigure: BrowserStage.() -> Unit): BrowserStage {
+            return BrowserStage(url, listOf()).apply(browserStageConfigure)
         }
     }
 
-    fun execute(config: BrowserStageConfiguration, driver: WebDriver): BrowserStageExecuteResult {
-        actions.add(0, TransitionAction(config.url))
+    fun execute(driver: WebDriver): BrowserStageExecuteResult {
+        actions.add(0, TransitionAction(url))
 
         val actionExecuteResults = mutableListOf<ActionExecuteResult>()
         var currentActionIsOk = true
@@ -34,7 +34,7 @@ class BrowserStage private constructor(initActions: List<Action>) {
 
         actionExecuteResults += SessionCloseAction().execute(driver)
 
-        return BrowserStageExecuteResult(config.url, actionExecuteResults)
+        return BrowserStageExecuteResult(url, actionExecuteResults)
     }
 
     fun click(by: () -> By) {
@@ -69,7 +69,7 @@ class BrowserStage private constructor(initActions: List<Action>) {
     }
 
     fun addLast(browserStageConfigure: BrowserStage.() -> Unit): BrowserStage {
-        return BrowserStage(actions).apply(browserStageConfigure)
+        return BrowserStage(url, actions).apply(browserStageConfigure)
     }
 
     override fun equals(other: Any?): Boolean {
