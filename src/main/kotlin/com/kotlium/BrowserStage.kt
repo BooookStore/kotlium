@@ -24,7 +24,7 @@ class BrowserStage private constructor(
         }
     }
 
-    fun execute(): StageExecuteResult {
+    fun execute(config: BrowserStageConfiguration, driver: WebDriver): StageExecuteResult {
         check(iWebDriverWrapper.get(config.url)) { "can't access url" }
 
         val actionExecuteResults = mutableListOf<ActionExecuteResult>()

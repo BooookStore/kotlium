@@ -24,12 +24,13 @@ internal class BrowserStageTest {
         every { allOkIWebDriverWrapper.get(any()) } returns true
         every { allOkIWebDriverWrapper.click(any()) } returns true
         every { allOkIWebDriverWrapper.deleteSession() } returns Unit
+        every { allOkIWebDriverWrapper.driver } returns mockk()
 
         // execute
         val executeResult = BrowserStage(config, allOkIWebDriverWrapper) {
             click(id("id-for-element"))
             click(id("id-for-element"))
-        }.execute()
+        }.execute(config, allOkIWebDriverWrapper.driver)
 
         // verify
         assertThat(executeResult.isOk).isTrue()
@@ -50,13 +51,14 @@ internal class BrowserStageTest {
         every { mockIWebDriverWrapper.click(any()) } returns true
         every { mockIWebDriverWrapper.click(id("failed-id")) } returns false
         every { mockIWebDriverWrapper.deleteSession() } returns Unit
+        every { mockIWebDriverWrapper.driver } returns mockk()
 
         // execute
         val executeResult = BrowserStage(config, mockIWebDriverWrapper) {
             click(id("success-id"))
             click(id("failed-id"))
             click(id("success-id"))
-        }.execute()
+        }.execute(config, mockIWebDriverWrapper.driver)
 
         // verify
         assertThat(executeResult.isOk).isFalse()

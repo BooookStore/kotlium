@@ -21,6 +21,8 @@ class SeleniumBrowserStageTest {
 
     private lateinit var webDriverWrapper: IWebDriverWrapper
 
+    private val config = BrowserStageConfiguration("github", "https://github.co.jp/")
+
     @BeforeEach
     fun beforeEach() {
         driver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), ChromeOptions())
@@ -56,7 +58,7 @@ class SeleniumBrowserStageTest {
 
     @Test
     fun githubTest() {
-        val stageExecuteResult = testTargetBrowserStage.execute()
+        val stageExecuteResult = testTargetBrowserStage.execute(config, webDriverWrapper.driver)
         assertThat(stageExecuteResult.isOk).isTrue()
     }
 
@@ -73,7 +75,7 @@ class SeleniumBrowserStageTest {
         assertThat(testTargetBrowserStage).isNotEqualTo(failedBrowserStage)
 
         // execute
-        val stageExecutedResult = failedBrowserStage.execute()
+        val stageExecutedResult = failedBrowserStage.execute(config, webDriverWrapper.driver)
 
         // verify
         assertThatThrownBy { driver.close() }.isExactlyInstanceOf(NoSuchSessionException::class.java)
