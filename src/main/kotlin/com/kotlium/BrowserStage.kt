@@ -1,7 +1,6 @@
 package com.kotlium
 
 import com.kotlium.action.*
-import com.kotlium.selenium.SeleniumWebDriverWrapper
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
@@ -18,8 +17,6 @@ class BrowserStage private constructor(initActions: List<Action>) {
     }
 
     fun execute(config: BrowserStageConfiguration, driver: WebDriver): StageExecuteResult {
-        val iWebDriverWrapper = SeleniumWebDriverWrapper(driver)
-
         actions.add(0, TransitionAction(config.url))
 
         val actionExecuteResults = mutableListOf<ActionExecuteResult>()
@@ -30,12 +27,12 @@ class BrowserStage private constructor(initActions: List<Action>) {
                 break
             }
 
-            val executeResult = action.execute(iWebDriverWrapper)
+            val executeResult = action.execute(driver)
             currentActionIsOk = executeResult.isOk
             actionExecuteResults.add(executeResult)
         }
 
-        actionExecuteResults += SessionCloseAction().execute(iWebDriverWrapper)
+        actionExecuteResults += SessionCloseAction().execute(driver)
 
         return StageExecuteResult(actionExecuteResults)
     }

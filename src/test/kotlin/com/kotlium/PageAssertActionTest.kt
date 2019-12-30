@@ -1,23 +1,22 @@
 package com.kotlium
 
 import com.kotlium.action.PageAssertAction
-import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.WebDriver
 
 internal class PageAssertActionTest {
 
     @Test
     fun pageAssertActionTest() {
         // setup
-        val mockIWebDriverWrapper = mockk<IWebDriverWrapper>()
-        every { mockIWebDriverWrapper.driver } returns mockk()
+        val driver: WebDriver = mockk(relaxed = true)
 
         // execute
         val executeResult = PageAssertAction {
             throw Exception("this is failed message")
-        }.execute(mockIWebDriverWrapper)
+        }.execute(driver)
 
         // verify
         assertThat(executeResult.isOk).isFalse()

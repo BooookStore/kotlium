@@ -1,6 +1,5 @@
 package com.kotlium.action
 
-import com.kotlium.IWebDriverWrapper
 import com.kotlium.action.ActionType.ASSERT
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
@@ -8,9 +7,9 @@ import org.openqa.selenium.support.ui.WebDriverWait
 
 data class PageAssertAction(val assert: WebDriver.() -> Unit) : Action {
 
-    override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
+    override fun execute(webDriver: WebDriver): ActionExecuteResult {
         try {
-            iWebDriverWrapper.driver.assert()
+            webDriver.assert()
             return ActionExecuteResult(
                 actionClass = PageAssertAction::class,
                 type = ASSERT,
@@ -32,9 +31,9 @@ data class PageAssertAction(val assert: WebDriver.() -> Unit) : Action {
 
 data class WaitForAssertAction<T>(val condition: ExpectedCondition<T>) : Action {
 
-    override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
+    override fun execute(webDriver: WebDriver): ActionExecuteResult {
         try {
-            WebDriverWait(iWebDriverWrapper.driver, 5).until(condition)
+            WebDriverWait(webDriver, 5).until(condition)
             return ActionExecuteResult(
                 actionClass = WaitForAssertAction::class,
                 type = ASSERT,

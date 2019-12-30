@@ -1,9 +1,9 @@
 package com.kotlium.action
 
-import com.kotlium.IWebDriverWrapper
+import org.openqa.selenium.WebDriver
 
 interface Action {
 
-    fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult
+    fun execute(webDriver: WebDriver): ActionExecuteResult
 
 }
