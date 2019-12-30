@@ -1,6 +1,5 @@
 package com.kotlium
 
-import com.kotlium.selenium.SeleniumWebDriverWrapper
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterEach
@@ -19,14 +18,11 @@ class SeleniumBrowserStageTest {
 
     private lateinit var driver: WebDriver
 
-    private lateinit var webDriverWrapper: IWebDriverWrapper
-
     private val config = BrowserStageConfiguration("github", "https://github.co.jp/")
 
     @BeforeEach
     fun beforeEach() {
         driver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), ChromeOptions())
-        webDriverWrapper = SeleniumWebDriverWrapper(driver)
     }
 
     private val testTargetBrowserStage by lazy {
@@ -58,7 +54,7 @@ class SeleniumBrowserStageTest {
 
     @Test
     fun githubTest() {
-        val stageExecuteResult = testTargetBrowserStage.execute(config, webDriverWrapper.driver)
+        val stageExecuteResult = testTargetBrowserStage.execute(config, driver)
         assertThat(stageExecuteResult.isOk).isTrue()
     }
 
@@ -75,7 +71,7 @@ class SeleniumBrowserStageTest {
         assertThat(testTargetBrowserStage).isNotEqualTo(failedBrowserStage)
 
         // execute
-        val stageExecutedResult = failedBrowserStage.execute(config, webDriverWrapper.driver)
+        val stageExecutedResult = failedBrowserStage.execute(config, driver)
 
         // verify
         assertThatThrownBy { driver.close() }.isExactlyInstanceOf(NoSuchSessionException::class.java)
