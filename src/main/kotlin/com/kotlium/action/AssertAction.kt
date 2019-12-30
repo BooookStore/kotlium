@@ -13,16 +13,16 @@ data class PageAssertAction(val assert: WebDriver.() -> Unit) : Action {
             iWebDriverWrapper.driver.assert()
             return ActionExecuteResult(
                 actionClass = PageAssertAction::class,
-                isOk = true,
                 type = ASSERT,
+                isOk = true,
                 message = listOf()
             )
         } catch (e: Exception) {
             val message = e.message
             return ActionExecuteResult(
                 actionClass = PageAssertAction::class,
-                isOk = false,
                 type = ASSERT,
+                isOk = false,
                 message = if (message != null) listOf(message) else listOf()
             )
         }
@@ -37,15 +37,15 @@ data class WaitForAssertAction<T>(val condition: ExpectedCondition<T>) : Action 
             WebDriverWait(iWebDriverWrapper.driver, 5).until(condition)
             return ActionExecuteResult(
                 actionClass = WaitForAssertAction::class,
-                isOk = true,
                 type = ASSERT,
+                isOk = true,
                 message = listOf("expected wait condition filled")
             )
         } catch (e: Exception) {
             return ActionExecuteResult(
                 actionClass = WaitForAssertAction::class,
-                isOk = false,
                 type = ASSERT,
+                isOk = false,
                 message = listOfNotNull("expected wait condition not filled", e.message)
             )
         }

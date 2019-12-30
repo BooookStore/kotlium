@@ -10,9 +10,9 @@ data class TransitionAction(var url: String? = null) : Action {
         return try {
             val driver = iWebDriverWrapper.driver
             driver.get(checkNotNull(url) { "url is null" })
-            ActionExecuteResult(this::class, true, OPERATOR, listOf("transition $url"))
+            ActionExecuteResult(this::class, OPERATOR, true, listOf("transition $url"))
         } catch (e: Exception) {
-            ActionExecuteResult(this::class, false, OPERATOR, listOf("transition failed $url"))
+            ActionExecuteResult(this::class, OPERATOR, false, listOf("transition failed $url"))
         }
     }
 
@@ -24,7 +24,7 @@ data class ClickAction(override var target: By?) : SingleTargetAction(target) {
 
     override fun execute(iWebDriverWrapper: IWebDriverWrapper): ActionExecuteResult {
         val isOk = iWebDriverWrapper.click(checkNotNull(target) { "click target is null" })
-        return ActionExecuteResult(ClickAction::class, isOk, OPERATOR, listOf("click $target"))
+        return ActionExecuteResult(ClickAction::class, OPERATOR, isOk, listOf("click $target"))
     }
 
 }
@@ -41,7 +41,7 @@ data class InputAction(
             value = checkNotNull(value) { "input value is null" },
             lastEnter = lastEnter
         )
-        return ActionExecuteResult(InputAction::class, isOk, OPERATOR, listOf())
+        return ActionExecuteResult(InputAction::class, OPERATOR, isOk, listOf())
     }
 
 }

@@ -33,9 +33,14 @@ internal class BrowserStageTest {
         // verify
         assertThat(executeResult.isOk).isTrue()
         assertThat(executeResult.executedActions).hasSize(3).containsExactly(
-            ActionExecuteResult(TransitionAction::class, true, OPERATOR, listOf("transition http://kotlium.example/customer")),
-            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element")),
-            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: id-for-element"))
+            ActionExecuteResult(
+                TransitionAction::class,
+                OPERATOR,
+                true,
+                listOf("transition http://kotlium.example/customer")
+            ),
+            ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
+            ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element"))
         )
         verify(exactly = 1) { mockDriver.close() }
     }
@@ -56,9 +61,14 @@ internal class BrowserStageTest {
         // verify
         assertThat(executeResult.isOk).isFalse()
         assertThat(executeResult.executedActions).hasSize(3).containsExactly(
-            ActionExecuteResult(TransitionAction::class, true, OPERATOR, listOf("transition http://kotlium.example/customer")),
-            ActionExecuteResult(ClickAction::class, true, OPERATOR, listOf("click By.id: success-id")),
-            ActionExecuteResult(ClickAction::class, false, OPERATOR, listOf("click By.id: failed-id"))
+            ActionExecuteResult(
+                TransitionAction::class,
+                OPERATOR,
+                true,
+                listOf("transition http://kotlium.example/customer")
+            ),
+            ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: success-id")),
+            ActionExecuteResult(ClickAction::class, OPERATOR, false, listOf("click By.id: failed-id"))
         )
         verify(exactly = 1) { mockDriver.close() }
     }
