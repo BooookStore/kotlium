@@ -12,7 +12,7 @@ import org.openqa.selenium.remote.RemoteWebDriver
 import org.openqa.selenium.support.ui.ExpectedConditions.urlToBe
 import java.net.URL
 
-class SeleniumBrowserStageTest {
+class IntegrationTest {
 
     private lateinit var driver: WebDriver
 
@@ -34,31 +34,33 @@ class SeleniumBrowserStageTest {
     @Test
     fun githubTest() {
         // setup and execute
-        val stageExecuteResult = BrowserStage("https://github.co.jp/") {
-            click {
-                xpath("//a[normalize-space() = '機能']")
-            }
-            waitFor {
-                urlToBe("https://github.co.jp/features")
-            }
-            assertPage {
-                assertThat(findElement(xpath("//*[normalize-space() = '効率的な開発ワークフロー']")).isDisplayed).isTrue()
-            }
-            click {
-                xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']")
-            }
-            waitFor {
-                urlToBe("https://github.com/marketplace")
-            }
-            input {
-                target = xpath("//input[@name='query']")
-                value = "circle ci"
-                lastEnter = true
+        val scenarioExecuteResult = Scenario {
+            browserStage("https://github.co.jp/") {
+                click {
+                    xpath("//a[normalize-space() = '機能']")
+                }
+                waitFor {
+                    urlToBe("https://github.co.jp/features")
+                }
+                assertPage {
+                    assertThat(findElement(xpath("//*[normalize-space() = '効率的な開発ワークフロー']")).isDisplayed).isTrue()
+                }
+                click {
+                    xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']")
+                }
+                waitFor {
+                    urlToBe("https://github.com/marketplace")
+                }
+                input {
+                    target = xpath("//input[@name='query']")
+                    value = "circle ci"
+                    lastEnter = true
+                }
             }
         }.execute(driver)
 
         // verify
-        assertThat(stageExecuteResult.isOk).isTrue()
+        assertThat(scenarioExecuteResult.isOk).isTrue()
     }
 
 }
