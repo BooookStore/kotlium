@@ -16,11 +16,17 @@ import java.net.URL
 
 class SeleniumBrowserStageTest {
 
-    private lateinit var webDriverWrapper: IWebDriverWrapper
-
     private lateinit var driver: WebDriver
 
-    private val testTargetBrowserStage = {
+    private lateinit var webDriverWrapper: IWebDriverWrapper
+
+    @BeforeEach
+    fun beforeEach() {
+        driver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), ChromeOptions())
+        webDriverWrapper = SeleniumWebDriverWrapper(driver)
+    }
+
+    private val testTargetBrowserStage by lazy {
         BrowserStage(BrowserStageConfiguration("github", "https://github.co.jp/"), webDriverWrapper) {
             click(xpath("//a[normalize-space() = '機能']"))
             waitFor(urlToBe("https://github.co.jp/features"))
@@ -37,12 +43,6 @@ class SeleniumBrowserStageTest {
         }
     }
 
-    @BeforeEach
-    fun beforeEach() {
-        driver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), ChromeOptions())
-        webDriverWrapper = SeleniumWebDriverWrapper(driver)
-    }
-
     @AfterEach
     fun afterEach() {
         try {
@@ -55,7 +55,7 @@ class SeleniumBrowserStageTest {
 
     @Test
     fun githubTest() {
-        val stageExecuteResult = testTargetBrowserStage().execute()
+        val stageExecuteResult = testTargetBrowserStage.execute()
         assertThat(stageExecuteResult.isOk).isTrue()
     }
 
