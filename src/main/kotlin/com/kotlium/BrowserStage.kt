@@ -74,4 +74,8 @@ class BrowserStage(val config: BrowserStageConfiguration, val iWebDriverWrapper:
         actions += this.java.newInstance()
     }
 
+    fun addLast(browserStageConfigure: BrowserStage.() -> Unit) {
+        this.browserStageConfigure()
+    }
+
 }

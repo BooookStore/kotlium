@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.By.id
 import org.openqa.selenium.By.xpath
 import org.openqa.selenium.NoSuchSessionException
 import org.openqa.selenium.WebDriver
@@ -61,22 +62,17 @@ class SeleniumBrowserStageTest {
 
     @Test
     fun githubFailedTest() {
-        val config = BrowserStageConfiguration("github", "https://github.co.jp/")
+        testTargetBrowserStage.addLast {
+            click(id("not-exist-id"))
+            click(id("not-exist-id"))
+        }
 
-        // execute
-        val stageExecutedResult = BrowserStage(config, webDriverWrapper) {
-            click(xpath("//a[normalize-space() = '機能']"))
-            waitFor(urlToBe("https://github.co.jp/features"))
-            assertPage {
-                assertThat(findElement(xpath("//*[normalize-space() = 'not exist element']")).isDisplayed).isTrue()
-            }
-            click(xpath("//a[normalize-space() = 'GitHub Marketplaceにアクセスする']"))
-        }.execute()
+        val stageExecutedResult = testTargetBrowserStage.execute()
 
         // verify
         assertThatThrownBy { driver.close() }.isExactlyInstanceOf(NoSuchSessionException::class.java)
         assertThat(stageExecutedResult.isOk).isFalse()
-        assertThat(stageExecutedResult.executedActions).hasSize(3)
+        assertThat(stageExecutedResult.executedActions).hasSize(7)
     }
 
 }
