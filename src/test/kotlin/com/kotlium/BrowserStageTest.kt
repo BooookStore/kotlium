@@ -15,10 +15,7 @@ import org.openqa.selenium.WebDriver
 
 internal class BrowserStageTest {
 
-    private val config: BrowserStageConfiguration = BrowserStageConfiguration(
-        name = "customer page",
-        url = "http://kotlium.example/customer"
-    )
+    private val url = "http://kotlium.example/customer"
 
     @Test
     fun stageExecuteTest() {
@@ -26,21 +23,21 @@ internal class BrowserStageTest {
         val mockDriver: WebDriver = mockk(relaxed = true)
 
         // execute
-        val executeResult = BrowserStage(config.url) {
+        val executeResult = BrowserStage(url) {
             click { id("id-for-element") }
             click { id("id-for-element") }
         }.execute(mockDriver)
 
         // verify
         assertThat(executeResult.isOk).isTrue()
-        assertThat(executeResult.url).isEqualTo(config.url)
+        assertThat(executeResult.url).isEqualTo(url)
         assertThat(executeResult.executedActions).containsExactly(
-            ActionExecuteResult(TransitionAction::class, OPERATOR, true, listOf("transition ${config.url}")),
+            ActionExecuteResult(TransitionAction::class, OPERATOR, true, listOf("transition $url")),
             ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
             ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
             ActionExecuteResult(SessionCloseAction::class, OPERATOR, true, listOf("close session"))
         )
-        verify(exactly = 1) { mockDriver.get(config.url) }
+        verify(exactly = 1) { mockDriver.get(url) }
         verify(exactly = 1) { mockDriver.close() }
     }
 
@@ -51,7 +48,7 @@ internal class BrowserStageTest {
         every { mockDriver.findElement(id("failed-id")) } throws NoSuchElementException()
 
         // execute
-        val executeResult = BrowserStage(config.url) {
+        val executeResult = BrowserStage(url) {
             click { id("success-id") }
             click { id("failed-id") }
             click { id("success-id") }
@@ -60,12 +57,12 @@ internal class BrowserStageTest {
         // verify
         assertThat(executeResult.isOk).isFalse()
         assertThat(executeResult.executedActions).containsExactly(
-            ActionExecuteResult(TransitionAction::class, OPERATOR, true, listOf("transition ${config.url}")),
+            ActionExecuteResult(TransitionAction::class, OPERATOR, true, listOf("transition $url")),
             ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: success-id")),
             ActionExecuteResult(ClickAction::class, OPERATOR, false, listOf("click failed By.id: failed-id")),
             ActionExecuteResult(SessionCloseAction::class, OPERATOR, true, listOf("close session"))
         )
-        verify(exactly = 1) { mockDriver.get(config.url) }
+        verify(exactly = 1) { mockDriver.get(url) }
         verify(exactly = 1) { mockDriver.close() }
     }
 
