@@ -14,15 +14,14 @@ data class PageAssertAction(val assert: WebDriver.() -> Unit) : Action {
                 actionClass = PageAssertAction::class,
                 type = ASSERT,
                 isOk = true,
-                message = listOf()
+                message = listOf("assert filled")
             )
         } catch (e: Exception) {
-            val message = e.message
             return ActionExecuteResult(
                 actionClass = PageAssertAction::class,
                 type = ASSERT,
                 isOk = false,
-                message = if (message != null) listOf(message) else listOf()
+                message = listOfNotNull("assert failed", e.message)
             )
         }
     }

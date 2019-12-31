@@ -21,7 +21,7 @@ internal class PageAssertActionTest {
         // verify
         assertThat(executeResult.isOk).isFalse()
         assertThat(executeResult.actionClass).isEqualTo(PageAssertAction::class)
-        assertThat(executeResult.message).containsExactlyInAnyOrder("this is failed message")
+        assertThat(executeResult.message).containsExactlyInAnyOrder("assert failed", "this is failed message")
     }
 
 }
