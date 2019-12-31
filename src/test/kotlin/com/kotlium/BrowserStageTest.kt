@@ -34,7 +34,7 @@ internal class BrowserStageTest {
         // verify
         assertThat(executeResult.isOk).isTrue()
         assertThat(executeResult.url).isEqualTo(config.url)
-        assertThat(executeResult.executedActions).hasSize(4).containsExactly(
+        assertThat(executeResult.executedActions).containsExactly(
             ActionExecuteResult(TransitionAction::class, OPERATOR, true, listOf("transition ${config.url}")),
             ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
             ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
@@ -59,7 +59,7 @@ internal class BrowserStageTest {
 
         // verify
         assertThat(executeResult.isOk).isFalse()
-        assertThat(executeResult.executedActions).hasSize(4).containsExactly(
+        assertThat(executeResult.executedActions).containsExactly(
             ActionExecuteResult(TransitionAction::class, OPERATOR, true, listOf("transition ${config.url}")),
             ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click By.id: success-id")),
             ActionExecuteResult(ClickAction::class, OPERATOR, false, listOf("click failed By.id: failed-id")),
