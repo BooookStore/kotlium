@@ -24,17 +24,10 @@ class BrowserStage private constructor(val url: String, initActions: List<Action
     }
 
     private fun executeAllAction(driver: WebDriver): List<ActionExecuteResult> {
-        val result = mutableListOf<ActionExecuteResult>()
-
-        for (action in actions) {
+        return actions.fold(mutableListOf()) { result, action ->
             result.add(action.execute(driver))
-
-            if (!result.last().isOk) {
-                break
-            }
+            if (result.last().isOk) return@fold result else return result
         }
-
-        return result
     }
 
     fun click(by: () -> By) {
