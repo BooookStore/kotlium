@@ -17,21 +17,19 @@ class BrowserStage private constructor(val url: String, initActions: List<Action
     }
 
     fun execute(driver: WebDriver): BrowserStageExecuteResult {
+        actions.add(0, TransitionAction(url))
         val actionExecuteResults = executeAllAction(driver)
         val result = actionExecuteResults + SessionCloseAction().execute(driver)
         return BrowserStageExecuteResult(url, result)
     }
 
     private fun executeAllAction(driver: WebDriver): List<ActionExecuteResult> {
-        actions.add(0, TransitionAction(url))
-
         val result = mutableListOf<ActionExecuteResult>()
 
         for (action in actions) {
-            val executeResult = action.execute(driver)
-            result.add(executeResult)
+            result.add(action.execute(driver))
 
-            if (!executeResult.isOk) {
+            if (!result.last().isOk) {
                 break
             }
         }
