@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
 import kotlin.reflect.KClass
 
-class BrowserStage private constructor(val url: String, initActions: List<Action>) {
+class BrowserStage private constructor(private val url: String, initActions: List<Action>) {
 
     private val actions = mutableListOf(*initActions.toTypedArray())
 
