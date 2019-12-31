@@ -26,16 +26,14 @@ class BrowserStage private constructor(val url: String, initActions: List<Action
         actions.add(0, TransitionAction(url))
 
         val result = mutableListOf<ActionExecuteResult>()
-        var currentActionIsOk = true
 
         for (action in actions) {
-            if (!currentActionIsOk) {
+            val executeResult = action.execute(driver)
+            result.add(executeResult)
+
+            if (!executeResult.isOk) {
                 break
             }
-
-            val executeResult = action.execute(driver)
-            currentActionIsOk = executeResult.isOk
-            result.add(executeResult)
         }
 
         return result
