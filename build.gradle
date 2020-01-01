@@ -12,6 +12,7 @@ repositories {
 
 ext {
     selenium_version = "3.141.59"
+    testcontainers_version = "1.12.4"
 }
 
 dependencies {
@@ -20,6 +21,9 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.5.2"
     testImplementation "org.assertj:assertj-core:3.14.0"
     testImplementation "io.mockk:mockk:1.9.3"
+    testImplementation "org.testcontainers:testcontainers:${testcontainers_version}"
+    testImplementation "org.testcontainers:junit-jupiter:${testcontainers_version}"
+    testImplementation "org.testcontainers:selenium:${testcontainers_version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.5.2"
 }
 

@@ -2,6 +2,7 @@ package com.kotlium.integration
 
 import com.kotlium.Scenario
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Rule
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -9,17 +10,25 @@ import org.openqa.selenium.By.xpath
 import org.openqa.selenium.NoSuchSessionException
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.remote.RemoteWebDriver
 import org.openqa.selenium.support.ui.ExpectedConditions.urlToBe
-import java.net.URL
+import org.testcontainers.containers.BrowserWebDriverContainer
+import org.testcontainers.junit.jupiter.Testcontainers
 
+@Testcontainers
 class IntegrationTest {
+
+    @Rule
+    private val browserWebDriverContainer = BrowserWebDriverContainer<Nothing>()
+        .apply {
+            withCapabilities(ChromeOptions())
+            start()
+        }
 
     private lateinit var driver: WebDriver
 
     @BeforeEach
     fun beforeEach() {
-        driver = RemoteWebDriver(URL("http://localhost:4444/wd/hub"), ChromeOptions())
+        driver = browserWebDriverContainer.webDriver
     }
 
     @AfterEach
