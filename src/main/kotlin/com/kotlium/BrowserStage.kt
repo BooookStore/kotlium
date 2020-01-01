@@ -4,9 +4,12 @@ import com.kotlium.action.*
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
+import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
 class BrowserStage private constructor(private val url: String, initActions: List<Action>) {
+
+    private val logger = LoggerFactory.getLogger(BrowserStage::class.java)
 
     private val actions = mutableListOf(*initActions.toTypedArray())
 
@@ -17,9 +20,14 @@ class BrowserStage private constructor(private val url: String, initActions: Lis
     }
 
     fun execute(driver: WebDriver): BrowserStageExecuteResult {
+        logger.info("start browser stage on {}", url)
+
         actions.add(0, TransitionAction(url))
         val actionExecuteResults = executeAllAction(driver)
         val result = actionExecuteResults + SessionCloseAction().execute(driver)
+
+        logger.info("end browser stage on {}", url)
+
         return BrowserStageExecuteResult(url, result)
     }
 

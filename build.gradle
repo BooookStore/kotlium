@@ -13,17 +13,20 @@ repositories {
 ext {
     selenium_version = "3.141.59"
     testcontainers_version = "1.12.4"
+    slf4j_version = "1.7.30"
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.seleniumhq.selenium:selenium-java:${selenium_version}"
+    implementation "org.slf4j:slf4j-api:${slf4j_version}"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.5.2"
     testImplementation "org.assertj:assertj-core:3.14.0"
     testImplementation "io.mockk:mockk:1.9.3"
     testImplementation "org.testcontainers:testcontainers:${testcontainers_version}"
     testImplementation "org.testcontainers:junit-jupiter:${testcontainers_version}"
     testImplementation "org.testcontainers:selenium:${testcontainers_version}"
+    testCompile "org.slf4j:slf4j-simple:${slf4j_version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.5.2"
 }
 
