@@ -3,12 +3,8 @@ package com.kotlium.integration
 import com.kotlium.Scenario
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Rule
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By.xpath
-import org.openqa.selenium.NoSuchSessionException
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.support.ui.ExpectedConditions.urlToBe
 import org.testcontainers.containers.BrowserWebDriverContainer
@@ -23,23 +19,6 @@ class IntegrationTest {
             withCapabilities(ChromeOptions())
             start()
         }
-
-    private lateinit var driver: WebDriver
-
-    @BeforeEach
-    fun beforeEach() {
-        driver = browserWebDriverContainer.webDriver
-    }
-
-    @AfterEach
-    fun afterEach() {
-        try {
-            driver.close()
-            throw Exception("セッションが破棄されていません")
-        } catch (e: NoSuchSessionException) {
-            // テスト内でセッションを破棄できているため例外を無視
-        }
-    }
 
     @Test
     fun githubTest() {
@@ -67,7 +46,7 @@ class IntegrationTest {
                     lastEnter = true
                 }
             }
-        }.execute(driver)
+        }.execute(browserWebDriverContainer.webDriver)
 
         // verify
         assertThat(scenarioExecuteResult.isOk).isTrue()
