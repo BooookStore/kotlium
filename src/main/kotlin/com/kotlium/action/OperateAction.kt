@@ -16,7 +16,7 @@ data class TransitionAction(var url: String? = null) : Action {
             logger.info("transition {}", url)
             ActionExecuteResult(this::class, OPERATOR, true, listOf("transition $url"))
         } catch (e: Exception) {
-            logger.warn("transition failed {}", url)
+            logger.error("transition failed {}", url, e)
             ActionExecuteResult(this::class, OPERATOR, false, listOf("transition failed $url"))
         }
     }
@@ -33,7 +33,7 @@ class SessionCloseAction : Action {
             logger.info("close session")
             ActionExecuteResult(this::class, OPERATOR, true, listOf("close session"))
         } catch (e: Exception) {
-            logger.warn("failed close session")
+            logger.error("failed close session", e)
             ActionExecuteResult(this::class, OPERATOR, false, listOf("failed close session"))
         }
     }
@@ -52,7 +52,7 @@ data class ClickAction(override var target: By?) : SingleTargetAction(target) {
             logger.info("click [{}]", target)
             ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click $target"))
         } catch (e: Exception) {
-            logger.warn("click failed [{}]", target)
+            logger.error("click failed [{}]", target, e)
             ActionExecuteResult(ClickAction::class, OPERATOR, false, listOf("click failed $target"))
         }
     }
@@ -76,7 +76,7 @@ data class InputAction(override var target: By? = null, var value: String? = nul
                 )
             )
         } catch (e: Exception) {
-            logger.info("input failed [{}] to [{}]. enter is [{}]", value, target, lastEnter)
+            logger.error("input failed [{}] to [{}]. enter is [{}]", value, target, lastEnter, e)
             ActionExecuteResult(
                 this::class, OPERATOR, false, listOf(
                     "input failed $value to $target",
