@@ -38,7 +38,7 @@ class IntegrationTest {
     }
 
     @Test
-    fun githubTest() {
+    fun integrationTest() {
         // setup and execute
         val scenarioExecuteResult = Scenario {
             browserStage("testWebApp:8080/book/list") {
