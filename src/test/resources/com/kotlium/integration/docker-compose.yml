@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  web:
+    image: bookstore/kotlium-test-webapp:0.0.1
+  webDriver:
+    image: selenium/standalone-chrome-debug:3.141.59
