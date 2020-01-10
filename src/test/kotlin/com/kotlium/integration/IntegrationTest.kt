@@ -24,9 +24,8 @@ class IntegrationTest {
         DockerComposeContainer<Nothing>(File("src/test/resources/com/kotlium/integration/docker-compose.yml")).apply {
             withExposedService("web_1", 8080, Wait.forHttp("/book/list"))
             withLogConsumer("web_1", Slf4jLogConsumer(LoggerFactory.getLogger("web_1")))
-
             withExposedService("webDriver_1", 4444, Wait.forListeningPort().withStartupTimeout(Duration.ofSeconds(30)))
-
+            withLogConsumer("webDriver_1", Slf4jLogConsumer(LoggerFactory.getLogger("webDriver_1")))
             start()
         }
 
