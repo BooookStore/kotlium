@@ -1,5 +1,6 @@
 package com.kotlium.integration
 
+import com.kotlium.DatabaseStage
 import org.junit.jupiter.api.Test
 import java.sql.DriverManager
 import java.util.*
@@ -16,6 +17,10 @@ internal class IntegrationDatabaseTest {
         DriverManager.getConnection("jdbc:mysql://localhost:3306", properties).use {
             println("Connection Success!!!")
         }
+
+        val executeResult = DatabaseStage {
+
+        }.execute("jdbc:mysql://localhost:3306")
     }
 
 }
