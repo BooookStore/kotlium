@@ -1,6 +1,7 @@
 package com.kotlium.integration
 
 import org.junit.jupiter.api.Test
+import java.sql.DriverManager
 import java.util.*
 
 internal class IntegrationDatabaseTest {
@@ -12,8 +13,7 @@ internal class IntegrationDatabaseTest {
             setProperty("password", "password")
         }
 
-        val driver = com.mysql.cj.jdbc.Driver()
-        driver.connect("jdbc:mysql://localhost:3306", properties).use {
+        DriverManager.getConnection("jdbc:mysql://localhost:3306", properties).use {
             println("Connection Success!!!")
         }
     }
