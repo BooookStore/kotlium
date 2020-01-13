@@ -19,7 +19,7 @@ class DatabaseStage {
             setProperty("password", "password")
         }
 
-        DriverManager.getConnection("jdbc:mysql://localhost:3306", properties).use {
+        DriverManager.getConnection(url, properties).use {
             println("Connection Success!!!")
         }
     }
