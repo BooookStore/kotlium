@@ -7,11 +7,11 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
-class BrowserStage private constructor(private val url: String, initActions: List<Action>) {
+class BrowserStage private constructor(private val url: String, initBrowserActions: List<BrowserAction>) {
 
     private val logger = LoggerFactory.getLogger(BrowserStage::class.java)
 
-    private val actions = mutableListOf(*initActions.toTypedArray())
+    private val actions = mutableListOf(*initBrowserActions.toTypedArray())
 
     companion object {
         operator fun invoke(url: String, browserStageConfigure: BrowserStage.() -> Unit): BrowserStage {
@@ -22,9 +22,9 @@ class BrowserStage private constructor(private val url: String, initActions: Lis
     fun execute(driver: WebDriver): BrowserStageExecuteResult {
         logger.info("start browser stage on {}", url)
 
-        actions.add(0, TransitionAction(url))
+        actions.add(0, TransitionBrowserAction(url))
         val actionExecuteResults = executeAllAction(driver)
-        val result = actionExecuteResults + SessionCloseAction().execute(driver)
+        val result = actionExecuteResults + SessionCloseBrowserAction().execute(driver)
 
         logger.info("end browser stage on {}", url)
 
@@ -38,33 +38,33 @@ class BrowserStage private constructor(private val url: String, initActions: Lis
         }
 
     fun click(by: () -> By) {
-        actions += ClickAction(by())
+        actions += ClickBrowserAction(by())
     }
 
-    fun input(init: InputAction.() -> Unit) {
-        actions += InputAction().apply(init)
+    fun input(init: InputBrowserAction.() -> Unit) {
+        actions += InputBrowserAction().apply(init)
     }
 
     fun assertPage(assert: WebDriver.() -> Unit) {
-        actions += PageAssertAction(assert)
+        actions += PageAssertBrowserAction(assert)
     }
 
     fun <T> waitFor(condition: () -> ExpectedCondition<T>) {
-        actions += WaitForAssertAction(condition())
+        actions += WaitForAssertBrowserAction(condition())
     }
 
-    operator fun <T : Action> T.invoke(init: T.() -> Unit) {
+    operator fun <T : BrowserAction> T.invoke(init: T.() -> Unit) {
         val kClass = this::class
         val action = kClass.java.newInstance()
         actions += action.apply(init)
     }
 
-    operator fun <T : Action> KClass<T>.invoke(init: T.() -> Unit) {
+    operator fun <T : BrowserAction> KClass<T>.invoke(init: T.() -> Unit) {
         val action = this.java.newInstance()
         actions += action.apply(init)
     }
 
-    operator fun <T : Action> KClass<T>.invoke() {
+    operator fun <T : BrowserAction> KClass<T>.invoke() {
         actions += this.java.newInstance()
     }
 

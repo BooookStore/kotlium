@@ -6,9 +6,9 @@ import org.openqa.selenium.Keys
 import org.openqa.selenium.WebDriver
 import org.slf4j.LoggerFactory
 
-data class TransitionAction(var url: String? = null) : Action {
+data class TransitionBrowserAction(var url: String? = null) : BrowserAction {
 
-    private val logger = LoggerFactory.getLogger(TransitionAction::class.java)
+    private val logger = LoggerFactory.getLogger(TransitionBrowserAction::class.java)
 
     override fun execute(webDriver: WebDriver): ActionExecuteResult {
         return try {
@@ -23,9 +23,9 @@ data class TransitionAction(var url: String? = null) : Action {
 
 }
 
-class SessionCloseAction : Action {
+class SessionCloseBrowserAction : BrowserAction {
 
-    private val logger = LoggerFactory.getLogger(SessionCloseAction::class.java)
+    private val logger = LoggerFactory.getLogger(SessionCloseBrowserAction::class.java)
 
     override fun execute(webDriver: WebDriver): ActionExecuteResult {
         return try {
@@ -40,29 +40,29 @@ class SessionCloseAction : Action {
 
 }
 
-abstract class SingleTargetAction(open var target: By?) : Action
+abstract class SingleTargetBrowserAction(open var target: By?) : BrowserAction
 
-data class ClickAction(override var target: By?) : SingleTargetAction(target) {
+data class ClickBrowserAction(override var target: By?) : SingleTargetBrowserAction(target) {
 
-    private val logger = LoggerFactory.getLogger(ClickAction::class.java)
+    private val logger = LoggerFactory.getLogger(ClickBrowserAction::class.java)
 
     override fun execute(webDriver: WebDriver): ActionExecuteResult {
         return try {
             webDriver.findElement(checkNotNull(target) { "click target is null" }).click()
             logger.info("click [{}]", target)
-            ActionExecuteResult(ClickAction::class, OPERATOR, true, listOf("click $target"))
+            ActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click $target"))
         } catch (e: Exception) {
             logger.error("click failed [{}]", target, e)
-            ActionExecuteResult(ClickAction::class, OPERATOR, false, listOf("click failed $target"))
+            ActionExecuteResult(ClickBrowserAction::class, OPERATOR, false, listOf("click failed $target"))
         }
     }
 
 }
 
-data class InputAction(override var target: By? = null, var value: String? = null, var lastEnter: Boolean = false) :
-    SingleTargetAction(target) {
+data class InputBrowserAction(override var target: By? = null, var value: String? = null, var lastEnter: Boolean = false) :
+    SingleTargetBrowserAction(target) {
 
-    private val logger = LoggerFactory.getLogger(InputAction::class.java)
+    private val logger = LoggerFactory.getLogger(InputBrowserAction::class.java)
 
     override fun execute(webDriver: WebDriver): ActionExecuteResult {
         return try {

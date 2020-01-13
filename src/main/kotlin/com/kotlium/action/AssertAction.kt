@@ -6,16 +6,16 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 import org.openqa.selenium.support.ui.WebDriverWait
 import org.slf4j.LoggerFactory
 
-data class PageAssertAction(val assert: WebDriver.() -> Unit) : Action {
+data class PageAssertBrowserAction(val assert: WebDriver.() -> Unit) : BrowserAction {
 
-    private val logger = LoggerFactory.getLogger(PageAssertAction::class.java)
+    private val logger = LoggerFactory.getLogger(PageAssertBrowserAction::class.java)
 
     override fun execute(webDriver: WebDriver): ActionExecuteResult {
         try {
             webDriver.assert()
             logger.info("assertion filled")
             return ActionExecuteResult(
-                actionClass = PageAssertAction::class,
+                browserActionClass = PageAssertBrowserAction::class,
                 type = ASSERT,
                 isOk = true,
                 message = listOf("assert filled")
@@ -23,7 +23,7 @@ data class PageAssertAction(val assert: WebDriver.() -> Unit) : Action {
         } catch (e: Exception) {
             logger.error("assertion failed", e)
             return ActionExecuteResult(
-                actionClass = PageAssertAction::class,
+                browserActionClass = PageAssertBrowserAction::class,
                 type = ASSERT,
                 isOk = false,
                 message = listOfNotNull("assert failed", e.message)
@@ -33,16 +33,16 @@ data class PageAssertAction(val assert: WebDriver.() -> Unit) : Action {
 
 }
 
-data class WaitForAssertAction<T>(val condition: ExpectedCondition<T>) : Action {
+data class WaitForAssertBrowserAction<T>(val condition: ExpectedCondition<T>) : BrowserAction {
 
-    private val logger = LoggerFactory.getLogger(WaitForAssertAction::class.java)
+    private val logger = LoggerFactory.getLogger(WaitForAssertBrowserAction::class.java)
 
     override fun execute(webDriver: WebDriver): ActionExecuteResult {
         try {
             WebDriverWait(webDriver, 5).until(condition)
             logger.info("expected wait condition filled")
             return ActionExecuteResult(
-                actionClass = WaitForAssertAction::class,
+                browserActionClass = WaitForAssertBrowserAction::class,
                 type = ASSERT,
                 isOk = true,
                 message = listOf("expected wait condition filled")
@@ -50,7 +50,7 @@ data class WaitForAssertAction<T>(val condition: ExpectedCondition<T>) : Action 
         } catch (e: Exception) {
             logger.error("expected wait condition not filled", e)
             return ActionExecuteResult(
-                actionClass = WaitForAssertAction::class,
+                browserActionClass = WaitForAssertBrowserAction::class,
                 type = ASSERT,
                 isOk = false,
                 message = listOfNotNull("expected wait condition not filled", e.message)
