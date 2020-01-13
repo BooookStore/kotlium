@@ -1,7 +1,7 @@
 package com.kotlium
 
-import com.kotlium.action.ActionExecuteResult
-import com.kotlium.action.ActionType.OPERATOR
+import com.kotlium.action.BrowserActionExecuteResult
+import com.kotlium.action.BrowserActionType.OPERATOR
 import com.kotlium.action.ClickBrowserAction
 import com.kotlium.action.SessionCloseBrowserAction
 import com.kotlium.action.TransitionBrowserAction
@@ -31,9 +31,9 @@ internal class ScenarioTest {
                 "http://example1.com",
                 listOf(
                     //@formatter:off
-                    ActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition http://example1.com")),
-                    ActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
-                    ActionExecuteResult(SessionCloseBrowserAction::class, OPERATOR, true, listOf("close session"))
+                    BrowserActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition http://example1.com")),
+                    BrowserActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
+                    BrowserActionExecuteResult(SessionCloseBrowserAction::class, OPERATOR, true, listOf("close session"))
                     //@formatter:on
                 )
             ),
@@ -41,9 +41,9 @@ internal class ScenarioTest {
                 "http://example2.com",
                 listOf(
                     //@formatter:off
-                    ActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition http://example2.com")),
-                    ActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
-                    ActionExecuteResult(SessionCloseBrowserAction::class, OPERATOR, true, listOf("close session"))
+                    BrowserActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition http://example2.com")),
+                    BrowserActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
+                    BrowserActionExecuteResult(SessionCloseBrowserAction::class, OPERATOR, true, listOf("close session"))
                     //@formatter:on
                 )
             )

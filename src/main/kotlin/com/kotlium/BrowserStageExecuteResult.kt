@@ -1,8 +1,8 @@
 package com.kotlium
 
-import com.kotlium.action.ActionExecuteResult
+import com.kotlium.action.BrowserActionExecuteResult
 
-data class BrowserStageExecuteResult(val url: String, val executedActions: List<ActionExecuteResult>) {
+data class BrowserStageExecuteResult(val url: String, val executedBrowserActions: List<BrowserActionExecuteResult>) {
     val isOk: Boolean
-        get() = executedActions.all { it.isOk }
+        get() = executedBrowserActions.all { it.isOk }
 }

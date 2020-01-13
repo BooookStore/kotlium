@@ -1,7 +1,7 @@
 package com.kotlium
 
-import com.kotlium.action.ActionExecuteResult
-import com.kotlium.action.ActionType.OPERATOR
+import com.kotlium.action.BrowserActionExecuteResult
+import com.kotlium.action.BrowserActionType.OPERATOR
 import com.kotlium.action.ClickBrowserAction
 import com.kotlium.action.SessionCloseBrowserAction
 import com.kotlium.action.TransitionBrowserAction
@@ -31,11 +31,11 @@ internal class BrowserStageTest {
         // verify
         assertThat(executeResult.isOk).isTrue()
         assertThat(executeResult.url).isEqualTo(url)
-        assertThat(executeResult.executedActions).containsExactly(
-            ActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition $url")),
-            ActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
-            ActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
-            ActionExecuteResult(SessionCloseBrowserAction::class, OPERATOR, true, listOf("close session"))
+        assertThat(executeResult.executedBrowserActions).containsExactly(
+            BrowserActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition $url")),
+            BrowserActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
+            BrowserActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: id-for-element")),
+            BrowserActionExecuteResult(SessionCloseBrowserAction::class, OPERATOR, true, listOf("close session"))
         )
         verify(exactly = 1) { mockDriver.get(url) }
         verify(exactly = 1) { mockDriver.close() }
@@ -56,11 +56,11 @@ internal class BrowserStageTest {
 
         // verify
         assertThat(executeResult.isOk).isFalse()
-        assertThat(executeResult.executedActions).containsExactly(
-            ActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition $url")),
-            ActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: success-id")),
-            ActionExecuteResult(ClickBrowserAction::class, OPERATOR, false, listOf("click failed By.id: failed-id")),
-            ActionExecuteResult(SessionCloseBrowserAction::class, OPERATOR, true, listOf("close session"))
+        assertThat(executeResult.executedBrowserActions).containsExactly(
+            BrowserActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition $url")),
+            BrowserActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: success-id")),
+            BrowserActionExecuteResult(ClickBrowserAction::class, OPERATOR, false, listOf("click failed By.id: failed-id")),
+            BrowserActionExecuteResult(SessionCloseBrowserAction::class, OPERATOR, true, listOf("close session"))
         )
         verify(exactly = 1) { mockDriver.get(url) }
         verify(exactly = 1) { mockDriver.close() }

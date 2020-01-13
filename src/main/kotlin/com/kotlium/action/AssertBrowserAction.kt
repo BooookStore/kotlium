@@ -1,6 +1,6 @@
 package com.kotlium.action
 
-import com.kotlium.action.ActionType.ASSERT
+import com.kotlium.action.BrowserActionType.ASSERT
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
 import org.openqa.selenium.support.ui.WebDriverWait
@@ -10,11 +10,11 @@ data class PageAssertBrowserAction(val assert: WebDriver.() -> Unit) : BrowserAc
 
     private val logger = LoggerFactory.getLogger(PageAssertBrowserAction::class.java)
 
-    override fun execute(webDriver: WebDriver): ActionExecuteResult {
+    override fun execute(webDriver: WebDriver): BrowserActionExecuteResult {
         try {
             webDriver.assert()
             logger.info("assertion filled")
-            return ActionExecuteResult(
+            return BrowserActionExecuteResult(
                 browserActionClass = PageAssertBrowserAction::class,
                 type = ASSERT,
                 isOk = true,
@@ -22,7 +22,7 @@ data class PageAssertBrowserAction(val assert: WebDriver.() -> Unit) : BrowserAc
             )
         } catch (e: Exception) {
             logger.error("assertion failed", e)
-            return ActionExecuteResult(
+            return BrowserActionExecuteResult(
                 browserActionClass = PageAssertBrowserAction::class,
                 type = ASSERT,
                 isOk = false,
@@ -37,11 +37,11 @@ data class WaitForAssertBrowserAction<T>(val condition: ExpectedCondition<T>) : 
 
     private val logger = LoggerFactory.getLogger(WaitForAssertBrowserAction::class.java)
 
-    override fun execute(webDriver: WebDriver): ActionExecuteResult {
+    override fun execute(webDriver: WebDriver): BrowserActionExecuteResult {
         try {
             WebDriverWait(webDriver, 5).until(condition)
             logger.info("expected wait condition filled")
-            return ActionExecuteResult(
+            return BrowserActionExecuteResult(
                 browserActionClass = WaitForAssertBrowserAction::class,
                 type = ASSERT,
                 isOk = true,
@@ -49,7 +49,7 @@ data class WaitForAssertBrowserAction<T>(val condition: ExpectedCondition<T>) : 
             )
         } catch (e: Exception) {
             logger.error("expected wait condition not filled", e)
-            return ActionExecuteResult(
+            return BrowserActionExecuteResult(
                 browserActionClass = WaitForAssertBrowserAction::class,
                 type = ASSERT,
                 isOk = false,

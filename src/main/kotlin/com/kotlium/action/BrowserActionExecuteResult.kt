@@ -2,11 +2,11 @@ package com.kotlium.action
 
 import kotlin.reflect.KClass
 
-data class ActionExecuteResult(
+data class BrowserActionExecuteResult(
     val browserActionClass: KClass<out BrowserAction>,
-    val type: ActionType,
+    val type: BrowserActionType,
     val isOk: Boolean,
     val message: List<String> = listOf()
 )
 
-enum class ActionType { OPERATOR, ASSERT }
+enum class BrowserActionType { OPERATOR, ASSERT }
