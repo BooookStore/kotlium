@@ -13,15 +13,19 @@ class DatabaseStage {
 
     }
 
-    fun execute(url: String) {
+    fun execute(url: String): Boolean {
         val properties = Properties().apply {
             setProperty("user", "root")
             setProperty("password", "password")
         }
 
-        DriverManager.getConnection(url, properties).use {
-            println("Connection Success!!!")
+        val result = runCatching {
+            DriverManager.getConnection(url, properties).use {
+                println("Connection Success!!!")
+            }
         }
+
+        return result.isSuccess
     }
 
 }
