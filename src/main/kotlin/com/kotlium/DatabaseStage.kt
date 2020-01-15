@@ -5,11 +5,13 @@ import java.sql.DriverManager
 import java.sql.Statement
 import java.util.*
 
+typealias StatementBlock = Statement.() -> Unit
+
 class DatabaseStage {
 
     private val logger = LoggerFactory.getLogger(DatabaseStage::class.java)
 
-    private val statementBlocks = mutableListOf<(Statement.() -> Unit)>()
+    private val statementBlocks = mutableListOf<StatementBlock>()
 
     companion object {
 
