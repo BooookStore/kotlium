@@ -10,7 +10,7 @@ internal class IntegrationDatabaseTest {
     fun integrationTest() {
         val isSuccess = DatabaseStage {
 
-        }.execute("jdbc:mysql://localhost:3306")
+        }.execute("jdbc:mysql://localhost:3306", "root", "password")
 
         assertThat(isSuccess).isTrue()
     }

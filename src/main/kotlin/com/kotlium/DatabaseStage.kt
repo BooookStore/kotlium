@@ -13,10 +13,10 @@ class DatabaseStage {
 
     }
 
-    fun execute(url: String): Boolean {
+    fun execute(url: String, user: String, password: String): Boolean {
         val properties = Properties().apply {
-            setProperty("user", "root")
-            setProperty("password", "password")
+            setProperty("user", user)
+            setProperty("password", password)
         }
 
         val result = runCatching {
