@@ -1,9 +1,15 @@
 package com.kotlium
 
+import org.slf4j.LoggerFactory
 import java.sql.DriverManager
+import java.sql.Statement
 import java.util.*
 
 class DatabaseStage {
+
+    private val logger = LoggerFactory.getLogger(DatabaseStage::class.java)
+
+    private val statementBlocks = mutableListOf<(Statement.() -> Unit)>()
 
     companion object {
 
@@ -13,6 +19,10 @@ class DatabaseStage {
 
     }
 
+    fun statement(block: Statement.() -> Unit) {
+        statementBlocks += block
+    }
+
     fun execute(url: String, user: String, password: String): Boolean {
         val properties = Properties().apply {
             setProperty("user", user)
@@ -20,9 +30,15 @@ class DatabaseStage {
         }
 
         val result = runCatching {
-            DriverManager.getConnection(url, properties).use {
-                println("Connection Success!!!")
+            DriverManager.getConnection(url, properties).use { connection ->
+                val statement = connection.createStatement()
+                statementBlocks.forEach { it.invoke(statement) }
+                statement.close()
             }
+        }
+
+        result.exceptionOrNull()?.let {
+            logger.error("failed DatabaseStage", it)
         }
 
         return result.isSuccess
