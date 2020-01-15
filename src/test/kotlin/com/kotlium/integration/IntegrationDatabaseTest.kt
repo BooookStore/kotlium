@@ -8,20 +8,17 @@ internal class IntegrationDatabaseTest {
 
     @Test
     fun integrationTest() {
-        var sumOfId = 0;
-
         val isSuccess = DatabaseStage {
             statement {
-                val result = executeQuery("SELECT id FROM user")
+                val result = executeQuery("SELECT id FROM user WHERE id = 1")
 
                 while (result.next()) {
-                    sumOfId += result.getInt("id")
+                    assertThat(result.getInt("id")).isEqualTo(1)
                 }
             }
         }.execute("jdbc:mysql://localhost:3306/kotlium", "kotlium", "password")
 
         assertThat(isSuccess).isTrue()
-        assertThat(sumOfId).isEqualTo(6)
     }
 
 }
