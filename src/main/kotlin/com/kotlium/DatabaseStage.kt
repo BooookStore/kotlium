@@ -25,7 +25,7 @@ class DatabaseStage {
         statementBlocks += block
     }
 
-    fun execute(url: String, user: String, password: String): Boolean {
+    fun execute(url: String, user: String, password: String): DatabaseStageExecuteResult {
         val properties = Properties().apply {
             setProperty("user", user)
             setProperty("password", password)
@@ -43,7 +43,7 @@ class DatabaseStage {
             logger.error("failed DatabaseStage", it)
         }
 
-        return result.isSuccess
+        return DatabaseStageExecuteResult(true)
     }
 
 }
