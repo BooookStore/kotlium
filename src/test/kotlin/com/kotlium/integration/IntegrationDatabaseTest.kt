@@ -4,6 +4,7 @@ import com.kotlium.DatabaseStage
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
+@Suppress("SqlNoDataSourceInspection", "SqlResolve")
 internal class IntegrationDatabaseTest {
 
     @Test
