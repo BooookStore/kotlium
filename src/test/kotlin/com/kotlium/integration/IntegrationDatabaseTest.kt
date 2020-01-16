@@ -22,4 +22,19 @@ internal class IntegrationDatabaseTest {
         assertThat(executedResult.isOk).isTrue()
     }
 
+    @Test
+    fun integrationFailedTest() {
+        val executedResult = DatabaseStage {
+            statement {
+                val result = executeQuery("SELECT id FROM user WHERE id = 2")
+
+                while (result.next()) {
+                    assertThat(result.getInt("id")).isEqualTo(1)
+                }
+            }
+        }.execute("jdbc:mysql://localhost:3306/kotlium", "kotlium", "password")
+
+        assertThat(executedResult.isOk).isFalse()
+    }
+
 }
