@@ -43,7 +43,7 @@ class DatabaseStage {
             logger.error("failed DatabaseStage", it)
         }
 
-        return DatabaseStageExecuteResult(result.isSuccess)
+        return DatabaseStageExecuteResult(result.isSuccess, listOf("dummy"))
     }
 
 }

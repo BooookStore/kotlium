@@ -20,6 +20,7 @@ internal class IntegrationDatabaseTest {
         }.execute("jdbc:mysql://localhost:3306/kotlium", "kotlium", "password")
 
         assertThat(executedResult.isOk).isTrue()
+        assertThat(executedResult.executedDatabaseActions).hasSize(1)
     }
 
     @Test
