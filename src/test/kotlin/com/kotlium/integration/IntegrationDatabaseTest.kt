@@ -1,5 +1,6 @@
 package com.kotlium.integration
 
+import com.kotlium.DatabaseActionExecuteResult
 import com.kotlium.DatabaseStage
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -20,7 +21,9 @@ internal class IntegrationDatabaseTest {
         }.execute("jdbc:mysql://localhost:3306/kotlium", "kotlium", "password")
 
         assertThat(executedResult.isOk).isTrue()
-        assertThat(executedResult.executedDatabaseActions).hasSize(1)
+        assertThat(executedResult.executedDatabaseActions).hasSize(1).containsExactly(
+            DatabaseActionExecuteResult(isOk = true, message = listOf())
+        )
     }
 
     @Test

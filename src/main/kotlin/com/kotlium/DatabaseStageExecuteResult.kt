@@ -2,5 +2,5 @@ package com.kotlium
 
 data class DatabaseStageExecuteResult(
     val isOk: Boolean,
-    val executedDatabaseActions: List<Any>
+    val executedDatabaseActions: List<DatabaseActionExecuteResult>
 )
