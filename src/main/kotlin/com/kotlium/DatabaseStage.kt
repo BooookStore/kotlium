@@ -11,7 +11,7 @@ class DatabaseStage {
 
     private val logger = LoggerFactory.getLogger(DatabaseStage::class.java)
 
-    private val statementBlocks = mutableListOf<StatementBlock>()
+    private val statementActions = mutableListOf<StatementAction>()
 
     companion object {
 
@@ -22,7 +22,7 @@ class DatabaseStage {
     }
 
     fun statement(block: Statement.() -> Unit) {
-        statementBlocks += block
+        statementActions += StatementAction(block)
     }
 
     fun execute(url: String, user: String, password: String): DatabaseStageExecuteResult {
@@ -41,8 +41,8 @@ class DatabaseStage {
         runCatching {
             DriverManager.getConnection(url, properties).use { connection ->
                 connection.createStatement().use { statement ->
-                    statementBlocks.map { statementBlock ->
-                        val executeResult = StatementAction(statementBlock).execute(statement)
+                    statementActions.map { statementAction ->
+                        val executeResult = statementAction.execute(statement)
                         databaseActionExecuteResults.add(executeResult)
                     }
                 }
