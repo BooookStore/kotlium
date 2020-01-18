@@ -1,13 +1,13 @@
 package com.kotlium.database
 
-import java.sql.ResultSet
+import org.assertj.core.api.Assertions.assertThat
 import java.sql.Statement
 
 class OneRowAssertion : DatabaseAction {
 
     lateinit var query: String
 
-    lateinit var assertionBlock: ResultSet.() -> Unit
+    lateinit var expected: Row
 
     override fun execute(statement: Statement): DatabaseActionExecuteResult {
         val resultSet = statement.executeQuery(query)
@@ -17,15 +17,13 @@ class OneRowAssertion : DatabaseAction {
         }
 
         return runCatching {
-            assertionBlock.invoke(resultSet)
+            expected.columns().forEach {
+                assertThat(resultSet.getObject(it.name)).isEqualTo(it.value)
+            }
         }.fold(
             onSuccess = { DatabaseActionExecuteResult(true, listOf()) },
             onFailure = { DatabaseActionExecuteResult(false, listOf()) }
         )
-    }
-
-    fun expected(block: ResultSet.() -> Unit) {
-        assertionBlock = block
     }
 
 }

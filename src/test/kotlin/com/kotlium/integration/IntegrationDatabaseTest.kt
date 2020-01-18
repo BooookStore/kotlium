@@ -71,14 +71,10 @@ internal class IntegrationDatabaseTest {
         val executedResult = DatabaseStage {
             assertOneRow {
                 query = "SELECT * FROM user WHERE id = 1"
-                expected {
-                    val row = Row(
-                        Column("id", 1),
-                        Column("name", "BookStore")
-                    )
-                    assertThat(getObject(row[0].name)).isEqualTo(row[0].value)
-                    assertThat(getObject(row[1].name)).isEqualTo(row[1].value)
-                }
+                expected = Row(
+                    Column("id", 1),
+                    Column("name", "BookStore")
+                )
             }
         }.execute(url, user, password)
 
