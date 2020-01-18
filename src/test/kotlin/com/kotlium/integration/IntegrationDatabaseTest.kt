@@ -38,14 +38,16 @@ internal class IntegrationDatabaseTest {
                 val result = executeQuery("SELECT id FROM user WHERE id = 2")
 
                 while (result.next()) {
-                    assertThat(result.getInt("id")).isEqualTo(3)
+                    val column = Column("id", 3)
+                    assertThat(result.getObject(column.name)).isEqualTo(column.value)
                 }
             }
             statement {
                 val result = executeQuery("SELECT id FROM user WHERE id = 3")
 
                 while (result.next()) {
-                    assertThat(result.getInt("id")).isEqualTo(3)
+                    val column = Column("id", 3)
+                    assertThat(result.getObject(column.name)).isEqualTo(column.value)
                 }
             }
         }.execute("jdbc:mysql://localhost:3306/kotlium", "kotlium", "password")
