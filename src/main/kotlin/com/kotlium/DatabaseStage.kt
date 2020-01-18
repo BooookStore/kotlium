@@ -37,24 +37,21 @@ class DatabaseStage {
     }
 
     private fun invokeStatementBlocks(url: String, properties: Properties): MutableList<DatabaseActionExecuteResult> {
-        val databaseActionExecuteResults = mutableListOf<DatabaseActionExecuteResult>()
+        var databaseActionExecuteResults = mutableListOf<DatabaseActionExecuteResult>()
         runCatching {
             DriverManager.getConnection(url, properties).use { connection ->
                 connection.createStatement().use { statement ->
-                    executeAllStatementAction(statement, databaseActionExecuteResults)
+                    databaseActionExecuteResults = executeAllStatementAction(statement)
                 }
             }
         }
         return databaseActionExecuteResults
     }
 
-    private fun executeAllStatementAction(
-        statement: Statement,
-        databaseActionExecuteResults: MutableList<DatabaseActionExecuteResult>
-    ) {
-        statementActions.map { statementAction ->
-            val executeResult = statementAction.execute(statement)
-            databaseActionExecuteResults.add(executeResult)
+    private fun executeAllStatementAction(statement: Statement): MutableList<DatabaseActionExecuteResult> {
+        return statementActions.fold(mutableListOf()) { result, action ->
+            result += action.execute(statement)
+            if (result.last().isOk) return@fold result else return result
         }
     }
 
