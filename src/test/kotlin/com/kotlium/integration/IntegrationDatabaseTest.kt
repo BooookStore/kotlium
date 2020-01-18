@@ -18,27 +18,27 @@ internal class IntegrationDatabaseTest {
                     assertThat(result.getInt("id")).isEqualTo(1)
                 }
             }
-        }.execute("jdbc:mysql://localhost:3306/kotlium", "kotlium", "password")
-
-        assertThat(executedResult.isOk).isTrue()
-        assertThat(executedResult.executedDatabaseActions).hasSize(1).containsExactly(
-            DatabaseActionExecuteResult(isOk = true, message = listOf())
-        )
-    }
-
-    @Test
-    fun integrationFailedTest() {
-        val executedResult = DatabaseStage {
             statement {
                 val result = executeQuery("SELECT id FROM user WHERE id = 2")
 
                 while (result.next()) {
-                    assertThat(result.getInt("id")).isEqualTo(1)
+                    assertThat(result.getInt("id")).isEqualTo(3)
+                }
+            }
+            statement {
+                val result = executeQuery("SELECT id FROM user WHERE id = 3")
+
+                while (result.next()) {
+                    assertThat(result.getInt("id")).isEqualTo(3)
                 }
             }
         }.execute("jdbc:mysql://localhost:3306/kotlium", "kotlium", "password")
 
         assertThat(executedResult.isOk).isFalse()
+        assertThat(executedResult.executedDatabaseActions).hasSize(2).containsExactly(
+            DatabaseActionExecuteResult(isOk = true, message = listOf()),
+            DatabaseActionExecuteResult(isOk = false, message = listOf())
+        )
     }
 
 }
