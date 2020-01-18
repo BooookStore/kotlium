@@ -31,21 +31,24 @@ class DatabaseStage {
             setProperty("password", password)
         }
 
+        val databaseActionExecuteResults = mutableListOf<DatabaseActionExecuteResult>()
         val result = runCatching {
             DriverManager.getConnection(url, properties).use { connection ->
                 val statement = connection.createStatement()
-                statementBlocks.forEach { it.invoke(statement) }
+                statementBlocks.map { statementBlock ->
+                    val executeResult = runCatching {
+                        statementBlock.invoke(statement)
+                    }.fold(
+                        onSuccess = { DatabaseActionExecuteResult(true, listOf()) },
+                        onFailure = { DatabaseActionExecuteResult(false, listOf()) }
+                    )
+                    databaseActionExecuteResults.add(executeResult)
+                }
                 statement.close()
             }
         }
 
-        result.exceptionOrNull()?.let {
-            logger.error("failed DatabaseStage", it)
-        }
-
-        return DatabaseStageExecuteResult(result.isSuccess, listOf(
-            DatabaseActionExecuteResult(true, listOf())
-        ))
+        return DatabaseStageExecuteResult(databaseActionExecuteResults)
     }
 
 }
