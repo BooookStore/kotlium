@@ -3,6 +3,7 @@ package com.kotlium.integration
 import com.kotlium.DatabaseStage
 import com.kotlium.database.Column
 import com.kotlium.database.DatabaseActionExecuteResult
+import com.kotlium.database.Row
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -72,9 +73,10 @@ internal class IntegrationDatabaseTest {
                 query = "SELECT * FROM user WHERE id = 1"
                 expected {
                     val column1 = Column("id", 1)
-                    assertThat(getObject(column1.name)).isEqualTo(column1.value)
                     val column2 = Column("name", "BookStore")
-                    assertThat(getObject(column2.name)).isEqualTo(column2.value)
+                    val row = Row(column1, column2)
+                    assertThat(getObject(row[0].name)).isEqualTo(row[0].value)
+                    assertThat(getObject(row[1].name)).isEqualTo(row[1].value)
                 }
             }
         }.execute(url, user, password)
