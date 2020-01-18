@@ -37,9 +37,9 @@ class DatabaseStage {
     }
 
     private fun invokeStatementBlocks(url: String, properties: Properties): MutableList<DatabaseActionExecuteResult> {
-        var databaseActionExecuteResults = mutableListOf<DatabaseActionExecuteResult>()
-        createStatement(url, properties) { statement -> databaseActionExecuteResults = executeAllStatementAction(statement) }
-        return databaseActionExecuteResults
+        var result = mutableListOf<DatabaseActionExecuteResult>()
+        createStatement(url, properties) { statement -> result = executeAllStatementAction(statement) }
+        return result
     }
 
     private fun createStatement(url: String, properties: Properties, block: (Statement) -> Unit) {
