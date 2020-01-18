@@ -1,12 +1,21 @@
 package com.kotlium.integration
 
 import com.kotlium.DatabaseStage
+import com.kotlium.database.Column
 import com.kotlium.database.DatabaseActionExecuteResult
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 @Suppress("SqlNoDataSourceInspection", "SqlResolve")
 internal class IntegrationDatabaseTest {
+
+    @Test
+    fun columnTest() {
+        val column = Column("id", 1)
+        assertThat(column)
+            .hasFieldOrPropertyWithValue("name", "id")
+            .hasFieldOrPropertyWithValue("value", 1)
+    }
 
     @Test
     fun integrationTest() {
