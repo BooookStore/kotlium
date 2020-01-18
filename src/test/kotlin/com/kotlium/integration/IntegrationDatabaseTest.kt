@@ -16,6 +16,11 @@ internal class IntegrationDatabaseTest {
                 .hasFieldOrPropertyWithValue("name", "id")
                 .hasFieldOrPropertyWithValue("value", 1)
         }
+        Column("name", "bookstore").let { column ->
+            assertThat(column)
+                .hasFieldOrPropertyWithValue("name", "name")
+                .hasFieldOrPropertyWithValue("value", "bookstore")
+        }
     }
 
     @Test
