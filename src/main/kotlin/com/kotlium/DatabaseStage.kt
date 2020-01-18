@@ -64,6 +64,7 @@ class DatabaseStage {
     }
 
     fun assertOneRow(assertion: OneRowAssertion.() -> Unit) {
+        statementActions += OneRowAssertion().apply(assertion)
     }
 
 }
