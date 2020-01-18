@@ -78,9 +78,6 @@ internal class IntegrationDatabaseTest {
         }.execute(url, user, password)
 
         assertThat(executedResult.isOk).isTrue()
-        assertThat(executedResult.executedDatabaseActions).hasSize(1).containsExactly(
-            DatabaseActionExecuteResult(isOk = true, message = listOf())
-        )
     }
 
 }

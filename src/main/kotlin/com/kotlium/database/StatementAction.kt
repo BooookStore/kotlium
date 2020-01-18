@@ -3,9 +3,9 @@ package com.kotlium.database
 import com.kotlium.StatementBlock
 import java.sql.Statement
 
-data class StatementAction(private val statementBlock: StatementBlock) {
+data class StatementAction(private val statementBlock: StatementBlock) : DatabaseAction {
 
-    fun execute(statement: Statement): DatabaseActionExecuteResult {
+    override fun execute(statement: Statement): DatabaseActionExecuteResult {
         return invokeStatementBlock(statementBlock, statement)
     }
 
