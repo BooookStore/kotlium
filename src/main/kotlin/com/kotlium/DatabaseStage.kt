@@ -34,12 +34,12 @@ class DatabaseStage {
         val databaseActionExecuteResults = mutableListOf<DatabaseActionExecuteResult>()
         runCatching {
             DriverManager.getConnection(url, properties).use { connection ->
-                val statement = connection.createStatement()
-                statementBlocks.map { statementBlock ->
-                    val executeResult = invokeStatementBlock(statementBlock, statement)
-                    databaseActionExecuteResults.add(executeResult)
+                connection.createStatement().use { statement ->
+                    statementBlocks.map { statementBlock ->
+                        val executeResult = invokeStatementBlock(statementBlock, statement)
+                        databaseActionExecuteResults.add(executeResult)
+                    }
                 }
-                statement.close()
             }
         }
 
