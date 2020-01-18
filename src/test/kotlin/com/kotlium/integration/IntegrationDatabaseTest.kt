@@ -9,6 +9,12 @@ import org.junit.jupiter.api.Test
 @Suppress("SqlNoDataSourceInspection", "SqlResolve")
 internal class IntegrationDatabaseTest {
 
+    private val url = "jdbc:mysql://localhost:3306/kotlium"
+
+    private val user = "kotlium"
+
+    private val password = "password"
+
     @Test
     fun columnTest() {
         Column("id", 1).let { column ->
@@ -50,12 +56,30 @@ internal class IntegrationDatabaseTest {
                     assertThat(result.getObject(column.name)).isEqualTo(column.value)
                 }
             }
-        }.execute("jdbc:mysql://localhost:3306/kotlium", "kotlium", "password")
+        }.execute(url, user, password)
 
         assertThat(executedResult.isOk).isFalse()
         assertThat(executedResult.executedDatabaseActions).hasSize(2).containsExactly(
             DatabaseActionExecuteResult(isOk = true, message = listOf()),
             DatabaseActionExecuteResult(isOk = false, message = listOf())
+        )
+    }
+
+    @Test
+    fun assertOneRowTest() {
+        val executedResult = DatabaseStage {
+            assertOneRow {
+                query = "SELECT id FROM user WHERE id = 1"
+                expected {
+                    val column = Column("id", 1)
+                    assertThat(getObject(column.name)).isEqualTo(column.value)
+                }
+            }
+        }.execute(url, user, password)
+
+        assertThat(executedResult.isOk).isTrue()
+        assertThat(executedResult.executedDatabaseActions).hasSize(1).containsExactly(
+            DatabaseActionExecuteResult(isOk = true, message = listOf())
         )
     }
 

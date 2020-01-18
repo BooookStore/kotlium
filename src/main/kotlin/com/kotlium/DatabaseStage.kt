@@ -1,6 +1,7 @@
 package com.kotlium
 
 import com.kotlium.database.DatabaseActionExecuteResult
+import com.kotlium.database.OneRowAssertion
 import com.kotlium.database.StatementAction
 import org.slf4j.LoggerFactory
 import java.sql.DriverManager
@@ -59,6 +60,9 @@ class DatabaseStage {
             result += action.execute(statement)
             if (result.last().isOk) return@fold result else return result
         }
+    }
+
+    fun assertOneRow(assertion: OneRowAssertion.() -> Unit) {
     }
 
 }
