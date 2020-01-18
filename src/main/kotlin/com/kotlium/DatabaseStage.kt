@@ -42,13 +42,21 @@ class DatabaseStage {
             DriverManager.getConnection(url, properties).use { connection ->
                 connection.createStatement().use { statement ->
                     statementBlocks.map { statementBlock ->
-                        val executeResult = invokeStatementBlock(statementBlock, statement)
+                        val executeResult = StatementAction(statementBlock).execute(statement)
                         databaseActionExecuteResults.add(executeResult)
                     }
                 }
             }
         }
         return databaseActionExecuteResults
+    }
+
+}
+
+data class StatementAction(private val statementBlock: StatementBlock) {
+
+    fun execute(statement: Statement): DatabaseActionExecuteResult {
+        return invokeStatementBlock(statementBlock, statement)
     }
 
     private fun invokeStatementBlock(
