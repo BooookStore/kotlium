@@ -1,13 +1,7 @@
 package com.kotlium.database
 
-class Row(val column1: Column, val column2: Column) {
+class Row(private vararg val column: Column) {
 
-    operator fun get(i: Int): Column {
-        if (i == 1) {
-            return column1
-        } else {
-            return column2
-        }
-    }
+    operator fun get(i: Int): Column = column[i]
 
 }
