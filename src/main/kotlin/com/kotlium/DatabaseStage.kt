@@ -15,7 +15,7 @@ class DatabaseStage {
 
     private val logger = LoggerFactory.getLogger(DatabaseStage::class.java)
 
-    private val statementActions = mutableListOf<DatabaseAction>()
+    private val databaseActions = mutableListOf<DatabaseAction>()
 
     companion object {
 
@@ -26,7 +26,7 @@ class DatabaseStage {
     }
 
     fun statement(block: Statement.() -> Unit) {
-        statementActions += StatementAction(block)
+        databaseActions += StatementAction(block)
     }
 
     fun execute(url: String, user: String, password: String): DatabaseStageExecuteResult {
@@ -57,14 +57,14 @@ class DatabaseStage {
     }
 
     private fun executeAllStatementAction(statement: Statement): MutableList<DatabaseActionExecuteResult> {
-        return statementActions.fold(mutableListOf()) { result, action ->
+        return databaseActions.fold(mutableListOf()) { result, action ->
             result += action.execute(statement)
             if (result.last().isOk) return@fold result else return result
         }
     }
 
     fun assertOneRow(assertion: OneRowAssertion.() -> Unit) {
-        statementActions += OneRowAssertion().apply(assertion)
+        databaseActions += OneRowAssertion().apply(assertion)
     }
 
 }
