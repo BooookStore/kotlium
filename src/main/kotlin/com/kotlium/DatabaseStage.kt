@@ -1,5 +1,6 @@
 package com.kotlium
 
+import com.kotlium.database.DatabaseActionExecuteResult
 import com.kotlium.database.StatementAction
 import org.slf4j.LoggerFactory
 import java.sql.DriverManager

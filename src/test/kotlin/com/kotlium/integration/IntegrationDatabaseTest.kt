@@ -1,7 +1,7 @@
 package com.kotlium.integration
 
-import com.kotlium.DatabaseActionExecuteResult
 import com.kotlium.DatabaseStage
+import com.kotlium.database.DatabaseActionExecuteResult
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

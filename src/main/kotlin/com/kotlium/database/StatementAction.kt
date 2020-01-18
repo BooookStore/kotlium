@@ -1,6 +1,5 @@
 package com.kotlium.database
 
-import com.kotlium.DatabaseActionExecuteResult
 import com.kotlium.StatementBlock
 import java.sql.Statement
 

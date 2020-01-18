@@ -1,4 +1,4 @@
-package com.kotlium
+package com.kotlium.database
 
 data class DatabaseActionExecuteResult(
     val isOk: Boolean,
