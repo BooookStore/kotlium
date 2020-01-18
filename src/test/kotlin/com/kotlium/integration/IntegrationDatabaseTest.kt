@@ -31,7 +31,7 @@ internal class IntegrationDatabaseTest {
 
                 while (result.next()) {
                     val column = Column("id", 1)
-                    assertThat(result.getInt(column.name)).isEqualTo(column.value)
+                    assertThat(result.getObject(column.name)).isEqualTo(column.value)
                 }
             }
             statement {
