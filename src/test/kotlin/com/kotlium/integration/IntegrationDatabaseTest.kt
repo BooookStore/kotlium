@@ -11,10 +11,11 @@ internal class IntegrationDatabaseTest {
 
     @Test
     fun columnTest() {
-        val column = Column("id", 1)
-        assertThat(column)
-            .hasFieldOrPropertyWithValue("name", "id")
-            .hasFieldOrPropertyWithValue("value", 1)
+        Column("id", 1).let { column ->
+            assertThat(column)
+                .hasFieldOrPropertyWithValue("name", "id")
+                .hasFieldOrPropertyWithValue("value", 1)
+        }
     }
 
     @Test
