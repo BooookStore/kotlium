@@ -30,7 +30,8 @@ internal class IntegrationDatabaseTest {
                 val result = executeQuery("SELECT id FROM user WHERE id = 1")
 
                 while (result.next()) {
-                    assertThat(result.getInt("id")).isEqualTo(1)
+                    val column = Column("id", 1)
+                    assertThat(result.getInt(column.name)).isEqualTo(column.value)
                 }
             }
             statement {
