@@ -31,6 +31,12 @@ class DatabaseStage {
             setProperty("password", password)
         }
 
+        val databaseActionExecuteResults = invokeStatementBlocks(url, properties)
+
+        return DatabaseStageExecuteResult(databaseActionExecuteResults)
+    }
+
+    private fun invokeStatementBlocks(url: String, properties: Properties): MutableList<DatabaseActionExecuteResult> {
         val databaseActionExecuteResults = mutableListOf<DatabaseActionExecuteResult>()
         runCatching {
             DriverManager.getConnection(url, properties).use { connection ->
@@ -42,8 +48,7 @@ class DatabaseStage {
                 }
             }
         }
-
-        return DatabaseStageExecuteResult(databaseActionExecuteResults)
+        return databaseActionExecuteResults
     }
 
     private fun invokeStatementBlock(
