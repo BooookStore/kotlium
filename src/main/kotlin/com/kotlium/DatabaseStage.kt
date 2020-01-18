@@ -1,5 +1,6 @@
 package com.kotlium
 
+import com.kotlium.database.StatementAction
 import org.slf4j.LoggerFactory
 import java.sql.DriverManager
 import java.sql.Statement
@@ -57,26 +58,6 @@ class DatabaseStage {
             result += action.execute(statement)
             if (result.last().isOk) return@fold result else return result
         }
-    }
-
-}
-
-data class StatementAction(private val statementBlock: StatementBlock) {
-
-    fun execute(statement: Statement): DatabaseActionExecuteResult {
-        return invokeStatementBlock(statementBlock, statement)
-    }
-
-    private fun invokeStatementBlock(
-        statementBlock: StatementBlock,
-        statement: Statement
-    ): DatabaseActionExecuteResult {
-        return runCatching {
-            statementBlock.invoke(statement)
-        }.fold(
-            onSuccess = { DatabaseActionExecuteResult(true, listOf()) },
-            onFailure = { DatabaseActionExecuteResult(false, listOf()) }
-        )
     }
 
 }
