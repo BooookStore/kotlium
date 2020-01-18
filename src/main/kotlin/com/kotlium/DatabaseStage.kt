@@ -1,5 +1,6 @@
 package com.kotlium
 
+import com.kotlium.database.DatabaseAction
 import com.kotlium.database.DatabaseActionExecuteResult
 import com.kotlium.database.OneRowAssertion
 import com.kotlium.database.StatementAction
@@ -14,7 +15,7 @@ class DatabaseStage {
 
     private val logger = LoggerFactory.getLogger(DatabaseStage::class.java)
 
-    private val statementActions = mutableListOf<StatementAction>()
+    private val statementActions = mutableListOf<DatabaseAction>()
 
     companion object {
 
