@@ -41,14 +41,21 @@ class DatabaseStage {
         runCatching {
             DriverManager.getConnection(url, properties).use { connection ->
                 connection.createStatement().use { statement ->
-                    statementActions.map { statementAction ->
-                        val executeResult = statementAction.execute(statement)
-                        databaseActionExecuteResults.add(executeResult)
-                    }
+                    executeAllStatementAction(statement, databaseActionExecuteResults)
                 }
             }
         }
         return databaseActionExecuteResults
+    }
+
+    private fun executeAllStatementAction(
+        statement: Statement,
+        databaseActionExecuteResults: MutableList<DatabaseActionExecuteResult>
+    ) {
+        statementActions.map { statementAction ->
+            val executeResult = statementAction.execute(statement)
+            databaseActionExecuteResults.add(executeResult)
+        }
     }
 
 }
