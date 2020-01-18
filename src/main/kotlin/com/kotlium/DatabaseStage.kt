@@ -38,14 +38,18 @@ class DatabaseStage {
 
     private fun invokeStatementBlocks(url: String, properties: Properties): MutableList<DatabaseActionExecuteResult> {
         var databaseActionExecuteResults = mutableListOf<DatabaseActionExecuteResult>()
+        createStatement(url, properties) { statement -> databaseActionExecuteResults = executeAllStatementAction(statement) }
+        return databaseActionExecuteResults
+    }
+
+    private fun createStatement(url: String, properties: Properties, block: (Statement) -> Unit) {
         runCatching {
             DriverManager.getConnection(url, properties).use { connection ->
                 connection.createStatement().use { statement ->
-                    databaseActionExecuteResults = executeAllStatementAction(statement)
+                    block.invoke(statement)
                 }
             }
         }
-        return databaseActionExecuteResults
     }
 
     private fun executeAllStatementAction(statement: Statement): MutableList<DatabaseActionExecuteResult> {
