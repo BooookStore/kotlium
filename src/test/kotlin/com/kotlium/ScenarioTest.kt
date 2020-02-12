@@ -66,6 +66,9 @@ internal class ScenarioTest {
             browserStage("http://example2.com") {
                 click { By.id("failed") }
             }
+            browserStage("http://example3.com") {
+                click { By.id("id-for-element") }
+            }
         }.execute(mockDriver)
 
         // verify
