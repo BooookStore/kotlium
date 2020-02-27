@@ -5,12 +5,14 @@ import com.kotlium.action.BrowserActionType.OPERATOR
 import com.kotlium.action.ClickBrowserAction
 import com.kotlium.action.SessionCloseBrowserAction
 import com.kotlium.action.TransitionBrowserAction
+import com.kotlium.exception.KotliumException
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.openqa.selenium.By.id
 import org.openqa.selenium.WebDriver
 
@@ -59,6 +61,9 @@ internal class BrowserStageTest {
         }.execute(mockDriver)
 
         // verify
+        assertThrows<KotliumException> {
+            executeResult.throwIfFailed()
+        }
         assertThat(executeResult.isOk).isFalse()
         assertThat(executeResult.executedBrowserActions).containsExactly(
             BrowserActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition $url")),
