@@ -10,6 +10,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.openqa.selenium.By.id
 import org.openqa.selenium.WebDriver
 
@@ -29,6 +30,9 @@ internal class BrowserStageTest {
         }.execute(mockDriver)
 
         // verify
+        assertDoesNotThrow {
+            executeResult.throwIfFailed()
+        }
         assertThat(executeResult.isOk).isTrue()
         assertThat(executeResult.url).isEqualTo(url)
         assertThat(executeResult.executedBrowserActions).containsExactly(
