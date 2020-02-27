@@ -2,7 +2,7 @@ package com.kotlium.exception
 
 import com.kotlium.action.BrowserActionExecuteResult
 
-open class KotliumException(message: String? = null) : Exception(message)
+open class KotliumException(message: String? = null, cause: Throwable? = null) : Exception(message, cause)
 
 class BrowserStageException(message: String) : KotliumException(message) {
 
@@ -13,3 +13,5 @@ class BrowserStageException(message: String) : KotliumException(message) {
     }
 
 }
+
+class ScenarioException(message: String, cause: BrowserStageException) : KotliumException(message, cause)
