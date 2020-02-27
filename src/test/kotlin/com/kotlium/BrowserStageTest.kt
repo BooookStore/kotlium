@@ -5,10 +5,12 @@ import com.kotlium.action.BrowserActionType.OPERATOR
 import com.kotlium.action.ClickBrowserAction
 import com.kotlium.action.SessionCloseBrowserAction
 import com.kotlium.action.TransitionBrowserAction
+import com.kotlium.exception.BrowserStageException
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.catchThrowable
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By.id
 import org.openqa.selenium.WebDriver
@@ -70,8 +72,12 @@ internal class BrowserStageTest {
         }.execute(mockDriver)
 
         // verify
-        assertThatThrownBy {
+        catchThrowable {
             executeResult.throwIfFailed()
+        }.let { exception ->
+            assertThat(exception)
+                .isExactlyInstanceOf(BrowserStageException::class.java)
+                .hasMessage("ClickBrowserAction execute failed. click failed By.id: failed-id")
         }
         assertThat(executeResult.isOk).isFalse()
         assertThat(executeResult.executedBrowserActions).containsExactly(
