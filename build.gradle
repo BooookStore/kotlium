@@ -25,11 +25,7 @@ dependencies {
     testImplementation "org.assertj:assertj-core:3.14.0"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.5.2"
     testImplementation "io.mockk:mockk:1.9.3"
-    testImplementation "mysql:mysql-connector-java:8.0.18"
-    testImplementation "org.testcontainers:testcontainers:${testcontainers_version}"
-    testImplementation "org.testcontainers:junit-jupiter:${testcontainers_version}"
-    testImplementation "org.testcontainers:selenium:${testcontainers_version}"
-    testCompile "org.slf4j:slf4j-simple:${slf4j_version}"
+    testImplementation "org.slf4j:slf4j-simple:${slf4j_version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.5.2"
 }
 
