@@ -63,7 +63,7 @@ Kotliumは以下の３つの要素でテストを構成します。
 
 ### DSL overview
 
-`Action`, `Stage`, `Scenario` は入れ子構造で定義します。一番外側に `Scenario`, 真ん中に `Stage`, 一番内側に `Action` が位置します。これらは DSL として以下のように記述できます。`Stage` と `Action` はいくつでも含ませることができます。
+`Action`, `Stage`, `Scenario` は入れ子構造で定義します。一番外側に `Scenario`, 真ん中に `Stage`, 一番内側に `Action` が位置します。これらは DSL として以下のように記述できます。`Stage` と `Action` はいくつでも含ませることができます。テストの実行は `Scenario#execute` によって行います。その際に引数で `WebDriver` インスタンスを渡します。
 
 ``` kotlin
 Scenario {
@@ -81,7 +81,7 @@ Scenario {
         click { ... }
         input { ... }
     }
-}
+}.execute(webDriver)
 ```
 
 ### Basic action
