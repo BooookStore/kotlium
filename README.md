@@ -58,5 +58,28 @@ Kotliumの使い方を簡単に示します。
 Kotliumは以下の３つの要素でテストを構成します。
 
 * Action ... プリミティブな操作。ブラウザであれば、クリックやログインなど管理しやすい単位。
-* Stage ... 複数のActionで構成されたテストのフェーズ。
+* BrowserStage ... 複数のActionで構成されたテストのフェーズ。
 * Scenario ... トップの要素。複数のStageで構成され、テストの実行の起点になる。
+
+### Example
+
+`Action`, `Stage`, `Scenario` は入れ子構造で定義します。一番外側に `Scenario`, 真ん中に `Stage`, 一番内側に `Action` が位置します。これらは DSL として以下のように記述できます。`Stage` と `Action` はいくつでも含ませることができます。
+
+``` kotlin
+Scenario {
+    browserStage {
+        // 画面要素をクリックするAction
+        click { ... }
+        // 画面のインプット要素に入力をするAction
+        input { ... }
+    }
+    browserStage {
+        click { ... }
+        input { ... }
+    }
+    browserStage {
+        click { ... }
+        input { ... }
+    }
+}
+```
