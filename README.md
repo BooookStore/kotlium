@@ -125,5 +125,6 @@ waitFor {
 ```kotlin
 assertPage {
     assertThat(findElement(By.id("user-name")).isDisplayed).isTrue()
+    assertThat(findElement(By.id("user-password")).isDisplayed).isFlase()
 }
 ```
