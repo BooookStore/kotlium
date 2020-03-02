@@ -6,7 +6,7 @@ Kotliumの使用サンプル
 
 ``` kotlin
 @Test
-fun scenarioExecuteMultipleActionTest() {
+fun example() {
     Scenario {
         browserStage("http://example.com") {
             click {
