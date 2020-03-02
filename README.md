@@ -42,3 +42,15 @@ implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.61"
 implementation "org.seleniumhq.selenium:selenium-java:3.141.59"
 implementation "kotlium-0.0.1.jar"
 ```
+
+## Usage
+
+Kotliumの使い方を簡単に示します。
+
+### Architecture
+
+Kotliumは以下の３つの要素でテストを構成します。
+
+* Action ... プリミティブな操作。ブラウザであれば、クリックやログインなど管理しやすい単位。
+* Stage ... 複数のActionで構成されたテストのフェーズを表す。
+* Scenario ... トップの要素。複数のStageで構成され、テストの実行の起点になる。
