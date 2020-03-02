@@ -61,7 +61,7 @@ Kotliumは以下の３つの要素でテストを構成します。
 * BrowserStage ... 複数のActionで構成されたテストのフェーズ。
 * Scenario ... トップの要素。複数のStageで構成され、テストの実行の起点になる。
 
-### Example
+### DSL overview
 
 `Action`, `Stage`, `Scenario` は入れ子構造で定義します。一番外側に `Scenario`, 真ん中に `Stage`, 一番内側に `Action` が位置します。これらは DSL として以下のように記述できます。`Stage` と `Action` はいくつでも含ませることができます。
 
@@ -81,5 +81,49 @@ Scenario {
         click { ... }
         input { ... }
     }
+}
+```
+
+### Basic action
+
+Kotliumはあらかじめ使用頻度の高いであろう `Action` を予め実装しています。
+
+**click**
+
+`click` は指定された画面要素をクリックします。
+
+```kotlin
+click { By.id("id-for-element") }
+```
+
+**input**
+
+`input` は指定された入力要素に値を入力します。
+
+```kotlin
+input {
+    target = By.id("id-for-element")
+    value = "value"
+    lastEnter = true
+}
+```
+
+**waitFor**
+
+`waitFor` は指定された状態が満たされるまで待機します。
+
+```kotlin
+waitFor {
+    urlToBe("http://example.com")
+}
+```
+
+**assertPage**
+
+`assertPage` は `WebDriver` クラスをレシーバーとしてアサーションを記述できる場所です。
+
+```kotlin
+assertPage {
+    assertThat(findElement(By.id("user-name")).isDisplayed).isTrue()
 }
 ```
