@@ -28,7 +28,7 @@ fun scenarioExecuteMultipleActionTest() {
                 assertThat(findElement(By.id("user-name")).isDisplayed).isTrue()
             }
         }
-    }.execute(mockDriver).throwIfFailed()
+    }.execute(webDriver).throwIfFailed()
 }
 ```
 
