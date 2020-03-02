@@ -14,6 +14,7 @@ import org.assertj.core.api.Assertions.catchThrowable
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.support.ui.ExpectedConditions.urlToBe
 
 internal class ScenarioTest {
 
@@ -114,6 +115,40 @@ internal class ScenarioTest {
                 )
             )
         )
+    }
+
+    @Test
+    fun scenarioExecuteMultipleActionTest() {
+        // setup
+        val mockDriver: WebDriver = mockk(relaxed = true)
+        every { mockDriver.currentUrl } returns "http://example.com/user"
+        every { mockDriver.findElement(any()) } returns mockk {
+            every { isDisplayed } returns true
+        }
+
+        // execute
+        Scenario {
+            browserStage("http://example.com") {
+                click {
+                    By.id("login")
+                }
+                input {
+                    target = By.xpath("//input[@class='user-name']")
+                    value = "USER-NAME"
+                }
+                input {
+                    target = By.xpath("//input[@class='password']")
+                    value = "PASSWORD"
+                    lastEnter = true
+                }
+                waitFor {
+                    urlToBe("http://example.com/user")
+                }
+                assertPage {
+                    assertThat(findElement(By.id("user-name")).isDisplayed).isTrue()
+                }
+            }
+        }.execute(mockDriver).throwIfFailed()
     }
 
 }
