@@ -32,6 +32,12 @@ fun scenarioExecuteMultipleActionTest() {
 }
 ```
 
+## Feature
+
+* ブラウザ操作を `Action` と呼ばれるクラスで、管理しやすい単位ごとに実装できます。
+* ブラウザの一連の操作を `BrowserStage` クラスとして実装することで、再利用性を向上できます。
+* 複雑なブラウザ操作を隠蔽し、理解容易性を向上します。
+
 ## install
 
 Kotlium本体と、追加の依存関係をビルドツールに設定します。Kotlium本体は[リリースページ](https://github.com/BooookStore/kotlium/releases)から入手できます。
