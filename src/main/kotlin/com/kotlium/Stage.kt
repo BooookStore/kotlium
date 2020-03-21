@@ -1,7 +1,9 @@
 package com.kotlium
 
+import org.openqa.selenium.WebDriver
+
 abstract class Stage {
 
-    abstract fun execute(): StageExecuteResult
+    abstract fun execute(driver: WebDriver): StageExecuteResult
 
 }

@@ -134,7 +134,7 @@ internal class ScenarioTest {
 
         // define custom stage class
         class CustomStage(val argument: String) : Stage() {
-            override fun execute(): StageExecuteResult {
+            override fun execute(webDriver: WebDriver): StageExecuteResult {
                 return CustomStageExecuteResult(true)
             }
         }
