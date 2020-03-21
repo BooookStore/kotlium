@@ -3,7 +3,10 @@ package com.kotlium
 import com.kotlium.exception.BrowserStageException
 import com.kotlium.exception.ScenarioException
 
-data class ScenarioExecuteResult(val executedStages: List<BrowserStageExecuteResult>) {
+data class ScenarioExecuteResult(
+    val executedStages: List<BrowserStageExecuteResult>,
+    val _executedStages: List<StageExecuteResult>
+) {
 
     fun throwIfFailed() {
         kotlin.runCatching {

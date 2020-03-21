@@ -117,6 +117,35 @@ internal class ScenarioTest {
         )
     }
 
+    @Suppress("UsePropertyAccessSyntax")
+    @Test
+    fun scenarioCanTakeCustomStageTest() {
+        // setup
+        // define custom stage class
+        class CustomStage(val argument: String) : Stage() {
+            override fun execute(): StageExecuteResult {
+                return StageExecuteResult(isOk = true)
+            }
+        }
+
+        // define custom stage register function
+        fun Scenario.customStage(argument: String) {
+            val customStage = CustomStage(argument)
+            addLast(customStage)
+        }
+
+        // execute
+        val scenarioExecuteResult = Scenario {
+            customStage("stageArgument")
+        }.execute(mockk(relaxed = true))
+
+        // verify
+        assertThat(scenarioExecuteResult.isOk).isTrue()
+        assertThat(scenarioExecuteResult._executedStages).containsExactly(
+            StageExecuteResult(isOk = true)
+        )
+    }
+
     @Test
     fun scenarioExecuteMultipleActionTest() {
         // setup

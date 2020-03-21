@@ -9,6 +9,8 @@ class Scenario {
 
     private val stages = mutableListOf<BrowserStage>()
 
+    private val _stages = mutableListOf<Stage>()
+
     companion object {
 
         operator fun invoke(scenarioConfigure: Scenario.() -> Unit): Scenario {
@@ -22,7 +24,12 @@ class Scenario {
     }
 
     fun execute(webDriver: WebDriver): ScenarioExecuteResult {
-        return ScenarioExecuteResult(executeAllAction(webDriver))
+        val _stageExecuteResult = _stages[0].execute()
+        return ScenarioExecuteResult(executeAllAction(webDriver), listOf(_stageExecuteResult))
+    }
+
+    fun addLast(stage: Stage) {
+        _stages.add(stage)
     }
 
     private fun executeAllAction(webDriver: WebDriver): List<BrowserStageExecuteResult> {
