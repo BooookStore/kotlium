@@ -7,7 +7,7 @@ class Scenario {
 
     private val logger = LoggerFactory.getLogger(Scenario::class.java)
 
-    private val stages = mutableListOf<BrowserStage>()
+    private val stages = mutableListOf<Stage>()
 
     private val _stages = mutableListOf<Stage>()
 
@@ -39,10 +39,10 @@ class Scenario {
         }
     }
 
-    private fun executeAllAction(webDriver: WebDriver): List<BrowserStageExecuteResult> {
+    private fun executeAllAction(webDriver: WebDriver): List<StageExecuteResult> {
         logger.info("start scenario")
 
-        val result: List<BrowserStageExecuteResult> = stages.fold(mutableListOf()) { result, stage ->
+        val result: List<StageExecuteResult> = stages.fold(mutableListOf()) { result, stage ->
             result.add(stage.execute(webDriver))
             if (result.last().isOk()) return@fold result else return result
         }
