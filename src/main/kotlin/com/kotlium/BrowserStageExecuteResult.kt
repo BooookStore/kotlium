@@ -9,10 +9,10 @@ data class BrowserStageExecuteResult(val url: String, val executedBrowserActions
         causedResult?.let { throw BrowserStageException.from(it) }
     }
 
-    val causedResult: BrowserActionExecuteResult?
-        get() = executedBrowserActions.firstOrNull { !it.isOk }
-
     val isOk: Boolean
         get() = executedBrowserActions.all { it.isOk }
+
+    private val causedResult: BrowserActionExecuteResult?
+        get() = executedBrowserActions.firstOrNull { !it.isOk }
 
 }
