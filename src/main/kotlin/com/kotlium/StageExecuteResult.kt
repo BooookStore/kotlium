@@ -1,16 +1,9 @@
 package com.kotlium
 
-open class StageExecuteResult(val isOk: Boolean) {
+abstract class StageExecuteResult() {
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is StageExecuteResult) return false
-        if (isOk != other.isOk) return false
-        return true
-    }
+    abstract fun throwIfFailed()
 
-    override fun hashCode(): Int {
-        return isOk.hashCode()
-    }
+    abstract fun isOk(): Boolean
 
 }

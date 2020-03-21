@@ -35,7 +35,7 @@ class Scenario {
     private fun executeAllStage(): List<StageExecuteResult> {
         return _stages.fold(mutableListOf()) { result, stage ->
             result.add(stage.execute())
-            if (result.last().isOk) return@fold result else return result
+            if (result.last().isOk()) return@fold result else return result
         }
     }
 
@@ -44,7 +44,7 @@ class Scenario {
 
         val result: List<BrowserStageExecuteResult> = stages.fold(mutableListOf()) { result, stage ->
             result.add(stage.execute(webDriver))
-            if (result.last().isOk) return@fold result else return result
+            if (result.last().isOk()) return@fold result else return result
         }
 
         logger.info("end scenario")

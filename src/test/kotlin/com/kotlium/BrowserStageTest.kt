@@ -36,7 +36,7 @@ internal class BrowserStageTest {
         }.let { exception ->
             assertThat(exception).isNull()
         }
-        assertThat(executeResult.isOk).isTrue()
+        assertThat(executeResult.isOk()).isTrue()
         assertThat(executeResult.url).isEqualTo(url)
         assertThat(executeResult.executedBrowserActions).containsExactly(
             BrowserActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition $url")),
@@ -79,7 +79,7 @@ internal class BrowserStageTest {
                 .isExactlyInstanceOf(BrowserStageException::class.java)
                 .hasMessage("ClickBrowserAction execute failed. click failed By.id: failed-id")
         }
-        assertThat(executeResult.isOk).isFalse()
+        assertThat(executeResult.isOk()).isFalse()
         assertThat(executeResult.executedBrowserActions).containsExactly(
             BrowserActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition $url")),
             BrowserActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: success-id")),

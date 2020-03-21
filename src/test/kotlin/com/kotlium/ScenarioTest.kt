@@ -121,10 +121,21 @@ internal class ScenarioTest {
     @Test
     fun scenarioCanTakeCustomStageTest() {
         // setup
+        // define custom stage execute result
+        data class CustomStageExecuteResult(val result: Boolean) : StageExecuteResult() {
+
+            override fun throwIfFailed() {}
+
+            override fun isOk(): Boolean {
+                return result
+            }
+
+        }
+
         // define custom stage class
         class CustomStage(val argument: String) : Stage() {
             override fun execute(): StageExecuteResult {
-                return StageExecuteResult(isOk = true)
+                return CustomStageExecuteResult(true)
             }
         }
 
@@ -143,8 +154,8 @@ internal class ScenarioTest {
         // verify
         assertThat(scenarioExecuteResult.isOk).isTrue()
         assertThat(scenarioExecuteResult._executedStages).containsExactly(
-            StageExecuteResult(isOk = true),
-            StageExecuteResult(isOk = true)
+            CustomStageExecuteResult(true),
+            CustomStageExecuteResult(true)
         )
     }
 

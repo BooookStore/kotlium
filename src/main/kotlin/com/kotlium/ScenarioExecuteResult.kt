@@ -21,9 +21,9 @@ data class ScenarioExecuteResult(
     }
 
     val isOk: Boolean
-        get() = executedStages.all { it.isOk }
+        get() = executedStages.all { it.isOk() }
 
     private val causeResult: BrowserStageExecuteResult?
-        get() = executedStages.firstOrNull { !it.isOk }
+        get() = executedStages.firstOrNull { !it.isOk() }
 
 }
