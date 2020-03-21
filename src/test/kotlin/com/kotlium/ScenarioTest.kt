@@ -153,7 +153,7 @@ internal class ScenarioTest {
         // setup
         val mockDriver: WebDriver = mockk(relaxed = true)
         every { mockDriver.currentUrl } returns "http://example.com/user"
-        every { mockDriver.findElement(any()) } returns mockk {
+        every { mockDriver.findElement(any()) } returns mockk(relaxed = true) {
             every { isDisplayed } returns true
         }
 
