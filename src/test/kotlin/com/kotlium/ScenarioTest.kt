@@ -137,11 +137,13 @@ internal class ScenarioTest {
         // execute
         val scenarioExecuteResult = Scenario {
             customStage("stageArgument")
+            customStage("stageArgument")
         }.execute(mockk(relaxed = true))
 
         // verify
         assertThat(scenarioExecuteResult.isOk).isTrue()
         assertThat(scenarioExecuteResult._executedStages).containsExactly(
+            StageExecuteResult(isOk = true),
             StageExecuteResult(isOk = true)
         )
     }

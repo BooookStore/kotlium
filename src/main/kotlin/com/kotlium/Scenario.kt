@@ -24,12 +24,19 @@ class Scenario {
     }
 
     fun execute(webDriver: WebDriver): ScenarioExecuteResult {
-        val _stageExecuteResult = _stages[0].execute()
-        return ScenarioExecuteResult(executeAllAction(webDriver), listOf(_stageExecuteResult))
+        val _stageExecuteResult = executeAllStage()
+        return ScenarioExecuteResult(executeAllAction(webDriver), _stageExecuteResult)
     }
 
     fun addLast(stage: Stage) {
         _stages.add(stage)
+    }
+
+    private fun executeAllStage(): List<StageExecuteResult> {
+        return _stages.fold(mutableListOf()) { result, stage ->
+            result.add(stage.execute())
+            if (result.last().isOk) return@fold result else return result
+        }
     }
 
     private fun executeAllAction(webDriver: WebDriver): List<BrowserStageExecuteResult> {
