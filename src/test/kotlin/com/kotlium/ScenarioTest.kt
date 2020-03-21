@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedConditions.urlToBe
+import kotlin.reflect.KClass
 
 internal class ScenarioTest {
 
@@ -156,6 +157,13 @@ internal class ScenarioTest {
 
         // verify
         assertThat(scenarioExecuteResult.isOk).isTrue()
+        ScenarioExecuteResultAssert.assertThat(scenarioExecuteResult)
+            .isOk()
+            .containsExecutedStages(
+                CustomStageExecuteResult::class,
+                BrowserStageExecuteResult::class,
+                CustomStageExecuteResult::class
+            )
         assertThat(scenarioExecuteResult.executedStages).containsExactly(
             CustomStageExecuteResult(true),
             BrowserStageExecuteResult(
@@ -202,6 +210,26 @@ internal class ScenarioTest {
                 }
             }
         }.execute(mockDriver).throwIfFailed()
+    }
+
+}
+
+@Suppress("UsePropertyAccessSyntax")
+class ScenarioExecuteResultAssert(private val actual: ScenarioExecuteResult) {
+
+    companion object {
+        fun assertThat(actual: ScenarioExecuteResult) = ScenarioExecuteResultAssert(actual)
+    }
+
+    fun isOk(): ScenarioExecuteResultAssert {
+        assertThat(actual.isOk).isTrue()
+        return this
+    }
+
+    fun containsExecutedStages(vararg kClazz: KClass<out StageExecuteResult>): ScenarioExecuteResultAssert {
+        val actualClazz = actual.executedStages.map { it::class }
+        assertThat(actualClazz).containsExactly(*kClazz)
+        return this
     }
 
 }
