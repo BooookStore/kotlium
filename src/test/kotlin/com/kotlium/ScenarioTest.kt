@@ -134,7 +134,7 @@ internal class ScenarioTest {
 
         // define custom stage class
         class CustomStage(val argument: String) : Stage() {
-            override fun execute(webDriver: WebDriver): StageExecuteResult {
+            override fun execute(driver: WebDriver): StageExecuteResult {
                 return CustomStageExecuteResult(true)
             }
         }
@@ -148,6 +148,9 @@ internal class ScenarioTest {
         // execute
         val scenarioExecuteResult = Scenario {
             customStage("stageArgument")
+            browserStage("http://example.com") {
+                click { By.id("login") }
+            }
             customStage("stageArgument")
         }.execute(mockk(relaxed = true))
 
@@ -155,6 +158,14 @@ internal class ScenarioTest {
         assertThat(scenarioExecuteResult.isOk).isTrue()
         assertThat(scenarioExecuteResult.executedStages).containsExactly(
             CustomStageExecuteResult(true),
+            BrowserStageExecuteResult(
+                url = "http://example.com",
+                executedBrowserActions = listOf(
+                    BrowserActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition http://example.com")),
+                    BrowserActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: login")),
+                    BrowserActionExecuteResult(SessionCloseBrowserAction::class, OPERATOR, true, listOf("close session"))
+                )
+            ),
             CustomStageExecuteResult(true)
         )
     }
