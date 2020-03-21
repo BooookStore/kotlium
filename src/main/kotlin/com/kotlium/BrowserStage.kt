@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
-class BrowserStage private constructor(private val url: String, initBrowserActions: List<BrowserAction>) {
+class BrowserStage private constructor(private val url: String, initBrowserActions: List<BrowserAction>) : Stage() {
 
     private val logger = LoggerFactory.getLogger(BrowserStage::class.java)
 
@@ -19,7 +19,7 @@ class BrowserStage private constructor(private val url: String, initBrowserActio
         }
     }
 
-    fun execute(driver: WebDriver): BrowserStageExecuteResult {
+    override fun execute(driver: WebDriver): BrowserStageExecuteResult {
         logger.info("start browser stage on {}", url)
 
         actions.add(0, TransitionBrowserAction(url))
