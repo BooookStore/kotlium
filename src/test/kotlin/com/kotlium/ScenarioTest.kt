@@ -164,18 +164,6 @@ internal class ScenarioTest {
                 BrowserStageExecuteResult::class,
                 CustomStageExecuteResult::class
             )
-        assertThat(scenarioExecuteResult.executedStages).containsExactly(
-            CustomStageExecuteResult(true),
-            BrowserStageExecuteResult(
-                url = "http://example.com",
-                executedBrowserActions = listOf(
-                    BrowserActionExecuteResult(TransitionBrowserAction::class, OPERATOR, true, listOf("transition http://example.com")),
-                    BrowserActionExecuteResult(ClickBrowserAction::class, OPERATOR, true, listOf("click By.id: login")),
-                    BrowserActionExecuteResult(SessionCloseBrowserAction::class, OPERATOR, true, listOf("close session"))
-                )
-            ),
-            CustomStageExecuteResult(true)
-        )
     }
 
     @Test
