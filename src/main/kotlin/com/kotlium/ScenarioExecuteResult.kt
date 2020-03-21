@@ -4,8 +4,7 @@ import com.kotlium.exception.BrowserStageException
 import com.kotlium.exception.ScenarioException
 
 data class ScenarioExecuteResult(
-    val executedStages: List<BrowserStageExecuteResult>,
-    val _executedStages: List<StageExecuteResult>
+    val executedStages: List<StageExecuteResult>
 ) {
 
     fun throwIfFailed() {
@@ -23,7 +22,7 @@ data class ScenarioExecuteResult(
     val isOk: Boolean
         get() = executedStages.all { it.isOk() }
 
-    private val causeResult: BrowserStageExecuteResult?
+    private val causeResult: StageExecuteResult?
         get() = executedStages.firstOrNull { !it.isOk() }
 
 }

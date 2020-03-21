@@ -25,7 +25,7 @@ class Scenario {
 
     fun execute(webDriver: WebDriver): ScenarioExecuteResult {
         val _stageExecuteResult = executeAllStage()
-        return ScenarioExecuteResult(executeAllAction(webDriver), _stageExecuteResult)
+        return ScenarioExecuteResult(executeAllAction(webDriver) + _stageExecuteResult)
     }
 
     fun addLast(stage: Stage) {

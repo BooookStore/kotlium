@@ -153,7 +153,7 @@ internal class ScenarioTest {
 
         // verify
         assertThat(scenarioExecuteResult.isOk).isTrue()
-        assertThat(scenarioExecuteResult._executedStages).containsExactly(
+        assertThat(scenarioExecuteResult.executedStages).containsExactly(
             CustomStageExecuteResult(true),
             CustomStageExecuteResult(true)
         )
